@@ -1,0 +1,9 @@
+#parse("/screen/contain/head.vm")
+$screen_content
+<style>
+#printGrid table,#printGrid table th,#printGrid table td{table-layout:fixed;}
+</style>
+<div id="printGrid">
+
+</div>
+#parse("/screen/contain/end.vm")

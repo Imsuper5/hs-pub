@@ -1,0 +1,145 @@
+<script src="${appServer}/script/ajaxfileupload.js?ver=${sysVersion}"></script>
+
+<div class="layout">
+	<div class="userinfo-wrap">
+		<div class="layout">
+			<div class="formbox">
+				<div class="formbox-hd main_top">
+						<h3 class="formbox-tit main-fit">公众号设置</h3>
+				</div>
+				
+				
+			</div>
+			<div class="formbox box-head">
+				<div class="formbox-bd">
+					<div class="form-row">
+						<div class="form-tit" style="margin-top: 52px;margin-left:30px;">
+							<label>头像</label>
+						</div>
+						<div class="form-cont" style="height:120px;">
+							<div class="form-col form-col1">
+								<p class="text" id="userImg" style="margin-left: -30px;padding-top: 20px;">
+									<span class=""><img id="imgAvatar"
+										src="${appServer}/official/userinfo/officialAdjunct.json?adjuncdType=0"></a></span>
+								</p>
+								<a class="upload_avatar" style="display:none;" id="upload_avatar_btn" >选择图片</a>
+							</div>
+							<form id="imgForm" target="if" style="display:none;">
+								<input type="file" text="封面图片" id="myRelatedFile"
+									name="myRelatedFile " onChange="onUploadImgBack(this)"
+									accept="image/jpg,image/jpeg,image/png"  multiple />
+							</form>	
+						</div>
+											
+					</div>
+
+				</div>
+
+				<div class="formbox-bd">
+					<form id="UpdateForm">
+						<input type="hidden" id="officialAccountIdEdit"
+							name="officialAccountId" value="${accountInfo.officialAccountId}"/>
+						<div class="form-row  my_row form-group m-error p-b">
+							<div class="form-tit my_tit">
+								<label class="control-label my_label">公众号</label>
+							</div>
+							<div class="form-cont">
+								<div class="form-col form-col1">
+									<span type="text" class="form-control input-sm my_span" id="offaccNoEdit"
+										name="offaccNo" value="${accountInfo.offaccNo}">${accountInfo.offaccNo}</span>
+									<input type="hidden"
+										name="offaccNo" value="${accountInfo.offaccNo}"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-row  my_row form-group m-error p-b">
+							<div class="form-tit my_tit">
+								<label class="control-label my_label">昵称</label>
+							</div>
+							<div class="form-cont">
+								<div class="form-col form-col1">
+									<div type="text" class=""
+										id="officialAccountNicknameEdit"
+										name="officialAccountNickname" value="${accountInfo.officialAccountNickname}">${accountInfo.officialAccountNickname}</div>
+									<input type="hidden"
+										name="officialAccountNickname" value="${accountInfo.officialAccountNickname}"/>
+								</div>
+							</div>
+						</div>
+						<div class="form-row  my_row form-group m-error p-b">
+							<div class="form-tit my_tit">
+								<label class="control-label my_label">主体类型</label>
+							</div>
+							<div class="form-cont">
+								<div class="form-col form-col1">
+									<span type="text" class="form-control input-sm my_span"
+										id="SubjecttypeEdit" value="${accountInfo.officialAccountSubjecttype}">${accountInfo.officialAccountSubjecttype}</span>
+								    <input type="hidden"
+										id="officialAccountSubjecttypeEdit"
+										name="officialAccountSubjecttype" value="${accountInfo.officialAccountSubjecttype}"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row  my_row form-group m-error p-b">
+							<div class="form-tit my_tit">
+								<label class="control-label my_label">主体</label>
+							</div>
+							<div class="form-cont">
+								<div class="form-col form-col1">
+									<span type="text" class="form-control input-sm my_span"
+										id="companyNameEdit" value="${accountInfo.companyShortName}" >${accountInfo.companyShortName}</span> <input type="hidden"
+										id="companyIdEdit" name="companyId" value="${accountInfo.companyId}"/>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row  form-group m-error">
+							<div class="form-tit my_tit">
+								<label class="control-label my_labe_ex">功能介绍</label>
+							</div>
+							<div class="form-cont">
+								<div class="form-col form-col1">
+									<textarea  id="officialAccountFuncDescEdit"
+										name="officialAccountFuncDesc" cols="50" rows="3"
+										maxlength="50" style="line-height:20px;resize: none;height:58px;font-family:微软雅黑;font-size:14px;background-color: #fff;border:none;" disabled="disabled" readonly>${accountInfo.officialAccountFuncDesc}</textarea>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-row-ex  form-group m-error" style="margin-top:-18px;">
+							<div class="form-tit my_tit">
+								<label class="control-label my_labe_ex">自动回复设置</label>
+							</div>
+							<div class="form-cont">
+								<div class="form-col form-col1">
+									<textarea  id="offaccAutoReplyEdit" name="offaccAutoReply"
+										cols="50" style="resize: none;font-family:微软雅黑;line-height:normal;font-size:14px;background-color: #fff;border: none;height:58px;" rows="3" maxlength="50">${accountInfo.offaccAutoReply}</textarea>
+								</div>
+								<input type="text" id="oldOffaccAutoReplyEdit" style="display:none;" value="${accountInfo.offaccAutoReply}">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="formbox-hd-ex" style="margin-top:-8px;">
+					<button id="edit" class="btn btn-info my_btn-info" type="button">
+						编辑
+					</button>
+					<button id="sumbitTo" class="btn btn-info my_btn-info" type="button">
+						&nbsp;提交
+					</button>
+					<button id="nodeal" class="btn btn-info my_btn-info" type="button">
+						 <span class="bold">取消</span>
+					</button>
+					<input type="hidden" id="status" value="0" />
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+

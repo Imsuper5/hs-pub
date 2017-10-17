@@ -1,0 +1,245 @@
+[
+    {
+        "ROLEID": 1,
+        "MENUID": 10,
+        "ICON": "file",
+        "TITLE": "Openfire管理",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 10100,
+        "ICON": "",
+        "TITLE": "人员好友",
+        "PARENTID": "10",
+        "URL": "${appServer}/sysoper/imtest/imtest.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 10110,
+        "ICON": "",
+        "TITLE": "群组房间",
+        "PARENTID": "10",
+        "URL": "${appServer}/sysoper/chatroom/chatrooms.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 10120,
+        "ICON": "",
+        "TITLE": "分组",
+        "PARENTID": "10",
+        "URL": "${appServer}/sysoper/group/groups.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 20,
+        "ICON": "file",
+        "TITLE": "系统管理",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 20100,
+        "ICON": "",
+        "TITLE": "人员管理",
+        "PARENTID": "20",
+        "URL": "${appServer}/sysoper/user/user.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 20110,
+        "ICON": "",
+        "TITLE": "角色管理",
+        "PARENTID": "20",
+        "URL": "${appServer}/sysoper/role/role.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 70,
+        "ICON": "file",
+        "TITLE": "基础信息",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 70100,
+        "ICON": "",
+        "TITLE": "类别维护",
+        "PARENTID": "70",
+        "URL": "${appServer}/sysoper/category/category.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 70110,
+        "ICON": "",
+        "TITLE": "标签维护",
+        "PARENTID": "70",
+        "URL": "${appServer}/sysoper/label/label.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 30,
+        "ICON": "file",
+        "TITLE": "开发者操作",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 30100,
+        "ICON": "",
+        "TITLE": "菜单管理",
+        "PARENTID": "30",
+        "URL": "${appServer}/developer/menus/menus.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 30110,
+        "ICON": "",
+        "TITLE": "权限管理",
+        "PARENTID": "30",
+        "URL": "${appServer}/developer/rightrole/rightrole.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 1,
+        "MENUID": 30120,
+        "ICON": "",
+        "TITLE": "字段管理",
+        "PARENTID": "30",
+        "URL": "${appServer}/developer/griddefine/griddefine.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 50,
+        "ICON": "file",
+        "TITLE": "同业查询",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 50100,
+        "ICON": "file",
+        "TITLE": "同业查询",
+        "PARENTID": "50",
+        "URL": "${appServer}/quoted/quoted/quoted.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 50110,
+        "ICON": "file",
+        "TITLE": "我的报价",
+        "PARENTID": "50",
+        "URL": "${appServer}/quoted/myquoted/myquoted.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 60,
+        "ICON": "file",
+        "TITLE": "经纪商现券",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 60100,
+        "ICON": "file",
+        "TITLE": "经纪商现券",
+        "PARENTID": "60",
+        "URL": "${appServer}/broker/brokersecurity/security.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 70,
+        "ICON": "file",
+        "TITLE": "债券商店",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 70100,
+        "ICON": "file",
+        "TITLE": "债券商店",
+        "PARENTID": "70",
+        "URL": "${appServer}/sysoper/quotedone/quoted.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 80,
+        "ICON": "file",
+        "TITLE": "市场行情",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+ {
+        "ROLEID": 5,
+        "MENUID": 80100,
+        "ICON": "file",
+        "TITLE": "市场行情",
+        "PARENTID": "80",
+        "URL": "${appServer}/sysoper/quotedone/quoted.htm",
+        "REMARK": ""
+    },
+ {
+        "ROLEID": 5,
+        "MENUID": 90,
+        "ICON": "file",
+        "TITLE": "市场资讯",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+{
+        "ROLEID": 5,
+        "MENUID": 80100,
+        "ICON": "file",
+        "TITLE": "市场资讯",
+        "PARENTID": "90",
+        "URL": "${appServer}/sysoper/quotedone/quoted.htm",
+        "REMARK": ""
+    },
+    {
+        "ROLEID": 5,
+        "MENUID": 100,
+        "ICON": "file",
+        "TITLE": "分析工具",
+        "PARENTID": "-1",
+        "URL": "",
+        "REMARK": ""
+    },
+{
+        "ROLEID": 5,
+        "MENUID": 80100,
+        "ICON": "file",
+        "TITLE": "分析工具",
+        "PARENTID": "100",
+        "URL": "${appServer}/sysoper/quotedone/quoted.htm",
+        "REMARK": ""
+    }
+]

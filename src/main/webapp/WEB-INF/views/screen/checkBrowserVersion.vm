@@ -1,0 +1,30 @@
+#set($layout="")
+#parse("/screen/contain/error/head.vm")
+    <div class="common-header">
+        <div class="grid-990">
+            <div class="common-header-logo" style="background:#fff;no-repeat; height:90px; width:70px; float:left;margin-top:20px;">
+                <img src="${appServer}/css/horn/img/lgoin_logo.png" alt="logo">
+            </div>
+        </div>
+    </div>
+    <div class="errorBox" >
+     
+        <ul>
+          <li class="img">
+                <img src="${appServer}/images/error.png" alt="">
+               
+            </li>
+            <li class="title_h">
+                对不起！您的浏览器版本过低！
+            </li>
+        
+           
+            <li class="button">
+             <a href="http://windows.microsoft.com/zh-cn/internet-explorer/download-ie/" target="_blank" class="ui-btn btn1 ui-btn-150">下载IE浏览器</a>
+                <a href="http://se.360.cn/" target="_blank" class="ui-btn btn3 ui-btn-150">下载360安全浏览器</a>
+                <a href="http://www.firefox.com.cn/" target="_blank" class="ui-btn btn2 ui-btn-150">下载火狐浏览器</a>
+               
+            </li>
+        </ul>
+    </div>
+#parse("/screen/contain/error/end.vm")

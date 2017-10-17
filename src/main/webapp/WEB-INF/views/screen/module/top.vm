@@ -1,0 +1,35 @@
+<div class=" animated fadeIn">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins">
+				<div class="mybox-title">
+					<input type="button" id="export" value="导出权限EXCL"
+						class="btn  btn-primary m-l " /> <input type="button"
+						id="exportrole" value="导出权限角色EXCL" class="btn  btn-primary m-l " />
+					<input type="button" id="exportsql" value="导出权限SQL"
+						class="btn  btn-primary m-l " /> <input type="button"
+						id="exportrolesql" value="导出权限角色SQL" class="btn  btn-primary m-l " />
+				</div>
+				<div class="mybox-content">
+					<div style="float:left;width:1080px">
+						<div id="gridbox" class="grid-box"></div>
+					</div>
+					<div style="float:left;width:270px">
+						<div id="gridboxrole" class="grid-box"></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+

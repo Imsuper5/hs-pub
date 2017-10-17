@@ -1,0 +1,113 @@
+<!-- 密码重置弹窗 -->
+<div class="modal inmodal" id="pwdResetWrap" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span class="close-span-img"></span>
+				</button>
+				<h4>密码修改</h4>
+			</div>
+			<div class="diolag-content">
+				<div class="form-group ">
+					<form id="pwdResetForm">
+
+						<div class="form-horizontal m-t">
+							<div class="form-group p-b" style="height:50px;">
+								<label class="col-sm-3 control-label">原密码：</label>
+								<div class="col-sm-8">
+									<input style="width:340px;" id="oldPwdReset"
+										class="form-control p-l" name="oldPassword" type="password"
+										required="true" aria-required="true"
+										placeholder="请输入原密码" />
+								</div>
+							</div>
+							<div class="form-group p-b" style="height:50px;">
+								<label class="col-sm-3 control-label">新密码：</label>
+								<div class="col-sm-8">
+									<input style="width:340px;" id="newPwdReset"
+												class="form-control p-l" name="newPassword" type="password"
+												isPwd="true" required="true" aria-required="true"
+												placeholder="请输入新密码" />
+								</div>
+							</div>
+							<div class="form-group p-b" style="height:50px;">
+								<label class="col-sm-3 control-label">确认密码：</label>
+								<div class="col-sm-8">
+									<input style="width:340px;" type="password"
+												id="passwordagain" placeholder="请再次输入密码"
+												class="form-control p-l" isPwd="true" required="true"
+												equalTo="#newPwdReset" aria-required="true">
+								</div>
+							</div>
+						</div>
+						<input type="hidden" id="officialAccountIdPwd"
+							name="officialAccountId"  />
+					</form>
+				</div>
+
+
+			</div>
+			<div class="modal-footer diolag-footer">
+				<button type="button" id="button4PwdReset" class="btn  btn-primary">确认</button>
+				<button type="button" class="btn  btn-primary" data-dismiss="modal">关闭</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+.fixed-nav .slimScrollDiv #side-menu {
+	padding-bottom: 60px;
+}
+
+#content-main {
+	height: calc(100% - 10px);
+}
+
+.row {
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+.diolag-header {
+	height: 30px;
+	line-height: 30px;
+	width: 100%;
+	top: 0;
+	padding: 5px 5px;
+	text-align: left;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.diolag-content {
+	width: 100%;
+	overflow: auto;
+	top: 30px;
+	bottom: 65px;
+	padding: 20px 30px 30px;
+	background: #f8fafb;
+}
+
+.page-tabs a {
+    display: block;
+    float: left;
+    padding: 12px 15px 10px 10px;
+    color: #dcdcdc;
+    height: 39px;
+}   
+.my_active{
+	margin-left:-4px;
+}
+.my_li_active,.my_li_active:focus,.my_li_active:hover{
+	background:#fafafa;
+	border-left:4px #ff9e0e solid;
+}
+.full-height-layout{
+	overflow-y: auto;
+}
+</style>
+</body>
+

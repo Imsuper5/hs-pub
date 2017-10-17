@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>${menuName}</title>
+ 
+</head>
+<style>
+html{color:#666;background:#fff;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+article,aside,blockquote,body,button,code,dd,details,div,dl,dt,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,hr,input,legend,li,menu,nav,ol,p,pre,section,td,textarea,th,ul{margin:0;padding:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}audio,canvas,video{display:inline-block}
+body,button,input,select,textarea{font:14px/1.5 'Helvetica Neue',Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif}
+.common-header{height:100px;background-color:#fff}
+.grid-990{position:relative;width:990px;margin:0 auto;zoom:1}
+.ui-btn{display:inline-block;width:80px;height:28px;margin-bottom:0;font-size:14px;font-weight:400;line-height:28px;text-align:center;white-space:nowrap;vertical-align:middle;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:2px}
+.ui-btn-150{width:150px;height:40px;font-size:16px;line-height:40px}
+.common-footer-simple{position:relative;font-size:12px;padding:20px 0;background-color:#393939;height:40px;}
+.common-footer-simple-row{float:right;width:900px}
+.fn-clear{zoom:1}
+.color-b{color:#bbb!important}
+.fn-left,.fn-right{display:inline}.fn-left{float:left}.fn-right{float:right}
+a{color:#01abff;transition-property:color,background-color;transition-duration:.3s;transition-timing-function:ease}
+a, ins {
+  text-decoration: none;
+}
+.common-go-top{position:fixed;right:0;bottom:10px;z-index:100;width:40px;border-bottom:0}
+.common-go-top-btn{display:none;width:38px;height:38px;overflow:hidden;clear:both;line-height:38px;text-align:center;cursor:pointer;background:#F5F5F5;border:1px solid #ebebeb;border-radius:1px}
+.common-go-top-btn span{font-size:16px;color:#9C9C9C}
+.common-go-top-btn em{display:none;width:24px;margin:3px auto 0;font-size:12px;line-height:16px;color:#fff}
+.common-go-top-btn:hover{background-color:#999;border-color:#999}
+.common-go-top-btn:hover span{display:none}
+.common-go-top-btn:hover em{display:inline-block}
+
+    .errorBox {
+        padding: 0 0 0 0;
+        overflow: hidden;
+        text-align: center;
+        font: 14px/1.5 'Helvetica Neue',Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;
+        position: relative;
+        z-index: 10;
+        background: #fff;
+       width:100%;
+        left:0;
+    }
+    .errorBox img{}
+    .errorBox ul{
+        list-style: none;
+    }
+    .errorBox ul li.title_h{
+        font-size: 24px;
+        color: #606060;
+        height:30px;
+    }
+    .errorBox ul li.tip{
+        font-size: 12px;
+        color: #606060;
+        margin: 10px 0 0 0;
+        text-align: left;
+    }
+    .errorBox ul li.button{
+        margin: 40px 0 0 0;
+    }
+    .errorBox ul li a{
+        margin: 0 10px 0 0;
+    }
+    .btn1{background: #669af4;color: #fff;}
+    .btn2{background: #ee945d;color: #fff;}
+    .btn3{background: #92c743;color: #fff;}
+    .btn1:hover, .btn1:focus, .btn1.focus, .btn1:active, .btn1.active {
+      color: #fff;
+      background-color: #8CB3D9;
+    }
+    .btn2:hover, .btn2:focus, .btn2.focus, .btn2:active, .btn2.active {
+      color: #fff;
+      background-color: #F4A677;
+    }
+    .btn3:hover, .btn3:focus, .btn3.focus, .btn3:active, .btn3.active {
+      color: #fff;
+      background-color: #A4CD67;
+    }
+    .footerFixed{position: fixed;bottom:0px;left:0;width: 100%;z-index: 2;}
+</style>
+<body>

@@ -1,0 +1,5 @@
+<div id="wrapper" style="background-color: #F5F5F5;">
+	#parse("/screen/contain/index3/mainhead.vm")
+	#parse("/screen/contain/index3/menu.vm")
+	#parse("/screen/contain/index3/tabscreen.vm")
+</div>

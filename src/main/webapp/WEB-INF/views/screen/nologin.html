@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>未登录</title>
+</head>
+<body>
+	<script>
+		/**
+		 * JS获取URL地址
+		 * @returns 返回URL 如：http://localhost:8080
+		 */
+		function getURL() {
+			var curPath = top.location.href;
+			var protocol = top.location.protocol;
+			//获取主机地址之后的目录
+			var pathName = top.location.pathname;
+			if (pathName.indexOf('?') > 0)
+				pathName = pathName.substring(0, pathName.indexOf('?'));
+			var pos = curPath.indexOf(pathName); //获取主机地址，如： http://localhost:8080
+			var localhostPath = curPath.substring(0, pos); //获取带"/"的项目名
+			var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+			return localhostPath + projectName + "/publogin.htm?q="+Math.floor(Math.random() * 100000);
+		}
+
+		window.parent.location.href = getURL();
+	</script>
+</body>
+</html>

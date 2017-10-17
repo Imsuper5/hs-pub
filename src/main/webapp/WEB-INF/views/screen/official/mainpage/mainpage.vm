@@ -1,0 +1,3 @@
+#parse("/screen/official/mainpage/top.vm")
+#parse("/screen/official/mainpage/oper.vm")
+#parse("/screen/official/mainpage/script.vm")

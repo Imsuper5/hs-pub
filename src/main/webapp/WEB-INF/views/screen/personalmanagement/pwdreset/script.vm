@@ -1,0 +1,108 @@
+<script>
+	$("#PwdReset")
+			.click(
+					function() {
+						$("#pwdResetForm").validate();
+						var v = $("#pwdResetForm").valid();//验证不通过返回false
+						if (!v) {
+							return;
+						}
+						var arr = $("#pwdResetForm").serializeJson();
+						postData({
+							url : "/official/officialmanagement/updateOfficialPwd.json",
+							data : arr,
+							errorCallback : true,
+							autoErrorMsg:false,
+							callback : function(data) {
+								dialogClose($("#button4PwdReset"));
+								var success = data.success;
+								if (success) {
+									formReset("pwdResetForm");
+									confirmMsg({
+										btnText : "确认",
+										title : "修改密码操作成功！必须重新登录！",
+										text : "确定要退出吗？",
+										yes : function() {
+											loginOutBtn();
+										},
+										no : function() {
+										}
+									});
+								} else {
+									if(data.message != null && data.message != undefined && data.message  != ""){
+										$("#newPwdConfirm-error").html("&nbsp;&nbsp;<span style=\"color:#a94442\">"+data.message+"</span>");
+									}else{
+										$("#newPwdConfirm-error").html("&nbsp;&nbsp;<span style=\"color:#a94442\">修改密码出错.</span>");
+									}
+								}
+							}
+						});
+					});
+					
+	function loginOutBtn() {
+		 $.ajax({
+				type : 'post',
+				url : "${appServer}/loginOut.htm?sysType=0",
+				success : function(data) {
+					window.location.reload();
+				},
+				error:function(e){
+					window.location.reload();
+				}
+		 });
+	}
+	$("#resetBtn").click(function(){
+		var validator = $("#pwdResetForm").validate();
+		validator.resetForm();		
+	});
+				
+	////////////////表单数据校验区///////////
+	$("#pwdResetForm").validate();			
+</script>
+
+<style>
+body{
+	font-family:微软雅黑;
+	font-size:14px;
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+.my_ipnut{
+	width:300px;
+	font-size；14px;
+	font-family:微软雅黑;
+}
+.col-sm-2{
+	width:90px;
+	padding-top: 7px;
+}
+#userOldPwdEdit-error,#userPwdEdit-error,#newPwdConfirm-error{
+	margin-left:90px;
+	height:20px;
+	width:500px;
+	display: inherit;
+}
+.has-success {
+    margin-bottom: 0 !important;
+}
+.col-sm-8{
+	height:55px;
+}
+.form-group {
+     margin-bottom: 0px;
+}
+</style>

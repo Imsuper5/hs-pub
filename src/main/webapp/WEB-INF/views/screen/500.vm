@@ -1,0 +1,19 @@
+#set($layout="")
+#parse("/screen/contain/error/head.vm")
+    <div class="errorBox" width="auto" height="100%">
+        <img src="${appServer}/images/error.png" alt="">
+        <ul>
+            <li class="title_h">对不起，系统出错了 </li>
+            <li class="tip">
+              <div  style="margin: 20px auto;padding:5px;width:650px; height:100px;" >
+                <h1>错误代码：#if($exception.errorCode)$exception.errorCode#else -1 #end </h1>
+                <!-- <p style="font-weight: bold;  font-style: italic;">错误详细信息：$!exception.message</p>-->
+              </div>
+            </li>
+            <li class="button">
+                <a href="" target="_self" class="ui-btn btn2 ui-btn-150" onclick="history.go(-1)">返回上一页</a>
+                <a href="" target="_self" class="ui-btn btn3 ui-btn-150">刷新页面</a>
+            </li>
+        </ul>
+    </div>
+#parse("/screen/contain/error/end.vm")

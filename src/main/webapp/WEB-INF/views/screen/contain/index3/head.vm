@@ -1,0 +1,47 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    <title>BKOS/IM-公众号后台</title>
+
+   
+    <!--[if lt IE 8]>
+    <script>
+        alert('系统已不支持IE6-8，请使用谷歌、火狐等浏览器\n或360、QQ等国产浏览器的极速模式浏览！');
+    </script>
+    <![endif]-->
+
+    <link href="${appServer}/css/theme/default/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="${appServer}/css/theme/default/css/font-awesome.min.css?v=4.3.0" rel="stylesheet">
+    <link href="${appServer}/css/theme/default/css/basestyle.min.css?v=3.0.0" rel="stylesheet">
+    <link rel="stylesheet" href="${appServer}/plugins/layer/skin/layer.css" id="layui_layer_skinlayercss">
+    <link rel="stylesheet" href="${appServer}/plugins/layer/skin/layer.ext.css" id="layui_layer_skinlayerextcss">
+    <link rel="stylesheet" href="${appServer}/plugins/layer/skin/moon/style.css" id="layui_layer_skinmoonstylecss">
+    <link href="${appServer}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="${appServer}/css/theme/default/css/basecolor.css" rel="stylesheet">
+    
+    <!-- 全局js -->
+    <script src="${appServer}/plugins/jquery/jquery-2.1.1.min.js"></script>
+    <script src="${appServer}/plugin/bootstrap.min.js?v=3.4.0"></script>
+    <script src="${appServer}/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${appServer}/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${appServer}/plugins/layer/layer.min.js"></script>
+
+
+    <script src="${appServer}/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${appServer}/plugins/validate/messages_zh.min.js"></script>
+    <!-- 自定义js -->
+    <script src="${appServer}/plugin/hplus.min.js?v=3.0.0"></script>
+    <script src="${appServer}/plugin/contabs.min.js"></script>
+    <script src="${appServer}/script/tabMenus.js"></script>
+
+    <script src="${appServer}/script/common.js?ver=${sysVersion}"></script>
+    <script src="${appServer}/script/component.js?ver=${sysVersion}"></script>
+     
+    <!-- 第三方插件 -->
+    <script src="${appServer}/plugins/pace/pace.min.js"></script>
+    <script src="${appServer}/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="${appServer}/script/myDialog.js"></script>
+</head>
+<body class="fixed-sidebar full-height-layout gray-bg">
+
+

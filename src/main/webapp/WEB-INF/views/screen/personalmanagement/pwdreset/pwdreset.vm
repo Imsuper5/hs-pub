@@ -1,0 +1,2 @@
+#parse("/screen/personalmanagement/pwdreset/top.vm")
+#parse("/screen/personalmanagement/pwdreset/script.vm")

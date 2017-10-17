@@ -1,0 +1,239 @@
+<script type="text/javascript">
+	//////字典//////
+	loadDict("709");
+
+	//加载grid列表
+	var gridbox = new CommonGridObject("gridbox", "${appServer}",
+			${list_offInfo}, ${gridoffInfo_leftFixedCols});
+	gridbox.bind("/official/officialsend/getOfficialMsgList.json",
+			"officialSearchForm");
+	gridbox.enablePaging("Pagination");
+	gridbox.refresh();
+	
+	function pwdReset() {
+		dialogOpen("pwdResetWrap");
+	};
+	
+	//grid高度设置
+	setGridSize();
+	$(window).resize(function() {
+		setGridSize();
+	});
+	function setGridSize() {
+		gridGetHgt({
+			id : "gridbox",
+			topHeight : 73,
+			footHeight : 25
+		});
+		gridGetWidthByParent({
+			id : "gridbox",
+			topWidth : 0,
+			footWidth : 3
+		});
+		gridbox.grid.setSizes();
+	}
+	addOperatorColumn(gridbox.grid, {
+		index : 8,
+		title : "操作",
+		id : "columnEdit",
+		width : 155,
+		align : "center"
+	});
+
+	var curPath = top.location.href;
+	var pos = curPath.indexOf("index"); //获取主机地址，如： http://localhost:8080/bkos/
+	var localhostPath = curPath.substring(0, pos);
+	gridbox.grid
+			.attachEvent(
+					"onRowCreated",
+					function(rId, rObj, rXml) {
+						var MsgId = getGridColValue(this, rId,
+								"officialAccountMsgId");
+						var msgStatus = getGridColValue(this, rId, "msgStatus");
+						var msgStatusList = getGridColValue(this, rId, "msgStatusList");
+						var officialMsgUrl = getGridColValue(this, rId,
+								"officialMsgUrl");
+						var htmlurl = localhostPath
+								+ "official/officialsend/officialInfo.htm?msgId="
+								+ MsgId;
+						var div0 = "<a style=\"margin:0px 10px;\"  href=\"javascript: infoDelete("
+								+ MsgId + ")\" >删除</a>";
+						var div1 = "<a style=\"margin:0px 10px;\"  href=\"javascript: infoEdit("
+								+ MsgId + "," + rId + ")\" >编辑</a>";
+						//var div2 = "<a  style=\"margin:0px 10px;\" href=\"javascript: msgWatch("+ MsgId + "," + rId + ")\" >预览</a>";
+						var div = "";
+						if (officialMsgUrl != "") {
+							if (msgStatus == "0") {
+								div = div1;
+							}
+						}
+						setGridColValue(this, rId, "columnEdit", div + div0);
+						var msgStatus = "<label style='color:#72d200'>已发送</label>";
+						setGridColValue(this, rId, "msgStatus", msgStatus);
+						var officialMsgSrc = getGridColValue(this, rId, "officialMsgSrc");
+						var url = "../../official/officialsend/getOfficialImg.json?officialMsgSrc="+officialMsgSrc+"&";
+						var officialMsgTitle = getGridColValue(this, rId, "officialMsgTitle");
+						var officialMsgTitleContent = "<div style='cursor:pointer' onclick=\"msgWatch('"+ officialMsgSrc + "'," + rId + ")\"><img onerror=\"onImgError(this);\" style='width:60px;height:33px;' src="+ url +"/><label style='margin-left:5px;'>[图文] &nbsp;</label>" + HtmlUtil.htmlEncode(officialMsgTitle) + "</div>"
+						setGridColValue(this, rId, "officialMsgTitle", officialMsgTitleContent);
+						gridbox.grid.setUserData(rId,"officialMsgTitle",officialMsgTitle);
+					});
+					
+	function onImgError(e){
+		e.src='../../css/theme/default/img/default.png';
+		var par=e.parentNode;
+		var chils= par.childNodes; 
+		for(var i=0; i< chils.length;i++){
+        	if(chils[i].nodeName == "LABEL")
+		        {
+		            chils[i].innerHTML='[文字] &nbsp;';
+		        }
+	    }
+	}				
+	function msgWatch(MsgId, rId) {
+		dialogOpen("msgWatchWrap");
+		var grid = gridbox.grid;
+		var selectedId = rId;
+		var officialMsgTitle = getGridColValue(grid, selectedId,"officialMsgTitle");//标题
+		var officialMsgAbstract = getGridColValue(grid, selectedId,"officialMsgAbstract");//摘要
+		var pushDatetime = getGridColValue(grid, selectedId,"pushDatetime");//发送时间
+		var officialMsgBody = getGridColValue(grid, selectedId,"officialMsgBody");//正文
+		var officialMsgAuthor = getGridColValue(grid, selectedId,"officialMsgAuthor");//作者
+		var str = gridbox.grid.getUserData(rId,"officialMsgTitle");
+		
+		var arr = new Object();
+		arr["msgId"] = getGridColValue(grid, selectedId,"officialAccountMsgId");
+		postData({
+			url : "/official/officialsend/getOfficialBody.json",
+			data : arr,
+			errorCallback : true,
+			callback : function(data) {
+				$("#msg_title").html(HtmlUtil.htmlEncode(str));
+				$("#msg_date").html(pushDatetime);
+				$("#msg_auth").html(HtmlUtil.htmlEncode(officialMsgAuthor));
+				$("#msg_content").html(data.officialMsgBodyStr);
+			}
+		});
+		
+	};
+	
+	$("#btnsearch").click(function() {
+		var srart = $("#startdate").val() + "000000";
+		var end = $("#enddate").val() + "235959";
+		$("#beginDatetimeQuery").val($.trim(srart));
+		$("#endDatetimeQuery").val($.trim(end));
+		gridbox.refresh();
+
+	});
+	function infoDelete(MsgId) {
+		confirmMsg({
+			btnText : "确认",
+			title : "确定要删除该消息吗？",
+			text : "",
+			yes : function() {
+				var arr = {};
+				arr["officialAccountMsgId"] = MsgId;
+				postData({
+					url : "/official/officialInformation/deleteOfficialMsg.json",
+					data : arr,
+					callback : function(data) {
+						var success = data.success;
+						if (success) {
+							swal("删除成功！", "", "success");
+							gridbox.refresh();
+						} else {
+							swal("删除失败！", "", "error");
+						}
+					}
+				});
+			},
+			no : function() {
+			}
+		});
+	}
+	function infoEdit(MsgId, rId) {
+		var url = "${appServer}/official/officialsend/officialsend.htm";
+		var iframe = $(window.parent.document).find(
+				"iframe[src^='" + url + "']");
+		var a = $(window.parent.document).find("a[href^='" + url + "']");
+		a[0].click();
+		if (iframe.length > 0) {
+			toContent(MsgId, rId, url);
+		} else {
+			window.setTimeout("toContent('" + MsgId + "'," + rId + ",'" + url
+					+ "')", 2000);
+		}
+	}
+	function toContent(MsgId, rId, url) {
+		var officialMsgTitle = getGridColValue(gridbox.grid, rId,
+				"officialMsgTitle");
+		var officialMsgAbstract = getGridColValue(gridbox.grid, rId,
+				"officialMsgAbstract");
+		var officialSrcUrl = getGridColValue(gridbox.grid, rId,
+				"officialSrcUrl");
+		var officialMsgBody = getGridColValue(gridbox.grid, rId,
+				"officialMsgBody");
+		var officialMsgSrc = getGridColValue(gridbox.grid, rId,
+				"officialMsgSrc");
+		var officialMsgAuthor = getGridColValue(gridbox.grid, rId,
+				"officialMsgAuthor");
+		var iframe = $(window.parent.document).find(
+				"iframe[src^='" + url + "']");
+		if (iframe.length > 0) {
+			var win = iframe[0].contentWindow;
+			win.$("#officialAccountMsgIdAdd").val(MsgId);
+			win.$("#officialMsgTitleAdd").val(officialMsgTitle);
+			win.$("#officialMsgAbstractAdd").val(officialMsgAbstract);
+			win.$("#officialSrcUrlAdd").val(officialSrcUrl);
+			win.$("#officialMsgAuthorAdd").val(officialMsgAuthor);
+			win.UE.getEditor('myEditor').setContent(officialMsgBody);
+			win.$("#operAdd").val("edit");
+			if (officialMsgSrc != null && officialMsgSrc != "") {
+				var imgurl = localhostPath
+						+ "official/officialsend/getOfficialImg.json?msgId="
+						+ MsgId;
+				win.$('#imgBack')[0].src = imgurl;
+			}
+		}
+	}
+	datePickerRange({
+		fromId : "startdate",
+		toId : "enddate"
+	});
+</script>
+
+<style>
+body{
+	font-family:微软雅黑;
+	font-size:14px;
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+.my_modal-footer{
+	background-color: #fff;
+    box-shadow: 0px 0 0px #f5f5f5, 
+    			/*左边阴影*/ 0px 0 0px #f5f5f5,
+     			/*右边阴影*/ 0 -5px 5px #E2E2E2, 
+     			/*顶部阴影*/ 0 0px 0px green;
+}
+.my_btn{
+	height:30px;
+	width:100px;
+}
+.modal-dialog {
+    width: 900px;
+}
+</style>

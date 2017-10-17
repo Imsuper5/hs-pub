@@ -1,0 +1,64 @@
+
+<script>
+	loadDict("707");
+	
+	var gridbox = new CommonGridObject("gridbox", "${appServer}",
+			${list_offUsers}, ${gridoffUsers_leftFixedCols}, ${gridoffUsers});
+	gridbox.enablePaging("Pagination");
+	gridbox.bind("/official/officialUsers/getOfficialUsersList.json",
+			"ProQueryForm");
+	gridbox.refresh(50, 0, "", "desc");
+	
+	
+	//grid高度设置
+	setGridSize();
+	$(window).resize(function() {
+		setGridSize();
+	});
+	function setGridSize() {
+		gridGetHgt({
+			id : "gridbox",
+			topHeight : 0,
+			footHeight : 58
+		});
+		gridGetWidthByParent({
+			id : "gridbox",
+			topWidth : 0,
+			footWidth : 3
+		});
+		gridbox.grid.setSizes();
+		
+	}
+
+</script>
+
+<style>
+body{
+	font-family:微软雅黑;
+	font-size:14px;
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+.my_grid-box{
+	max-height:378px;
+	width: 89%;
+	height: 378px;
+	margin-left: 33px;
+	cursor: default;
+	margin-top:20px;
+}
+</style>

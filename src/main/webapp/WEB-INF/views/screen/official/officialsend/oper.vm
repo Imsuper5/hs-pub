@@ -1,0 +1,31 @@
+<script src="${appServer}/plugins/jquery/jquery.base64.js"></script>
+<div class="mywrapper">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins">
+				<div class="mail-box">
+					<div class="formbox-hd main_top">
+						<h3 class="formbox-tit main-fit">文字消息</h3>
+					</div>
+					<div class="mail-text h-200  no-padding" style="margin: 50px 10px 10px 10px;">
+						<div class="form-group">
+
+							<textarea id="officialMsgAbstractField"
+								style="font-size:14px;font-family:微软雅黑;padding: 20px; border: 2px solid #f7f7f7;overflow: auto;outline: 0; height: 254px;width: 90%;margin-left: 25px;resize: none;"
+								name="officialMsgAbstract" placeholder="请输入消息内容" maxlength="600"></textarea>
+							<span id="countchar">0/600</span>
+
+						</div>
+					</div>
+					<div class="mail-body text-left tooltip-demo" style="margin-left: 16px;">
+						<button id="MsgSend2"  style="width:100px;height:30px;" class="btn btn-info">发送</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+</div>

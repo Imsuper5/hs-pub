@@ -1,0 +1,55 @@
+<div class="nav-menu-container" id="j-nav-menu-container">
+		<div class="nav-show-control" style="overflow: hidden;">
+			<div class="nav-menu-layout">
+				<div class="nav-menu line">
+					<div class="navbar-header">
+						<span class="navbar-brand logo"></span>
+						<span class="navbar-brand logo-font">IM-公众号后台</span>
+					</div>
+					<div class="nav-menu-content container">
+						<div class="content-box">
+							<div class="menu-item-box" id="ul-menu"></div>
+						</div>
+	
+					</div>
+					<div class="nav-userinfo">
+						<div id="userinfo" class="userinfo"></div>
+						<!--<div id="userapply" class="userinfo"></div>-->
+						<div id="userout" class="userout"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+	<div>
+		<sapn class="login-title">欢迎登录公众号系统</sapn>
+		<form id="puLoginCheckForm" class="m-t" method="post">
+			<div class="form-group p-b">
+				<label style="position: absolute;color:#BBBBBB;margin:27px 22px;" class="input-account"></label> 
+				<input type="text" class="form-control help-block m-b-none"
+					name="officialAccountUserName" id="officialAccountUserNameId"
+					value="" placeholder="请输入账号" />
+
+			</div>
+			<div class="form-group p-b">
+				<label style="position: absolute;color:#BBBBBB;margin:27px 22px;" class="input-password"></label>
+				<input type="password" class="form-control help-block m-b-none"
+					name="officialAccountPwd" id="officialAccountPwdId" value=""
+					placeholder="请输入密码" /> <input type="hidden" name="loginType"
+					value="0" />
+			</div>
+			<div class="form-group p-b" style="margin-top:15px;margin-left:-247px;height:35px;font-family:微软雅黑;">
+				<input type="text" class="fade" id="timeMillis" name="timeMillis">
+				<input id="rememberInput" type="checkbox" class="i-checks" name="rememberMe"/>
+				<span id="remenberText" style="cursor:pointer;position:absolute;margin-top:1px;">&nbsp;记住密码</span>
+			</div>
+			
+			<div class="form-group">
+				<button id="logincheck" type="submit"
+					class="btn btn-primary block m-b">登 &nbsp;  &nbsp;录</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,22 @@
+
+
+
+
+</div>
+</body>
+	<script src="${appServer}/plugin/content.min.js?v=1.0.0"></script>
+	<script src="${appServer}/script/myDialog.js?ver=${sysVersion}"></script>
+	<script src="${appServer}/script/mygrid.js?ver=${sysVersion}"></script>
+	<link href="${appServer}/css/theme/default/css/basecolor.css" rel="stylesheet">
+	<script>
+	  //启用placeholder
+	  $(function (){
+	      $("[placeholder]").placeholder();
+	  });
+	  window.setTimeout(function(){ 
+	          if (navigator.userAgent.indexOf("MSIE 9.0")>0){
+				    	$("div.gridbox").css( "box-sizing", "border-box");
+				}  
+	  },1);
+	</script>
+</html>

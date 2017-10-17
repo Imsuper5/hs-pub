@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+#parse("/screen/contain/index/head.vm")
+#parse("/screen/contain/index/main.vm")
+#parse("/screen/contain/index/end.vm")
+#parse("/screen/contain/index/script.vm")
+</html>

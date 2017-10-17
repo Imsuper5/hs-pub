@@ -1,0 +1,119 @@
+ <style>
+   .menu{
+     height:57px;
+     vertical-align:middle;	
+     line-height:57px;
+     background:black;
+     text-align:center;
+   }
+   .menu-logn{
+   	 float:left;
+     margin-left:100px;
+     margin-right:50px;
+     font-size:24px;
+     color:#ffffff;
+     font-weight:bold;
+     cursor:pointer; 
+   }
+   .menu-ch{
+     float:left;
+     margin-right:30px;	
+     font-size:16px;
+     color:#b6b6b6;
+   }
+   .menu-ch-select{
+     font-size:16px;
+     color:#ffffff;
+     font-weight:bold;
+   }
+   .menu .menu-ch:hover{
+     font-size:16px;
+     color:#ffffff;
+     font-weight:bold;
+     cursor:pointer;
+   }   
+   .curdiv{
+     	display:none;
+     	height:50px;
+      vertical-align:middle;	
+      line-height:50px;
+      background:#ffffff;
+      border:1px solid green;
+   }
+   
+   .strdiv{
+      height:50px;
+      vertical-align:middle;	
+      line-height:50px;
+      background:#ffffff;
+      border:1px solid green;
+      display:none;
+   }
+   
+   .curdiv a{
+      margin-right:20px;
+      text-decoration:none;
+      font-size:18px;
+      color:#000000;
+   }
+    .strdiv a{
+      margin-right:20px;
+      text-decoration:none;
+      font-size:18px;
+      color:#000000;
+      cursor:pointer;
+   }
+   .h-1{
+     margin-left:100px;	
+   }
+ </style>
+ <script>
+   function deal(){
+     $("#menudiv").css("display","block");
+     $("#menudiv a").remove();
+     $("#menudiv").append("<a class='h-1' id='deal-h' onclick='deal_1()'>成交管理1</a>");
+     $("#menudiv").append("<a href='' class='h'>成交管理2</a>");
+     $("#menudiv").append("<a href='' class='h'>成交管理3</a>")
+     $("#deal").addClass("menu-ch-select");
+     $("#market").removeClass("menu-ch-select");
+     $("#trade").removeClass("menu-ch-select");
+   }
+   function market(){
+     $("#menudiv").css("display","block");
+     $("#menudiv a").remove();
+     $("#menudiv").append("<a href='' class='h-1'>市场行情1</a>");
+     $("#menudiv").append("<a href='' class='h'>市场行情2</a>");
+     $("#menudiv").append("<a href='' class='h'>市场行情3</a>")
+     $("#market").addClass("menu-ch-select");
+     $("#deal").removeClass("menu-ch-select");
+     $("#trade").removeClass("menu-ch-select");
+   }
+   function trade(){
+     $("#menudiv").css("display","block");
+     $("#menudiv a").remove();
+     $("#menudiv").append("<a href='' class='h-1'>在途查询1</a>");
+     $("#menudiv").append("<a href='' class='h'>在途查询2</a>");
+     $("#menudiv").append("<a href='' class='h'>在途查询3</a>")
+     $("#trade").addClass("menu-ch-select");
+     $("#deal").removeClass("menu-ch-select");
+     $("#market").removeClass("menu-ch-select");	
+   }
+   function main(){
+       $("#menudiv").css("display","none");
+   }
+   function deal_1(){
+      $("#msgdiv").append("#parse('/screen/transferout/manage/manage.vm')");
+   }
+ </script>
+ <div>
+    <div class="menu">
+      <div class="menu-logn" onclick="main()">转融券</div>
+      <div id="deal" onclick="deal()" class="menu-ch">成交管理</div>
+      <div id="market" onclick="market()" class="menu-ch">市场行情</div>
+      <div id="trade" onclick="trade()" class="menu-ch">在途查询</div>
+    </div>
+    <div class="strdiv" id="menudiv">
+    </div>
+    <div class="msg-div" id="msgdiv">
+    </div>
+ <div>

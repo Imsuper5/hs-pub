@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context    
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/aop   
+            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+            http://www.springframework.org/schema/tx   
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+            http://www.springframework.org/schema/mvc   
+            http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd  
+            http://www.springframework.org/schema/context   
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="byName">
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.hundsun" />
+	<mvc:interceptors>
+		<bean class="com.hundsun.bkos.monitor.interceptor.IPBlackListInterceptor"></bean>
+	</mvc:interceptors>
+	<mvc:interceptors>
+		<bean class="com.hundsun.bkos.permission.interceptor.AuthInterceptor"></bean>
+	</mvc:interceptors>
+	<mvc:interceptors>
+		<bean
+			class="com.hundsun.bkos.monitor.interceptor.RequestStatisticInterceptor"></bean>
+	</mvc:interceptors>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>classpath:i18n/error</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="cacheSeconds" value="5" />
+		<property name="useCodeAsDefaultMessage" value="false" />
+	</bean>
+
+	<bean class="com.hundsun.bkos.common.exception.LoggingExceptionResolver">
+		<property name="defaultErrorView" value="/500" />
+		<property name="defaultAjaxErrorView" value="/contain/exception" />
+		<property name="isLog4j" value="true" />
+	</bean>
+
+	<bean id="statictic" class="com.hundsun.bkos.monitor.StatisticBean">
+		<property name="statisticTaskList">
+			<list>
+				<value>com.hundsun.bkos.monitor.RequestStatisticTask</value>
+				<value>com.hundsun.bkos.monitor.PVStatisticTask</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 继承spring后置处理器BeanFactoryPostProcessor 自动注册模块信息打入到log中 -->
+	<bean id="autoLoadModuleHelper"
+		class="com.hundsun.bkos.permission.loadModule.AutoLoadModuleHelper">
+	</bean>
+</beans>

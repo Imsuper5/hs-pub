@@ -1,0 +1,3 @@
+#parse("/screen/official/officialSetup/top.vm")
+#parse("/screen/official/officialSetup/oper.vm")
+#parse("/screen/official/officialSetup/script.vm")

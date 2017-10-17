@@ -1,0 +1,6 @@
+<form id="ProQueryForm">
+	<input type="hidden" id="offaccNoQuery" value="${userIm}" name="offaccNo" /> 
+</form>
+<form id="SubProQueryForm">
+	<input type="hidden" id="userNoQuery"  name="userNo" /> 
+</form>

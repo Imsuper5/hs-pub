@@ -1,0 +1,99 @@
+<script type="text/javascript">
+	////////////初始化/////////////////
+	//加载grid列表
+	var gridbox = new CommonGridObject("gridbox", "${appServer}",
+			${list_module}, ${gridBox_leftFixedCols});
+	gridbox.bind("/module/getModuleList.json");
+	gridbox.refresh();
+	var gridboxsub = new CommonGridObject("gridboxrole", "${appServer}",
+			${list_module_role}, ${gridBoxRole_leftFixedCols});
+	gridboxsub.bind("/module/getModuleRoleList.json");
+	setTimeout(function() {
+		gridboxsub.refresh();
+	}, 1000);
+	//grid高度设置
+	setGridSize();
+	$(window).resize(function() {
+		setGridSize();
+	});
+	function setGridSize() {
+		gridGetHgt({
+			id : "gridbox",
+			topHeight : 71,
+			footHeight : 5
+		});
+		gridGetWidthByParent({
+			id : "gridbox",
+			topWidth : 1,
+			footWidth : 0
+		});
+		gridbox.grid.setSizes();
+		gridGetHgt({
+			id : "gridboxrole",
+			topHeight : 71,
+			footHeight : 5
+		});
+		gridGetWidthByParent({
+			id : "gridboxrole",
+			topWidth : 1,
+			footWidth : 0
+		});
+		gridboxsub.grid.setSizes();
+	}
+
+	$("#exportrole").click(function() {
+		exportexcl(1);
+	});
+
+	$("#export").click(function() {
+		exportexcl(0);
+	});
+	function exportexcl(type) {
+		var arr = {};
+		arr["type"] = type;
+		postData({
+			url : "/module/export.json",
+			data : arr,
+			callback : function(data) {
+				var success = data.success;
+				if (success) {
+					swaltimer("成功！", "", "success");
+				} else {
+					swaltimer("失败！", data.message, "error");
+				}
+			}
+		});
+	}
+	$("#exportrolesql").click(function() {
+		exportsql(1);
+	});
+
+	$("#exportsql").click(function() {
+		exportsql(0);
+	});
+	function exportsql(type) {
+		var arr = {};
+		arr["type"] = type;
+		postData({
+			url : "/module/exportSql.json",
+			data : arr,
+			callback : function(data) {
+				var success = data.success;
+				if (success) {
+					swaltimer("成功！", "", "success");
+				} else {
+					swaltimer("失败！", data.message, "error");
+				}
+			}
+		});
+	}
+</script>
+<style type="text/css">
+.mybox-title {
+	margin-top: 5px
+}
+
+.btn-mar-t-5 {
+	margin-top: 5px;
+}
+</style>

@@ -1,0 +1,11 @@
+<div id="companymenu">
+   	<div class="sideSearch">	    				
+		<input type="button" id="companyRefreshBt" class="btn-refresh fr" value="" title="刷新"/>
+		<input type="text" placeholder="请输入公司名称或序号查询" id="searchCompanyTx"/>
+		<input type="button" value="搜索" id="searchCompanyBt"/>
+	</div>	
+	<div id="navigationDiv">
+		<table width="100%" id="navigationTable" class="sidebar-menu">
+		</table>	
+	</div>
+</div>	

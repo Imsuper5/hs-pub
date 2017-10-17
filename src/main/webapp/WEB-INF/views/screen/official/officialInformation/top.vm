@@ -1,0 +1,65 @@
+<div class="mywrapper animated fadeIn">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox ">
+				<div class="formbox-hd main_top">
+						<h3 class="formbox-tit main-fit">已发消息</h3>
+				</div>
+				<div class="mybox-title">
+					<div class="input-search" style="width:500px;height:40px;float:left;margin-left: 33px;font-size:14px;font-family:微软雅黑;margin-top:20px;">
+						<input type="text" class="input-search-text" placeholder="开始日期"
+							id="startdate" style="width:200px;float:left;"><span style="width:50px;text-align:center;float:left;padding:7 3;color:#d6d6d6;font-size:14px;font-family:微软雅黑;">至</span><input
+							type="text" class="input-search-text" placeholder="结束日期"
+							id="enddate" style="width:200px;float:left;">
+
+						<button id="btnsearch" class="btn btn-info" style="width:70px;height:28px;margin-top:-32px;margin-left: 465px;">查询</button>
+						</span>
+					</div>
+				</div>
+
+				<div class="mybox-content">
+					<div class="mypanel mypanel-info">
+						<div class="mypanel-body" style="overflow:hidden;">
+							<div id="gridbox" class="grid-box" style="max-height:378px;min-width:851px;width: 89%;height: 378px;margin-left: 33px;cursor: default;"></div>
+							<div id="Pagination" class="paging-bar"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 消息预览弹窗 -->
+<div class="modal inmodal" id="msgWatchWrap" tabindex="-1" role="dialog"
+	aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal" style="margin-bottom:10px;margin-right:-5px;margin-top: 0px;">
+					<span class="close-span-img"></span>
+				</button>
+				<h4 style="font-family:微软雅黑;">消息预览</h4>
+			</div>
+			<div class="diolag-content" style="background-color:#fff;font-family:微软雅黑;height:380px;overflow:hidden;">
+				<div class="form-group " style="color:#000;background-color:#fff;">
+					<h3 style="font-size:18px;" id="msg_title" ></h3>
+					<div style="font-size:14px;color:#bfbfbf;">
+						作者:<label id="msg_auth" >-</label> &nbsp; 时间:<label id="msg_date" ></label>
+					</div>
+					<div id="msg_content" style="min-height:200px;max-height:300px;overflow:auto;font-size:14px;color:#666;line-height:24px;">
+						
+					</div>
+				</div>
+
+
+			</div>
+			<div class="modal-footer diolag-footer my_modal-footer">
+				<button type="button" id="button4PwdReset" data-dismiss="modal" class="my_btn btn  btn-info">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+

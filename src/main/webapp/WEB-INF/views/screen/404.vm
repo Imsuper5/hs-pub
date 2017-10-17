@@ -1,0 +1,37 @@
+#set($layout="")
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>${menuName}</title>
+   
+ <link href="${appServer}/css/theme/default/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="${appServer}/css/theme/default/css/font-awesome.min.css?v=4.3.0" rel="stylesheet">
+
+    <link href="${appServer}/css/theme/default/css/basestyle.min.css?v=3.0.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+
+
+    <div style="color:#FF910E;" class="middle-box text-center animated fadeInDown">
+        <h1 style="color:#FF910E;">404</h1>
+        <h3 class="font-bold">页面未找到！</h3>
+
+        <div class="error-desc">
+            抱歉，页面好像去火星了~
+       </div>
+    </div>
+
+    <!-- 全局js -->
+     <script src="${appServer}/plugins/jquery/jquery-2.1.1.min.js"></script>
+     <script src="${appServer}/plugin/bootstrap.min.js"></script>
+</body>
+
+</html>

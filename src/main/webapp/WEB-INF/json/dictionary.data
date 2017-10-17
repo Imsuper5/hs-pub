@@ -1,0 +1,52 @@
+[
+  {"dicNo": 100001, "subDicNo": "0", "subDicName": "恒生", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100001, "subDicNo": "1", "subDicName": "出借方", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100001, "subDicNo": "2", "subDicName": "借入方", "reserve1": "", "reserve2": ""},
+  
+  {"dicNo": 100002, "subDicNo": "1", "subDicName": "正常", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100002, "subDicNo": "2", "subDicName": "注销", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100002, "subDicNo": "3", "subDicName": "冻结", "reserve1": "", "reserve2": ""},
+  
+  {"dicNo": 100003, "subDicNo": "0", "subDicName": "无效", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100003, "subDicNo": "1", "subDicName": "有效", "reserve1": "", "reserve2": ""},
+  
+  {"dicNo": 10001, "subDicNo": "1", "subDicName": "上交所", "reserve1": "", "reserve2": ""},
+  {"dicNo": 10001, "subDicNo": "2", "subDicName": "深交所", "reserve1": "", "reserve2": ""},
+  
+  {"dicNo": 100005, "subDicNo": "0", "subDicName": "不报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "1", "subDicName": "未报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "2", "subDicName": "待报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "3", "subDicName": "正报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "4", "subDicName": "已报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "5", "subDicName": "废单", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "6", "subDicName": "已成", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "a", "subDicName": "待撤", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100005, "subDicNo": "9", "subDicName": "已撤", "reserve1": "", "reserve2": ""},
+  
+  {"dicNo": 100006, "subDicNo": "1", "subDicName": "未成", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100006, "subDicNo": "2", "subDicName": "部成", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100006, "subDicNo": "3", "subDicName": "部撤", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100006, "subDicNo": "4", "subDicName": "已撤", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100006, "subDicNo": "5", "subDicName": "已成", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100006, "subDicNo": "6", "subDicName": "撮合中", "reserve1": "", "reserve2": ""},
+  
+  {"dicNo": 100007, "subDicNo": "0", "subDicName": "不报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100007, "subDicNo": "1", "subDicName": "未报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100007, "subDicNo": "2", "subDicName": "待报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100007, "subDicNo": "3", "subDicName": "正报", "reserve1": "", "reserve2": ""},
+  {"dicNo": 100007, "subDicNo": "4", "subDicName": "已报", "reserve1": "", "reserve2": ""},
+   
+   {"dicNo": 100009, "subDicNo": "3", "subDicName": "3天", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100009, "subDicNo": "7", "subDicName": "7天", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100009, "subDicNo": "14", "subDicName": "14天", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100009, "subDicNo": "28", "subDicName": "28天", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100009, "subDicNo": "128", "subDicName": "128天", "reserve1": "", "reserve2": ""},
+   
+   {"dicNo": 100010, "subDicNo": "0", "subDicName": "不撤", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100010, "subDicNo": "1", "subDicName": "未撤", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100010, "subDicNo": "2", "subDicName": "待撤", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100010, "subDicNo": "3", "subDicName": "正撤", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100010, "subDicNo": "4", "subDicName": "已撤", "reserve1": "", "reserve2": ""},
+   {"dicNo": 100010, "subDicNo": "5", "subDicName": "废单 ", "reserve1": "", "reserve2": ""}
+  
+]

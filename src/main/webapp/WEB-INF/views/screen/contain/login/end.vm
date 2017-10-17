@@ -1,0 +1,248 @@
+</div>
+
+<script>
+//IE9样式兼容
+	window.setTimeout(function(){ 
+        if (navigator.userAgent.indexOf("MSIE 9.0")>0){//"ActiveXObject" in window
+        	$(".wrap-placeholder").css("height","35px");
+        	$(".wrap-placeholder").css("padding-top","6px");
+        	$("#rememberInput").css("margin-top","4px");
+        	$("#officialAccountUserNameId-error").css("margin-left","-265px");
+        	$("#officialAccountPwdId-error").css("margin-left","-265px");
+	    }
+	},10);
+	Request = {
+		QueryString : function(item) {
+			var svalue = location.search.match(new RegExp("[\?\&]" + item
+					+ "=([^\&]*)(\&?)", "i"));
+			return svalue ? svalue[1] : svalue;
+		}
+	}
+	
+	var PubLoginCheckForm = function() {
+		var handleValidation = function() {
+			var formAdd = $('#puLoginCheckForm');
+			var validator = formAdd.validate({
+				focusInvalid : true,
+				rules : {
+					officialAccountUserName : {
+						required : true,
+						rangelength : [ 1, 20 ]
+					},
+					officialAccountPwd : {
+						required : true,
+						rangelength : [ 1, 64 ]
+					}
+				},
+				messages : {
+					officialAccountUserName : {
+						required : "账户不能为空",
+						rangelength : "请输入的正确长度的用户名"
+					},
+					officialAccountPwd : {
+						required : "密码不能为空",
+						rangelength : "密码输入有误"
+					}
+				},
+				success : function(label, element) {
+					var icon = $(element).parent('.input-icon').children('i');
+					$(element).closest('.form-group').removeClass('has-error')
+							.addClass('has-success'); // set success class to the control group
+					icon.removeClass("fa-warning").addClass("fa-check");
+				},
+				submitHandler : function(form) {
+					var json = $("#puLoginCheckForm").serializeJson();
+					postData({
+						type : "post",
+						contentType : "application/json; charset=UTF-8",
+						url : "${appServer}/loginCheck.json",
+						data : json,
+						dataType : "json",
+						errorCallback : true,
+						autoErrorMsg:false,
+						callback : function(data) {
+							if (data.success) {
+								var randomnumber = Math
+										.floor(Math.random() * 100000);
+								window.location.href = "index3.htm?rn="
+										+ randomnumber;
+							}else{
+								if(null != data.message){
+									addValidatorLabel("logincheck",data.message);
+								}else{
+									addValidatorLabel("logincheck","登录失败,请稍后再试！");
+								}
+							}
+						}
+					});
+				}
+			});
+		}
+		return {
+			init : function() {
+				handleValidation();
+			}
+		};
+	}();
+	$("docment").ready(function() {
+		//记住密码
+		var MemberUsername = $.cookie("MemberUsername");
+		var SecretKey = $.cookie("SecretKey");
+		var TimeMillis = $.cookie("TimeMillis");
+		$("#officialAccountPwdId").val("");
+		$("#officialAccountPwdId").attr('type', 'password');
+		if (MemberUsername != undefined
+				&& $.trim(MemberUsername) != ''
+				&& SecretKey != undefined
+				&& $.trim(SecretKey) != ''
+				&& TimeMillis != undefined
+				&& $.trim(TimeMillis) != '') {
+			$("#officialAccountUserNameId").val(MemberUsername);
+			$("#officialAccountPwdId").val(SecretKey);
+			$("#timeMillis").val(TimeMillis);
+		}
+	});
+	
+	$("#officialAccountUserNameId,#officialAccountPwdId").change(function() {
+		$("#timeMillis").val("");
+	});
+	
+	$("#remenberText").click( function() {
+		if(document.getElementById("rememberInput").checked){
+			document.getElementById("rememberInput").checked = false;
+		}else{
+			document.getElementById("rememberInput").checked = true;
+		}
+	});
+	
+	PubLoginCheckForm.init();
+	  //启用placeholder
+	  $(function (){
+	      $("[placeholder]").placeholder();
+	  });
+</script>
+<style>
+.p-b {
+  height: 57px;
+  margin-bottom: 0px;
+}
+label {
+  font-weight: 100;
+}
+.help-block{
+float: left;
+}
+.nav-menu-container{
+ 	border-bottom:1px solid #ff9e0e;
+ 	height:70px;
+ 	background:#fff;
+}
+.navbar-header{
+	margin-left:66px;
+	margin-top:10px;
+}
+.logo{
+	width:100px;
+	background: url('${appServer}/css/theme/default/img/logo.png')no-repeat right ;
+}
+.logo-font{
+	font-size: 18px;
+    color: #ff9e0e;
+    font-family: 微软雅黑;
+}
+body{
+	background: url('${appServer}/css/theme/default/img/login_background.png') ;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+}
+
+.loginscreen{
+    border: 1px solid #FAE7D1;
+    width: 300px;
+    height: 350px;
+    margin-top: 60px;
+    background-color: #FAF1E7;
+}
+.login-title{
+	font-size: 18px;
+    font-family: 微软雅黑;
+    margin-left: -100px;
+    color:#666666;
+}
+.middle-box {
+    padding-top: 32px;
+}
+#officialAccountUserNameId,#officialAccountPwdId,#logincheck{
+    width: 268px;
+    margin-left: 15px;
+    margin-top: 20px;
+	color:#999;
+}
+#officialAccountUserNameId,#officialAccountPwdId{
+	padding-left: 30px;
+	border:#fff;
+}
+.input-password {
+	display: block;
+	position: absolute;
+	width: 0;
+	height: 24px;
+	overflow: hidden;
+	padding: 0 0 0 24px;
+	background-image: url(${appServer}/css/theme/default/img/login_register_password.png);
+	background-repeat: no-repeat;
+	z-index: 20;
+}
+.input-account {
+	display: block;
+	position: absolute;
+	width: 0;
+	height: 24px;
+	overflow: hidden;
+	padding: 0 0 0 24px;
+	background-image: url(${appServer}/css/theme/default/img/login_register_account.png);
+	background-repeat: no-repeat;
+	z-index: 20;
+}
+
+#officialAccountUserNameId-error,#officialAccountPwdId-error{
+	margin-left: -275px;
+	margin-left: -265px\9\0;
+	margin-left: -265px\10\0;
+	margin-left: -265px\11\0;
+    margin-top: 55px;
+    position: absolute;
+}
+_:-ms-lang(x),#officialAccountUserNameId-error,#officialAccountPwdId-error{
+		margin-left: -265px;
+} 
+#logincheck{
+	font-family: 微软雅黑;
+    font-size: 18px;
+    color: #fff;
+    height: 40px;
+}
+
+#logincheck-error{
+	margin-left:15px;
+    margin-top: -10px;
+}
+
+.hlep-block{
+	display:inline;
+}
+.fade{
+	display:none;
+}
+.wrap-placeholder{
+	height:33px;
+	padding-top:7px\9\0;
+}
+#rememberInput{
+	margin-top:4px;
+}
+</style>
+</body>
+##$!asyncContain.export()
+</html>

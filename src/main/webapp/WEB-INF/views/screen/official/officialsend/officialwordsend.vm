@@ -1,0 +1,139 @@
+#parse("/screen/official/officialsend/oper.vm")
+
+<script type="text/javascript">
+
+	$("#MsgSend2").click(function() {
+		addShortMsg("发送", "1");
+	});
+
+	function clearMsg() {
+		formReset("msgAddForm");
+		$("#officialMsgAbstractField").val("");
+		$("#officialMsgAbstractField").keyup();
+	}
+	function addShortMsg(btnText, Status) {
+		var body = $("#officialMsgAbstractField").val();
+		if (body == null || body == "") {
+			alertMsg({
+				title : "请填写内容"
+			});
+			return null;
+		} else {
+			var arr = {};
+			var str = HtmlUtil.htmlEncode(body);
+			var temp = str.substring(0,15);
+			arr["officialMsgAbstract"] = temp;
+			arr["officialMsgBodyStr"] = str;
+			arr["officialMsgTitle"] = temp+"...";
+			arr["msgStatus"] = Status;
+			arr["type"] = "short";
+			arr["officialMsgBodyBase64Str"] = encodeBase64(str,1);
+			arr["officialMsgTitleBase64Str"] = encodeBase64(temp,1);
+			arr["officialMsgAuthorBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(""),1);
+			arr["officialMsgAbstractBase64Str"] = encodeBase64(temp,1);
+			ajxapost(arr, Status, btnText);
+		}
+	}
+	
+	 
+	function ajxapost(arr, Status, btnText) {
+		confirmMsg({
+			btnText : "确认",
+			title : "确定要" + btnText + "该信息吗？",
+			text : "",
+			yes : function() {
+				postData({
+					url : "/official/officialsend/addOfficialMsg.json",
+					data : arr,
+					errorCallback : true,
+					autoErrorMsg : false,
+					callback : function(data) {
+						var success = data.success;
+						if (success) {
+							if (Status == "1") {
+								var jids = "${userIm}@officialaccount.${openfireServer}";
+								var content = data.content
+										.replace(/""/gm, "\"");
+								sendMsg(jids, content, "", "")
+							} else
+								swal(btnText + "成功！", "", "success");
+
+							clearMsg();
+						} else {
+							if(null != data.message){
+								swal(btnText + "失败！", data.message, "error");
+							}else{
+								swal(btnText + "失败！", "操作失败:系统异常,请稍后再试", "error");
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+	function sendMsg(jids, content, caljids, calcontent) {
+		var arr = {};
+		arr["jids"] = jids;
+		arr["content"] = content;
+		arr["caljids"] = caljids;
+		arr["calcontent"] = calcontent;
+		postData({
+			url : "/quoted/quoted/sendXmppMsg.json",
+			data : arr,
+			callback : function(data) {
+				if (data.success)
+					swaltimer("发送成功！", "", "success");
+				else
+					swaltimer("发送失败！", "", "error");
+			}
+		});
+	}
+	$("#officialMsgAbstractField").keyup(function(){
+		var nowcount=$("#officialMsgAbstractField").val().length;
+		var lastcount=nowcount+"/600"
+		$("#countchar").html(lastcount);
+	});
+
+</script>
+<style>
+
+.mail-box {
+	background-color: #fff;
+	height:100%;
+	height:300px;
+	color: #666;
+}
+#countchar {
+    position: absolute;
+    margin-left: -66px;
+    margin-top: 235px;
+    color: #ccc;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+
+.mail-text {
+	color: #666;
+}
+
+.mail-body {
+}
+
+.edui-editor-breadcrumb{
+	display:none
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+</style>

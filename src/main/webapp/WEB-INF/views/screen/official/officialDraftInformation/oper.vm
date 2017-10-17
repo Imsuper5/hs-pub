@@ -1,0 +1,5 @@
+<form id="officialSearchForm">
+	<input type="hidden" id="beginDatetimeQuery" name="beginDatetime" />
+	<input type="hidden" id="endDatetimeQuery" name="endDatetime" /> 
+	<input type="hidden"  name="msgStatusList" value="0"/>
+</form>

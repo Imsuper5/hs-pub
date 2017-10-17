@@ -1,0 +1,27 @@
+<link href="${appServer}/css/theme/default/css/basemystyle.css" rel="stylesheet">
+<div class="mywrapper  animated fadeIn">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins" style="">
+				<div class="formbox-hd main_top">
+						<h3 class="formbox-tit main-fit">消息管理</h3>
+				</div>
+				<div style="margin-top: 20px;margin-left: 33px;">
+					<input style="height:33px;width:100px;" type="button" id="fiveday" value="近5天"
+						class="btn  btn-default " /> 
+					<input style="height:33px;width:100px;margin-left:-3px;" type="button" id="threeday"
+						value="近3天" class="btn btn-white " />
+					<input style="height:33px;width:100px;margin-left:-3px;" type="button" id="oneday" value="近1天"
+						class="btn   btn-white " />
+				</div>
+
+				<div class="mypanel mypanel-info">
+					<div class="mypanel-body" style="overflow:hidden;">
+						<div id="gridbox" class="grid-box" style="min-width:857px;max-height:365px;width: 89%;height: 365px;margin-left: 33px;cursor: default;margin-top:15px;"></div>
+						<div id="Pagination" class="paging-bar"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,191 @@
+[
+  {
+    "permissionId": -1,
+    "roleId": 1,
+    "resourceId": "-11",
+    "resourceUrl": "/index.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": -2,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "",
+    "remark": ""
+  },
+  {
+    "permissionId": 3,
+    "roleId": 1,
+    "resourceId": "3",
+    "resourceUrl": "/home/use/getUI.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 4,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/transferin/askingInfo.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 6,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/list.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 7,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/companyList.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 8,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/getCompanyByNo.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 9,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/DestoryCompany.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 10,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/addCompany.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 11,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/updateCompany.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 12,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/user/list.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 13,
+    "roleId": 1,
+    "resourceId": "30101",
+    "resourceUrl": "/transferout/zrtmain.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 14,
+    "roleId": 2,
+    "resourceId": "-11",
+    "resourceUrl": "/index.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 15,
+    "roleId": 3,
+    "resourceId": "-11",
+    "resourceUrl": "/index.htm",
+    "remark": ""
+  },  
+  {
+    "permissionId": 16,
+    "roleId": 3,
+    "resourceId": "1",
+    "resourceUrl": "/transferin/transferin.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 17,
+    "roleId": 3,
+    "resourceId": "2",
+    "resourceUrl": "/module/transferin/transferin.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 18,
+    "roleId": 3,
+    "resourceId": "1",
+    "resourceUrl": "/transferin/askingInfo.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 19,
+    "roleId": 3,
+    "resourceId": "1",
+    "resourceUrl": "/module/transferin/askingInfo.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 20,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/company/checkCompanyNoExist.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 21,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/user/addUser.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 22,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/user/userList.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 23,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/user/getUserByNo.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 24,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/user/updateUser.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 25,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/sysoper/user/updateUserStatus.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 26,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/permission/rolemenu/list.htm",
+    "remark": ""
+  },
+  {
+    "permissionId": 27,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/permission/rolemenu/getRoleList.json",
+    "remark": ""
+  },
+  {
+    "permissionId": 28,
+    "roleId": 1,
+    "resourceId": "1",
+    "resourceUrl": "/permission/rolemenu/getRoleMenuList.json",
+    "remark": ""
+  }
+]

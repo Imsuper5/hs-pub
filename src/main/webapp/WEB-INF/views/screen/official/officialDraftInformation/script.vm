@@ -1,0 +1,395 @@
+<script type="text/javascript">
+	//////字典//////
+	loadDict("709");
+
+	//加载grid列表
+	var gridbox = new CommonGridObject("gridbox", "${appServer}",
+			${list_offInfo}, ${gridoffInfo_leftFixedCols});
+	gridbox.bind("/official/officialsend/getOfficialMsgList.json",
+			"officialSearchForm");
+	gridbox.enablePaging("Pagination");
+	gridbox.refresh();
+
+	//grid高度设置
+	setGridSize();
+	$(window).resize(function() {
+		setGridSize();
+	});
+	function setGridSize() {
+		gridGetHgt({
+			id : "gridbox",
+			topHeight : 73,
+			footHeight : 25
+		});
+		gridGetWidthByParent({
+			id : "gridbox",
+			topWidth : 0,
+			footWidth : 3
+		});
+		gridbox.grid.setSizes();
+	}
+	addOperatorColumn(gridbox.grid, {
+		index : 7,
+		title : "操作",
+		id : "columnEdit",
+		width : 160,
+		align : "center"
+	});
+	deleteColumn(gridbox.grid,8);
+	deleteColumn(gridbox.grid,2);
+	addColumn(gridbox.grid, {
+		index : 2,
+		title : "消息",
+		id : "officialMsgTitle",
+		width : 457,
+		align : "left"
+	});
+	var curPath = top.location.href;
+	var pos = curPath.indexOf("index"); //获取主机地址，如： http://localhost:8080/bkos/
+	var localhostPath = curPath.substring(0, pos);
+	gridbox.grid
+			.attachEvent(
+					"onRowCreated",
+					function(rId, rObj, rXml) {
+						var MsgId = getGridColValue(this, rId,
+								"officialAccountMsgId");
+						var msgStatus = getGridColValue(this, rId, "msgStatus");
+						var officialMsgUrl = getGridColValue(this, rId,
+								"officialMsgUrl");
+
+						var htmlurl = localhostPath
+								+ "official/officialsend/officialInfo.htm?msgId="
+								+ MsgId;
+						var div0 = "<a style=\"margin:0px 10px;\"  href=\"javascript: infoDelete("
+								+ MsgId + ")\" >删除</a>";
+						var div1 = "<a style=\"margin:0px 10px;\"  href=\"javascript: infoEdit("
+								+ MsgId + "," + rId + ")\" >编辑</a>";
+						var div2 = "<a  style=\"margin:0px 10px;\" href=\"javascript: msgWatch("+ MsgId + "," + rId + ")\" >预览</a>";
+						var div = "";
+						if (officialMsgUrl != "") {
+							if (msgStatus == "0") {
+								div = div1 + div2;
+							}else{
+								div = div2;
+							}
+						}
+						setGridColValue(this, rId, "columnEdit", div + div0);
+						var msgStatus = "<label style='color:#ff910e'>未发送</label>";
+						setGridColValue(this, rId, "msgStatus", msgStatus);
+						var officialMsgSrc = getGridColValue(this, rId, "officialMsgSrc");
+						var url = "../../official/officialsend/getOfficialImg.json?officialMsgSrc="+officialMsgSrc+"&";
+						if(officialMsgSrc == ""){
+							setGridColValue(this, rId, "officialMsgSrc","");
+						}
+						var officialMsgTitle = getGridColValue(this, rId, "officialMsgTitle");
+						var officialMsgTitleContent = "<div style='cursor:pointer' onclick=\"msgWatch('"+ officialMsgSrc + "'," + rId + ")\"><img onerror=\"onImgError(this);\" style='width:60px;height:33px;' src="+ url +"/><label style='margin-left:5px;'>[图文] &nbsp;</label>" + HtmlUtil.htmlEncode(officialMsgTitle) + "</div>"
+						setGridColValue(this, rId, "officialMsgTitle", officialMsgTitleContent);
+						gridbox.grid.setUserData(rId,"officialMsgTitle",officialMsgTitle);
+					});
+	
+	function onImgError(e){
+		e.src='../../css/theme/default/img/default.png';
+		var par=e.parentNode;
+		var chils= par.childNodes; 
+		for(var i=0; i< chils.length;i++){
+        	if(chils[i].nodeName == "LABEL")
+		        {
+		            chils[i].innerHTML='[文字] &nbsp;';
+		        }
+	    }
+	}	
+					
+	function msgWatch(MsgId, rId) {
+		dialogOpen("msgWatchWrap");
+		var grid = gridbox.grid;
+		var selectedId = rId;
+		$("#officialMsgSrc").val("");
+		var officialMsgTitle = getGridColValue(grid, selectedId,"officialMsgTitle");//标题
+		var officialMsgAbstract = getGridColValue(grid, selectedId,"officialMsgAbstract");//摘要
+		var pushDatetime = getGridColValue(grid, selectedId,"createDatetime");//发送时间
+		var officialMsgBody = getGridColValue(grid, selectedId,"officialMsgBody");//正文
+		var officialMsgAuthor = getGridColValue(grid, selectedId,"officialMsgAuthor");//作者
+		var officialAccountMsgId = getGridColValue(grid, selectedId,"officialAccountMsgId");
+		var officialSrcUrl = getGridColValue(grid, selectedId,"officialSrcUrl");//链接地址
+		var officialMsgSrc = getGridColValue(grid, selectedId,"officialMsgSrc");//背景图片
+		var str = gridbox.grid.getUserData(rId,"officialMsgTitle");
+		$("#officialMsgAbstract").val(officialMsgAbstract);
+		$("#officialAccountMsgId").val(officialAccountMsgId);
+		$("#officialSrcUrl").val(officialSrcUrl);
+		$("#officialMsgSrc").val(officialMsgSrc);
+		var arr = new Object();
+		arr["msgId"] = getGridColValue(grid, selectedId,"officialAccountMsgId");
+		postData({
+			url : "/official/officialsend/getOfficialBody.json",
+			data : arr,
+			errorCallback : true,
+			callback : function(data) {
+				$("#msg_title").html(HtmlUtil.htmlEncode(str));
+				$("#msg_date").html(pushDatetime);
+				$("#msg_auth").html(HtmlUtil.htmlEncode(officialMsgAuthor));
+				$("#msg_content").html(data.officialMsgBodyStr);
+			}
+		});
+	};
+					
+	$("#draft_btnsearch").click(function() {
+		var srart = $("#startdate").val() + "000000";
+		var end = $("#enddate").val() + "235959";
+		$("#beginDatetimeQuery").val($.trim(srart));
+		$("#endDatetimeQuery").val($.trim(end));
+		gridbox.refresh();
+
+	});
+	
+	function draftBtnSearchcLClick(){
+		var srart = $("#startdate").val() + "000000";
+		var end = $("#enddate").val() + "235959";
+		$("#beginDatetimeQuery").val($.trim(srart));
+		$("#endDatetimeQuery").val($.trim(end));
+		gridbox.refresh();
+	}
+	
+	function infoDelete(MsgId) {
+		confirmMsg({
+			btnText : "确认",
+			title : "确定要删除该消息吗？",
+			text : "",
+			yes : function() {
+				var arr = {};
+				arr["officialAccountMsgId"] = MsgId;
+				postData({
+					url : "/official/officialInformation/deleteOfficialMsg.json",
+					data : arr,
+					callback : function(data) {
+						var success = data.success;
+						if (success) {
+							swal("删除成功！", "", "success");
+							gridbox.refresh();
+						} else {
+							swal("删除失败！", "", "error");
+						}
+					}
+				});
+			},
+			no : function() {
+			}
+		});
+	}
+	function infoEdit(MsgId, rId) {
+		var url = "${appServer}/official/officialsend/officialsend.htm";
+		var iframe = $(window.parent.document).find(
+				"iframe[src^='" + url + "']");
+		var a = $(window.parent.document).find("a[href^='" + url + "']");
+		a[0].click();
+		if (iframe.length > 0) {
+			toContent(MsgId, rId, url);
+		} else {
+			window.setTimeout("toContent('" + MsgId + "'," + rId + ",'" + url
+					+ "')", 2000);
+		}
+	}
+	function toContent(MsgId, rId, url) {
+		var officialMsgTitle = gridbox.grid.getUserData(rId,"officialMsgTitle");
+		
+		var officialMsgAbstract = getGridColValue(gridbox.grid, rId,
+				"officialMsgAbstract");
+		var officialSrcUrl = getGridColValue(gridbox.grid, rId,
+				"officialSrcUrl");
+		var officialMsgBody = getGridColValue(gridbox.grid, rId,
+				"officialMsgBody");
+		var officialMsgSrc = getGridColValue(gridbox.grid, rId,
+				"officialMsgSrc");
+		var officialMsgAuthor = getGridColValue(gridbox.grid, rId,
+				"officialMsgAuthor");
+		var iframe = $(window.parent.document).find(
+				"iframe[src^='" + url + "']");
+		var arr = new Object();
+		arr["msgId"] = getGridColValue(gridbox.grid, rId,"officialAccountMsgId");
+		postData({
+			url : "/official/officialsend/getOfficialBody.json",
+			data : arr,
+			errorCallback : true,
+			callback : function(data) {
+				officialMsgBody = data.officialMsgBodyStr;
+				if (iframe.length > 0) {
+					var win = iframe[0].contentWindow;
+					win.$("#officialAccountMsgIdAdd").val(MsgId);
+					win.$("#officialMsgTitleAdd").val(officialMsgTitle);
+					win.$("#officialMsgTitleAdd").focus();
+					win.$("#officialMsgAbstractAdd").val(officialMsgAbstract);
+					win.$("#officialMsgAbstractAdd").focus();
+					win.$("#officialSrcUrlAdd").val(officialSrcUrl);
+					win.$("#officialSrcUrlAdd").focus();
+					win.$("#officialMsgAuthorAdd").val(officialMsgAuthor);
+					win.$("#officialMsgAuthorAdd").focus();
+					win.UE.getEditor('myEditor').setContent(officialMsgBody);
+					win.$("#operAdd").val("edit");
+					win.$("#officialMsgSrc").val(officialMsgSrc);
+					win.$("#officialMsgSrc").focus();
+					win.$("#myRelatedFile").attr("value","");
+					win.$("#myRelatedFile").val("");
+					win.$("#myRelatedFile").value="";
+					if (officialMsgSrc != null && officialMsgSrc != "") {
+						var imgurl = localhostPath
+								+ "official/officialsend/getOfficialImg.json?officialMsgSrc="
+								+ officialMsgSrc;
+						win.$('#imgBack')[0].src = imgurl;
+						win.$('#imgPload_name').html(officialMsgSrc+".png");
+					}else{
+						win.$('#imgBack')[0].src = "";
+						win.$('#imgPload_name').html("");
+					}
+				}
+			}
+		});
+		
+	}
+	
+	$("#buttonSendMsg").click(function() {
+		addMsg("发送", "1");
+	});
+	function addMsg(btnText, Status) {
+		var title = $("#msg_title").html();
+		var auth = $("#msg_auth").html();
+		var content = $("#msg_content").html();
+		var officialMsgSrc = $("#officialMsgSrc").val();
+		var abstract = $("#officialMsgAbstract").val();
+		var arr = $("#msgWatchSendFrom").serializeJson(); 
+		
+		if(officialMsgSrc == "" || officialMsgSrc == undefined){
+			swaltimer("发送消息必须上传封面照片,请重新编辑", "", "info");
+			return;
+		}
+		arr["officialMsgBodyBase64Str"] = encodeBase64(content,1);
+		arr["officialMsgAuthorBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(auth),1);
+		arr["msgStatus"] = Status;
+		arr["officialMsgTitleBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(title),1);
+		arr["officialMsgAbstractBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(abstract),1);
+		ajxapost(arr, Status, btnText);
+		
+	}
+	
+	
+	//加密方法。没有过滤首尾空格，即没有trim.    
+	//加密可以加密N次，对应解密N次就可以获取明文    
+	 function encodeBase64(mingwen,times){    
+	    var code="";    
+	    var num=1;    
+	    if(typeof times=='undefined'||times==null||times==""){    
+	       num=1;    
+	    }else{    
+	       var vt=times+"";    
+	       num=parseInt(vt);    
+	    }    
+	    if(typeof mingwen=='undefined'||mingwen==null||mingwen==""){    
+	    }else{    
+	        $.base64.utf8encode = true;    
+	        code=mingwen;    
+	        for(var i=0;i<num;i++){    
+	           code=$.base64.btoa(code);    
+	        }    
+	    }    
+	    return code;    
+	}
+	 
+	function ajxapost(arr, Status, btnText) {
+		confirmMsg({
+			btnText : "确认",
+			title : "确定要" + btnText + "该信息吗？",
+			text : "",
+			yes : function() {
+				postData({
+					url : "/official/officialsend/addOfficialMsg.json",
+					data : arr,
+					errorCallback : true,
+					autoErrorMsg : false,
+					callback : function(data) {
+						var success = data.success;
+						if (success) {
+							if (Status == "1") {
+								var jids = "${userIm}@officialaccount.${openfireServer}";
+								var content = data.content;
+								sendMsg(jids, content, "", "")
+							} else{
+								swaltimer(btnText + "成功！", "", "success");		
+							}		
+							updateMessage();											
+						} else {
+							if(null != data.message){
+								swal(btnText + "失败！", data.message, "error");
+							}else{
+								swal(btnText + "失败！", "操作失败:系统异常,请稍后再试", "error");
+							}
+						}
+					}
+				});
+			}
+		});
+	}
+	function sendMsg(jids, content, caljids, calcontent) {
+		var arr = {};
+		arr["jids"] = jids;
+		arr["content"] = content;
+		arr["caljids"] = caljids;
+		arr["calcontent"] = calcontent;
+		postData({
+			url : "/quoted/quoted/sendXmppMsg.json",
+			data : arr,
+			callback : function(data) {
+				if (data.success){
+					updateMessage();
+					swaltimer("发送成功！", "", "success");
+				}
+				else
+					swaltimer("发送失败！", "", "error");
+			}
+		});
+	}
+	
+	function updateMessage() {
+		var url = "${appServer}/official/officialDraftInformation/officialDraftInformation.htm";
+		var iframe = $(window.parent.document).find("iframe[src^='" + url + "']");
+		var a = iframe.contents().find("#draft_btnsearch").click();
+	}
+	datePickerRange({
+		fromId : "startdate",
+		toId : "enddate"
+	});
+</script>
+
+<style>
+body{
+	font-family:微软雅黑;
+	font-size:14px;
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+.my_modal-footer{
+	background-color: #fff;
+    box-shadow: 0px 0 0px #f5f5f5, 
+    			/*左边阴影*/ 0px 0 0px #f5f5f5,
+     			/*右边阴影*/ 0 -5px 5px #E2E2E2, 
+     			/*顶部阴影*/ 0 0px 0px green;
+}
+.my_btn{
+	height:30px;
+	width:100px;
+}
+.modal-dialog {
+    width: 900px;
+}
+</style>

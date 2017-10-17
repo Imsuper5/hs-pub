@@ -1,0 +1,231 @@
+<div class="my-nav-menu-container" id="j-nav-menu-container">
+		<div class="nav-show-control" style="overflow: hidden;">
+			<div class="nav-menu-layout">
+				<div class="nav-menu line">
+					<div class="navbar-header">
+						<span class="navbar-brand logo"></span>
+						<span class="navbar-brand logo-font">IM-公众号后台</span>
+					</div>
+					<div class="nav-menu-content container">
+						<div class="content-box">
+							<div class="menu-item-box" id="ul-menu"></div>
+						</div>
+	
+					</div>
+					<div class="nav-userinfo" >
+						<div id="userinfo" class="userinfo" style="height:22px;">${userRealName}</div>
+						<div  ><img id="userapply" alt="image" class="img-circle"
+						style="width: 50px; cursor:pointer;"
+						src="${appServer}/official/userinfo/officialAdjunct.json?adjuncdType=0" /></span></div>
+						<div id="userout_log" class="userinfo"></div><div id="userout" class="userout">退出</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<style>
+#{
+	background-color: #F5F5F5;
+}
+#userout{
+	font-size:14px;
+	font-family:微软雅黑;
+	color:#666;
+}
+.slimScrollBar{
+	display:none;
+}
+.my-nav-menu-container{
+	position: fixed;
+    width: 100%;
+    z-index: 10000;
+}
+#userinfo,#userout_log,#userout{
+	margin-top:2px;
+}
+#userapply{
+	width: 50px;
+    height: 50px;
+    position: absolute;
+    margin-left: -58px;
+    margin-top: -23px;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+}
+#userout_log{
+	height: 20px;
+    width: 20px;
+    position: absolute;
+    margin-top: 3px;
+	background: url('${appServer}/css/theme/default/img/exit_normal.png') no-repeat left;
+	cursor:pointer;
+}
+
+#userout_log:hover{
+	height: 20px;
+    width: 20px;
+    position: absolute;
+    margin-top: 3px;
+	background: url('${appServer}/css/theme/default/img/exit_hover.png') no-repeat left;
+	cursor:pointer;
+}
+#userout{
+	margin-left: 20px;
+	cursor:pointer;
+}
+#userout:hover{
+	margin-left: 20px;
+	cursor:pointer;
+	color:#ff9e01;
+}
+.nav-userinfo{
+	color: #000;
+    float: right;
+    margin-top: -50px;
+    font-size: 16px;
+    font-family: 微软雅黑;
+    font-weight: 100;
+    margin-right: 150px;
+}
+.logo{
+	width:100px;
+	background: url('${appServer}/css/theme/default/img/logo.png')no-repeat right ;
+}
+.logo-font{
+	font-size: 18px;
+    color: #ff9e0e;
+    font-family: 微软雅黑;
+}
+.my-nav-menu-container{
+	border-bottom:1px solid #ff9e0e;
+ 	height:70px;
+ 	background:#fff;
+}
+.navbar-header{
+	margin-left:66px;
+	margin-top:10px;
+}
+.sidebar-collapse1{
+	height:100%;
+	min-height:524px;
+	max-height:542px;
+}
+.navbar-static-side{
+	margin-top:100px;
+	margin-left:100px;
+	height: calc(100% - 100px);
+}
+.my-fa{
+	width: 21px;
+    height: 21px;
+    position: absolute;
+    margin-top: 1px; 
+}
+.fa-my-home{
+  	background: url('${appServer}/css/theme/default/img/home.png') no-repeat !important;
+}
+.fa-my-manage{
+  	background: url('${appServer}/css/theme/default/img/manage.png') no-repeat !important;
+}
+.fa-my-group{
+  	background: url('${appServer}/css/theme/default/img/groupMsg.png') no-repeat !important;
+}
+.fa-my-setting{
+  	background: url('${appServer}/css/theme/default/img/setting.png') no-repeat !important;
+}
+.nav-label{
+	margin-left: 30px;
+}
+/* 设置了浏览器宽度不大于1199px时  iframe显示对应宽度 */ 
+@media screen and (max-height: 1199px) { 
+	.J_iframe[name=iframe0]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe1]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe2]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe3]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe4]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe5]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe6]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe7]{
+		height:1100px;
+	}
+	.J_iframe[name=iframe8]{
+		height:1100px;
+	}
+} 
+/* 设置了浏览器宽度不大于991px时 iframe显示对应宽度*/ 
+@media screen and (max-height: 991px) { 
+	.J_iframe[name=iframe0]{
+		height:700px;
+	}
+	.J_iframe[name=iframe1]{
+		height:1000px;
+	}
+	.J_iframe[name=iframe2]{
+		height:700px;
+	}
+	.J_iframe[name=iframe3]{
+		height:700px;
+	}
+	.J_iframe[name=iframe4]{
+		height:700px;
+	}
+	.J_iframe[name=iframe5]{
+		height:700px;
+	}
+	.J_iframe[name=iframe6]{
+		height:700px;
+	}
+	.J_iframe[name=iframe7]{
+		height:700px;
+	}
+	.J_iframe[name=iframe8]{
+		height:700px;
+	}
+} 
+/* 设置了浏览器宽度不大于767px时 iframe显示对应宽度*/ 
+@media screen and (max-height: 767px) { 
+	.J_iframe[name=iframe0]{
+		height:600px;
+	}
+	.J_iframe[name=iframe1]{
+		height:900px;
+	}
+	.J_iframe[name=iframe2]{
+		height:600px;
+	}
+	.J_iframe[name=iframe3]{
+		height:600px;
+	}
+	.J_iframe[name=iframe4]{
+		height:600px;
+	}
+	.J_iframe[name=iframe5]{
+		height:600px;
+	}
+	.J_iframe[name=iframe6]{
+		height:600px;
+	}
+	.J_iframe[name=iframe7]{
+		height:600px;
+	}
+	.J_iframe[name=iframe8]{
+		height:600px;
+	}
+} 
+</style>

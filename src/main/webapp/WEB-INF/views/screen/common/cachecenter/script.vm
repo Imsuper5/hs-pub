@@ -1,0 +1,48 @@
+<script>
+
+load();
+
+function load(){
+    $(":checkbox").remove();
+    $(".beanDesc").remove();
+    
+    var cacheModuls = $!{cacheModules};
+    for(var i = 0; i< cacheModuls.length; i++){
+        $("#cacheModuls").append("<input type='checkbox' id="+ cacheModuls[i].beanName +"><span class='beanDesc'>"+cacheModuls[i].beanDesc+"</span>");
+    }
+}
+
+$("#clearRoleMenu").click(function (){
+    var selectCachers = "";
+
+    $(":checkbox").each(function(){
+        var id = $(this).attr('id')
+        var cb = document.getElementById(id);
+        if (cb.checked == true) {
+            if (selectCachers != ""){
+                selectCachers += ",";
+            }
+            selectCachers += cb.id;
+        }
+    });
+    
+    if (selectCachers == ""){
+        alertMsg("请选择要清空的缓存模块。");
+        return;
+    }
+    
+    var keyData = {};
+    keyData["selectCachers"] = selectCachers;
+    postData({
+        url: "/common/cachecenter/clearCache.json",
+        data: keyData,
+        callback: function(result){
+            if (result.success!=undefined && result.success){
+              alertMsg("操作成功");
+            }
+            load();
+        }
+    });
+});
+
+</script>

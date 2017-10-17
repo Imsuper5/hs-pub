@@ -1,0 +1,526 @@
+
+<script type="text/javascript">
+	var ueObject = UE.getEditor('myEditor',{  
+                //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个  
+                toolbars:[['fullscreen', 'source', '|', 'undo', 'redo', '|',  
+				'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 
+				'removeformat',  'autotypeset', 'blockquote', 'pasteplain', '|', 
+				'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 
+				'selectall', 'cleardoc', '|',  'rowspacingtop', 'rowspacingbottom', 
+				'lineheight', '|',  'fontsize', '|',  'indent', '|',  
+				'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',  
+				'simpleupload', 'insertimage', 'emotion', 'insertvideo', 'music','spechars','searchreplace']],  
+                //focus时自动清空初始化时的内容  
+                autoClearinitialContent:true,  
+                //关闭字数统计  
+                wordCount:false,  
+                //关闭elementPath  
+                elementPathEnabled:false,
+                //将自动加p标签去掉,否则在每次更新数据时都会加上p标签.
+                enterTag: 'br',
+                allowDivTransToP : false
+            });
+    UE.getEditor.prototype._bkGetActionUrl = UE.getEditor.prototype.getActionUrl;
+	UE.getEditor.prototype.getActionUrl = function(action){
+		if(action == 'uploadimage'){
+			return  _appServer + '/ueditor/officialBodyImgUp123';		
+		}
+	}
+    
+	ueObject.addListener( "contentChange", function () {
+        ueditorChange();
+    } );
+    ueObject.addListener('selectionchange',function(){
+      	ueditorChange();
+ 	})
+	$("#MsgSend").click(function() {
+		addMsg("发送", "1");
+	});
+	$("#MsgSave").click(function() {
+		addMsg("保存", "0");
+	});
+	$("#MsgView").click(
+					function() {
+						var body = ueObject.getPlainTxt().trim();
+						body = TransferString(body);
+						var Title = $("#officialMsgTitleAdd").val();
+						var addurl = $("#officialSrcUrlAdd").val();
+						var author = $("#officialMsgAuthorAdd").val();
+						if (body == null || body == "" || body == "<p></p>") {
+							layer.tips("请填写正文", $("#myEditor"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							ueObject.focus();
+							return null;
+						} else if (body.length > 60000) {
+							layer.tips("正文内容过长", $("#myEditor"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							return null;
+						} else if (Title == null || Title == "") {
+							layer.tips("请填写标题", $("#officialMsgTitleAdd"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							$("#officialMsgTitleAdd").focus();
+							return null;
+						} else if (author == null || author == "") {
+							layer.tips("请填写作者", $("#officialMsgAuthorAdd"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							$("#officialMsgAuthorAdd").focus();
+							return null;
+						} else if (addurl != null && addurl != "" && !checkurl(addurl)) {
+							layer.tips("请填写正确的url地址", $("#officialSrcUrlAdd"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							$("#officialSrcUrlAdd").focus();
+							return null;
+						} else if(calStrLength(author) > 50){
+							layer.tips("作者长度过长,不能超过25个字符", $("#officialMsgAuthorAdd"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							$("#officialMsgAuthorAdd").focus();
+							return null;
+						}else if(calStrLength(Title) > 60){
+							layer.tips("标题长度过长", $("#officialMsgTitleAdd"), {
+								tips : [ 1, '#ec2d2d' ],
+								time : 4000
+							});
+							$("#officialMsgTitleAdd").focus();
+							return null;
+						}else {
+							var mydate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+							dialogOpen("msgWatchWrap");
+							$("#msg_title").html(Title);
+							$("#msg_date").html(mydate);
+							$("#msg_auth").html($("#officialMsgAuthorAdd").val());
+							$("#msg_content").html(body);
+						}
+					});
+	
+	
+	function post(URL, PARAMS) { 
+		 	var temp_form = document.createElement("form");      
+            temp_form .action = URL;      
+            temp_form .target = "_blank";
+            temp_form .method = "post";      
+            temp_form .style.display = "none"; 
+            for (var x in PARAMS) { 
+            	var opt = document.createElement("textarea");      
+                opt.name = x;      
+                opt.value = PARAMS[x];      
+                temp_form .appendChild(opt);      
+            }      
+            document.body.appendChild(temp_form);      
+            temp_form .submit();     
+    } 
+	
+	String.prototype.endWith=function(s){
+		  if(s==null||s==""||this.length==0||s.length>this.length)
+		     return false;
+		  if(this.substring(this.length-s.length)==s)
+		     return true;
+		  else
+		     return false;
+		  return true;
+	 }
+	 String.prototype.startWith=function(s){
+		  if(s==null||s==""||this.length==0||s.length>this.length)
+		   return false;
+		  if(this.substr(0,s.length)==s)
+		     return true;
+		  else
+		     return false;
+		  return true;
+	 }
+		 
+	function addMsg(btnText, Status) {
+		var body = ueObject.getPlainTxt().trim();
+		body = TransferString(body);
+		//处理body内容
+		if(body.startWith("<p>")){
+			body = body.substring(3,body.length);
+		}
+		if(body.endWith("</p>")){
+			body = body.substring(0,body.length-4);
+		}
+		var Title = $("#officialMsgTitleAdd").val();
+		var abstract = $("#officialMsgAbstractAdd").val();
+		var author = $("#officialMsgAuthorAdd").val();
+		var addurl = $("#officialSrcUrlAdd").val();
+		var officialMsgSrc = $("#officialMsgSrc").val();
+		
+		if (abstract == null || abstract == "") {
+			var context = ueObject.getContentTxt();
+			if (context.length > 60)
+				abstract = context.substring(0, 60);
+			else
+				abstract = context;
+			$("#officialMsgAbstractAdd").val(abstract);
+		}
+		var imgName = $("#imgPload_name").html();
+		
+		if (body == null || body.length < 1 || body == "" || body == "<p></p>") {
+			layer.tips("请填写正文", $("#myEditor"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			$("#myEditor").focus();
+			ueObject.focus();
+			return null;
+		} else if (body.length > 60000) {
+			layer.tips("正文内容过长,不能", $("#myEditor"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			return null;
+		} else if (addurl != null && addurl != "" && !checkurl(addurl)) {
+			layer.tips("请填写正确的url地址", $("#officialSrcUrlAdd"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			$("#officialSrcUrlAdd").focus();
+			return null;
+		} else if (Title == null || Title == "") {
+			layer.tips("请填写标题", $("#officialMsgTitleAdd"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			$("#officialMsgTitleAdd").focus();
+			return null;
+		}else if (author == null || author == "") {
+			layer.tips("请填写作者", $("#officialMsgAuthorAdd"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			$("#officialMsgAuthorAdd").focus();
+			return null;
+		}else if(calStrLength(author) > 50){
+			layer.tips("作者长度过长", $("#officialMsgAuthorAdd"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			$("#officialMsgAuthorAdd").focus();
+			return null;
+		}else if(calStrLength(Title) > 60){
+			layer.tips("标题长度过长", $("#officialMsgTitleAdd"), {
+				tips : [ 1, '#ec2d2d' ],
+				time : 4000
+			});
+			$("#officialMsgTitleAdd").focus();
+			return null;
+		}else if(btnText == "发送" &&  (imgName == null || imgName == "")){
+			swaltimer("发送消息必须上传封面照片", "", "info",10000);	
+			return null;
+		}else {
+			var arr = $("#msgAddForm").serializeJson();
+			var bodyStr = body.replace(/\"/g,"'");
+			arr["officialMsgBodyBase64Str"] = encodeBase64(bodyStr,1);
+			arr["officialMsgTitleBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(Title),1);
+			arr["officialMsgAuthorBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(author),1);
+			arr["officialMsgSrc"] = officialMsgSrc;
+			arr["msgStatus"] = Status;
+			arr["officialMsgAbstractBase64Str"] = encodeBase64(HtmlUtil.htmlEncode(abstract),1);
+			arr["officialSrcUrl"] = addurl;
+			arr["officialMsgSrc"] = $("#officialMsgSrc").val();
+			ajxapost(arr, Status, btnText);
+		}
+	}
+	//替换所有的回车换行  
+	function TransferString(content)  
+	{  
+	    var string = content;  
+	    try{  
+	        string=string.replace(/\r\n/g,"<br/>")  
+	        string=string.replace(/\n/g,"<br/>");  
+	    }catch(e) {  
+	    }  
+	    return string;  
+	} 
+	
+	function calStrLength(str){
+		var length = 0;
+		for(var i=0;i<str.length;i++){
+	        if(str.substring(i, i + 1).match(/[^\x00-\xff]/ig) != null)
+	        	length+=2;
+	        else
+	        	length+=1;
+	    }
+		return length;
+	}
+	function clearMsg() {
+		formReset("msgAddForm");
+		$("#officialMsgAbstractAdd").val("");
+		$("#officialSrcUrlAdd").val("");
+		ueObject.setContent("");
+		$("#imgBack").attr("src", "");
+		//$("#officialMsgAbstractAdd").keyup();
+		$("#countchar").html("");
+		$("#officialMsgAbstractAdd").focus();
+		$("#operAdd").val("");
+		$("#imgPload_name").html("");
+		$("#officialMsgSrc").val("");
+		window.location.reload();
+	}
+	function ajxapost(arr, Status, btnText) {
+		confirmMsg({
+			btnText : "确认",
+			title : "确定要" + btnText + "该信息吗？",
+			text : "",
+			yes : function() {
+				$.ajaxFileUpload({
+					url : _appServer + '/official/officialsend/addOfficialMsg.json',
+					type : 'post',
+					secureuri: false,
+					fileElementId : 'myRelatedFile',
+					dataType: 'html',
+					data : arr,
+					success : function(data){
+						var responseText = JSON.parse($(data).html()); //把html转换成json类型      
+						if(responseText.success){
+							if (Status == "1") {
+								var jids = "${userIm}@officialaccount.${openfireServer}";
+								var content = responseText.content;
+								sendMsg(jids, responseText.content, "", "")
+							} else{
+								swaltimer(btnText + "成功！", "", "success",10000);		
+							}
+							updateMessage();
+							if("发送" == btnText){
+								setTimeout("clearMsg()",2800);
+							}
+						}else{
+							swaltimer(btnText + "失败！", responseText.message, "error",10000);
+							if(responseText.message == "未登录或者登录已超时，请重新登录"){
+								setTimeout("window.parent.location.href = _appServer + '/loginOut.htm'",2800)
+							}
+						}
+					},
+					error : function(data, status, e){
+						swaltimer("消息发送失败, 请重试.", e, "error",10000);
+					}
+				});
+			}
+		});
+	}
+	
+	function sendMsg(jids, content, caljids, calcontent) {
+		var arr = {};
+		arr["jids"] = jids;
+		arr["content"] = content;
+		arr["caljids"] = caljids;
+		arr["calcontent"] = calcontent;
+		postData({
+			url : "/quoted/quoted/sendXmppMsg.json",
+			data : arr,
+			callback : function(data) {
+				if (data.success){
+					updateMessage();
+					swaltimer("发送成功！", "", "success",10000);
+				}
+				else
+					swaltimer("发送失败！", "", "error",10000);
+			}
+		});
+	}
+
+	//选择图片，马上预览
+	function onUploadImgChange(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			var img = document.getElementById("xmTanImg");
+			img.src = e.target.result;
+			//或者 img.src = this.result;  //e.target == this
+		}
+		reader.readAsDataURL(file)
+	}
+	
+	function onUploadImgBack(e) {
+		var json = $('form#imgForm').serializeJson();
+		$('#imgBack').attr('src', '');
+		//兼容ie9
+		if(null == e.files){
+			file = document.getElementById("officialMsgSrc");
+		}else{
+			file = e.files[0]; 
+		}
+		var name = (file.name != "")?file.name : Math.random().toString(36).substr(2)+".png" ;
+		var AllImgExt=".jpg|.jpeg|.png|";  
+		var extName = name.substring(name.lastIndexOf(".")).toLowerCase();//（把路径中的所有字母全部转换为小写）          
+        if(AllImgExt.indexOf(extName+"|")==-1)          
+        {  
+            ErrMsg="该文件类型不允许上传。请上传 "+AllImgExt+" 类型的文件，当前文件类型为"+extName;  
+            swaltimer(ErrMsg, "", "error",10000); 
+            return false;  
+        }  
+	    $("#imgPload_name").html(name);
+	}
+
+	function myRelatedFileOnclick() {
+		$("#myRelatedFile").click();
+	}
+	$("#officialMsgAbstractAdd").keyup(function() {
+		var nowcount = $("#officialMsgAbstractAdd").val().length;
+		var lastcount = nowcount + "/60"
+		$("#countchar").html(lastcount);
+	});
+	function checkurl(val) {
+		var ret=false;
+		var ret1=val.indexOf("http://");
+		var ret2=val.indexOf("https://");
+		if(ret1==0 || ret2==0)
+			ret=true;
+		return ret;
+	}
+	
+	function updateMessage() {
+		var url = "${appServer}/official/officialDraftInformation/officialDraftInformation.htm";
+		var iframe = $(window.parent.document).find("iframe[src^='" + url + "']");
+		var a = iframe.contents().find("#draft_btnsearch").click();
+	}
+	
+	//计算页面的实际高度
+    function ueditorChange() {
+        var p = parent.document;
+        var ele = p.getElementsByName("iframe1");
+        var ele1 = document.getElementById("ueditor_0");
+        var uHeight = 300;
+        if(ele1 != null){
+        	uHeight = ele1.offsetHeight;
+        }
+        uHeight = uHeight + 600;
+        ele[0].style.height = uHeight + 'px';
+    }
+    
+    $(document).ready(function(){
+	　　 ueditorChange();
+	});
+</script>
+<style>
+#imgBack {
+	height: 280px;
+	width: 280px;
+}
+
+#msgAddForm {
+	height: 80px;
+}
+
+#countchar {
+	float: right;
+	position: absolute;
+    margin-left: 645px;
+    margin-top: -20px;
+    color:#ccc;
+}
+
+.mail-box {
+	background-color: #fff;
+	color: #666;
+}
+
+.mail-text .note-editor .note-toolbar {
+	background-color: #fff;
+}
+
+.mail-text {
+	color: #000;
+}
+
+.mail-body {
+}
+
+label {
+	font-weight: 400;
+}
+
+.control-label {
+	font-weight: 100;
+    font-family:微软雅黑;
+    font-szie:14px;
+    color:#666;
+}
+
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+.send_input{
+	width: 700px;
+    height: 30px;
+    margin-left: -20px;
+    background-color: #fff;
+    font-size: 12px;
+    font-family: 微软雅黑;
+}
+.form-group{
+	margin-top:10px;
+}
+
+.editor_body{
+    width: 700px;
+    margin-top: -50px;
+    margin-left: 127px;
+}
+#edui1{
+	width:700px;
+}
+
+.my_upload_btn{
+	height: 60px;
+    width: 100px;
+    background-color: #fff;
+    border: 1px dashed #3195ea;
+    color: #3195ea;
+    font-family:微软雅黑;
+    font-szie:14px;
+}
+.my_btn_round{
+	width: 70px;
+    height: 30px;
+}
+.my_btn{
+	width: 100px;
+    height: 30px;
+}
+.my_modal-footer{
+	background-color: #fff;
+    box-shadow: 0px 0 0px #f5f5f5, 
+    			/*左边阴影*/ 0px 0 0px #f5f5f5,
+     			/*右边阴影*/ 0 -5px 5px #E2E2E2, 
+     			/*顶部阴影*/ 0 0px 0px green;
+}
+.modal-dialog {
+    width: 900px;
+}
+::-webkit-scrollbar-track-piece {
+	background-color: red;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: red;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background-color: red;
+}
+</style>

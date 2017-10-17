@@ -1,0 +1,3615 @@
+#**   
+ * @author huling   
+ * @class
+ * @name form_grid_start
+ * @param title {String} 标题
+ * @param id {String} 唯一标识
+ * @description form_grid_start组件，form_grid开始组件需要和form_grid_end组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#form_grid_start({"title":"现货账户"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends form_grid_start
+ *#
+#macro(form_grid_start $params)
+	<div class="h_formgridtitle" id="$!{params.id}" $horn.paramsCache($params) >
+		<span>$!{params.title}</span><a class="h_btn-confirm" href="javascript:void(0)" style="display:none;">确认</a>
+		<a class="h_btn-add" href="javascript:void(0)">添加</a>
+	</div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name form_grid
+ * @param title {String} 标题
+ * @param id {String} 唯一标识
+ * @description form_grid组件
+ * @see 
+ * @example \#@form_grid({"title":"现货账户"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends form_grid
+ *#
+#macro(form_grid $params)
+	##进入查看模式
+	#if($view)
+    	<div class="h_formtable">
+    		<table cellpadding="0" cellspacing="0">
+    			<thead>
+    				<tr>
+    					#foreach($col in $params.cols)
+							<th name="$!{col.name}" ref="$!{col.key}"
+                            #if($col.dictName)
+    							dictName="$!{col.dictName}"
+    							$horn.addGlobal('componentSelects_s',$!{col.dictName})
+                			#end
+    						#if($col.showwhenover)
+    							showwhenover = '$col.showwhenover'
+    						#end
+    						#if ($col.renderer)
+            					renderer="$!{col.renderer}" 
+    						#end
+    						
+    						#if($col.dataType)
+    							dataType = "$!{col.dataType}"   
+    						#end
+    						#if($col.format)
+    							format = "$!{col.format}" 
+    						#end
+    						#if($col.hidden)
+    							hidden = "$!{col.hidden}"
+    						#end	
+    						#if($col.width)
+    							width = "$!{col.width}"
+    						#end	
+    						#if($col.multiple)
+    							multiple = "$!{col.multiple}"
+    						#end	
+            				>$!{col.name}</th>
+    						#end
+    					<th ref="del"></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+					#foreach($colidx in [0..20])
+                		#set($eval = $horn.parseNameAsListEntry($params.cols[0].key,$colidx))
+                		#set($eval_ = "$"+"!{"+$eval+"}")
+						#if($val=="")
+							#set($val="$horn.getValue( $eval )")
+						#end
+						#if($val!='')
+							<tr>
+								#foreach($col in $params.cols)
+									#set($eval = $horn.parseNameAsListEntry($col.key,$colidx))
+									#set($eval_ = "$"+"!{"+$eval+"}")
+            						#if($val=="")
+            							#set($val="$horn.getValue( $eval )")
+            						#end
+            						<td >
+										<span ref="$eval" #if($col.items) staticDict="true" colno="$velocityCount" #end>
+                            				#if( $val && $val != "")$val#end
+                                        </span>
+									</td>
+            					#end
+							</tr>
+						#else
+							#break
+						#end
+					#end
+    			</tbody>
+    		</table>
+    	</div>	
+	#else
+    	<div class="h_formgridtitle" id="$!{params.id}"  $horn.paramsCache($params) >
+    		<span>$!{params.title}</span><a class="h_btn-confirm" href="javascript:void(0)" style="display:none;">确认</a>
+    		<a class="h_btn-add" href="javascript:void(0)">添加</a>
+    	</div>
+		$bodyContent
+    	<div class="h_formtable">
+    		<table cellpadding="0" cellspacing="0">
+    			<thead>
+    				<tr>
+    					#foreach($col in $params.cols)
+    						<th ref="$!{col.key}">$!{col.name}</th>
+    					#end
+    					<th ref="del"></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+					#foreach($colidx in [0..20])
+                		#set($eval = $horn.parseNameAsListEntry($params.cols[0].key,$colidx))
+                		#set($eval_ = "$"+"!{"+$eval+"}")
+						#if($val=="")
+							#set($val="$horn.getValue( $eval )")
+						#end
+						#if($val!='')
+							<tr>
+								#foreach($col in $params.cols)
+									#set($eval = $horn.parseNameAsListEntry($col.key,$colidx))
+									#set($eval_ = "$"+"!{"+$eval+"}")
+            						#if($val=="")
+            							#set($val="$horn.getValue( $eval )")
+            						#end
+            						<td >
+										<span ref="$eval" #if($col.items) staticDict="true" #end colno="$velocityCount" >
+                            				#if( $val && $val != "")
+												#if($col.dictName)
+                                                    $horn.parseDictValue($col.dictName,$val)
+												#else
+													$val
+												#end
+											#end
+                                        </span>
+										
+									</td>
+            					#end
+							</tr>
+						#end
+						
+					#end
+    			</tbody>
+    		</table>
+    	</div>
+	#end
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name form_grid_end
+ * @param cols {Json} 列定义 grid显示列定义 格式如示例
+ * @description form_grid_end组件，form_grid结束组件需要和form_grid_end组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#form_grid_end({"cols":[{"key":"ledgerBankAcc.goodsType","name":"账户类别"},{"key":"ledgerBankAcc.goodsAccount","name":"现货账户"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends form_grid_end
+ *#
+#macro(form_grid_end $params)
+	<div class="h_formtable">
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<tr>
+					#foreach($col in $params.cols)
+						<th ref="$!{col.key}">$!{col.name}</th>
+					#end
+					<th ref="del"></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+#end 
+#*
+ * @class
+ * @name  datagrid
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param data {Json}　数据
+*#
+#** 
+ * 修改记录:
+ * 修改日期                          修改人员                              修改说明                 
+ * -----------------------------------------------------------------------
+ * *2014-08-13    wangyb10555         STORY #9387和STORY #9387添加对表格头的支持
+ * *2014-08-18    wangyb10555         添加toolbar
+ *	2014-10-14    wangyb10555		  修复当model中存在data变量的值，而组件参数配置的时候配置非法data的属性的时候导致的依然以model中数值进行展示的问题
+ *	2014-10-22    wangyb10555 		STORY #10063 [研发中心/内部需求]JRESPlus-ui-分组菜单式按钮的组件的菜单可以绑定到datagrid组件当中的buttons中的button上 
+ * -----------------------------------------------------------------------
+*#
+#macro(datagrid $params)
+#if($params.id&&$params.id!="")
+	#set($id = ${params.id})
+#else
+	#set($id = "dyncGrid")    ##id默认值
+#end	
+	
+#set($numberColumn = $params.numbercolumn)	##是否展现序号列标识
+#if($params.numberColWidth&&$params.numberColWidth!="")
+  #set($numberColumnWidth = $params.numberColWidth)	##序号列宽度
+#else
+  #set($numberColumnWidth = 20)	
+#end  
+#set($colItems = $params.items)             ##列数据模型对象
+#set($frozenColName = $params.frozen)       ##冻结列名,目前只实现一列被冻结
+#if($frozenColName&&$frozenColName!="")
+	#foreach($col in $colItems)
+		#if($col.name==$frozenColName)
+			#set($frozenItem = $col)
+			#break
+		#end	
+	#end	
+#end
+#set($selectModel = $params.selectModel)   ##单选 多选模式
+#set($_data = $!params.data)                 ##静态加载的数据，数据由后台服务返回
+#set($size =$!{colItems.size()} ) 
+                					#if($numbercolumn&&$numbercolumn==true)
+                                        #set($size = $size+1 )
+                        			#end
+                        			#if($selectModel&&$selectModel=="multi")
+                                        #set($size = $size+1 )
+									#elseif($selectModel&&$selectModel=="single")	
+										#set($size = $size+1 )
+            						#end
+<div id='wrap_$id' class="xdatagrid"
+	#if ($params.name) name="$!{params.name}"#else name="$id" #end   $horn.paramsCache($params) >
+	           #if ($params.title)
+	            <!-- *****************  title区域 ***********************-->   
+            	<div class="hc-datagrid-title">
+                	<div class="hc-datitle-left">
+                		<p class="hc-datagrid-p">$!{params.title}</p>
+                    </div>
+                    <div class="hc-datitle-right"></div>
+                </div>
+                #end
+	            
+	            <!-- *****************  toolbar区域 ***********************-->   
+				#if ($params.buttons)
+				<div class="hc-datagrid-toolbar">
+					#foreach($button in $params.buttons )
+						<a name="$!{button.name}" href="JavaScript:void(0)" class="hc-datagrid-a hc_datagrid-alink" #if($button.refmenu)refmenu="${button.refmenu}"#end
+							onClick="$!{button.event}"> 
+							<span class="hc-datagrid-icon  #if($button.cls=="add"||$button.cls=="edit"||$button.cls=="del"||$button.cls=="confirm"||$button.cls=="save"||$button.cls=="query"||$button.cls=="open"||$button.cls=="refresh") hc-datagrid-icon-$!{button.cls} #else $!{button.cls} #end">
+							</span>
+							<span>$!{button.label}</span>
+						</a>
+					#end
+				</div>
+				#end
+			    <!-- *****************DataGrid  header区域 ***********************--> 
+				<div style="WIDTH: 100%;" class="hc-datagrid-header">
+					<!--     冻结列头区域         -->
+				  #if($frozenItem)	
+					<table id='freez_head_$id' class="hc-datagrid-fixed-table" style="position: absolute;"  border="0" cellSpacing="0"
+						cellPadding="0">
+						<tbody>
+							<tr>
+							  #if($numberColumn&&$numberColumn==true)
+								<td>
+									<div style="TEXT-aLIGN: center; WIDTH: #nt(${numberColumnWidth},100)px; ">
+									</div>
+								</td>	
+							  #end	
+							  ##单选多选列的逻辑
+							  #if($selectModel&&$selectModel=="multi")
+        						  <td>
+        								<div class="hc-datagrid-cell-check">
+        									<input id="allcb_datagrid_id" type="checkbox"
+        										/>
+        								</div>
+        						  </td>
+							  #elseif($selectModel&&$selectModel=="single")	  
+								  <td>
+        								<div class="hc-datagrid-cell-check" style="width:15px;">
+        								</div>
+        						  </td>
+							  #end	  
+							  ##冻结列逻辑
+							  #if($frozenItem)	
+								#if($frozenItem.hidden&&$frozenItem.hidden==true)
+									#set($hide="display:none")
+								#else
+									#set($hide="")
+								#end	
+								<td style="$!{hide}">  
+									<div style="TEXT-aLIGN:$!{frozenItem.hAlign}; WIDTH: #nt(${frozenItem.width} 100)px; CURSOR: default"
+										class="hc-datagrid-cell" name="$!{frozenItem.name}" dictName="$!{frozenItem.dictName}"
+										buttons="$!{frozenItem.buttons}" renderer="$!{frozenItem.renderer}">$!{frozenItem.text}</div>
+								</td>
+							  #end	
+							</tr>
+						</tbody>
+					</table>
+					#end
+					<!--     DataGrid   表格表头区域 (包含冻结列)        -->
+					<table id='head_$id' border="0" cellSpacing="0" cellPadding="0">
+						<tbody>
+							<tr>
+							 #if($numberColumn&&$numberColumn==true)
+								<td>
+									<div style="TEXT-aLIGN: center;WIDTH:#nt(${numberColumnWidth} 100)px; "  class="h_numbercolumn">
+									</div>
+								</td>	
+							  #end
+							  #if($selectModel&&$selectModel=="multi")
+        						  <td>
+        								<div class="hc-datagrid-cell-check" style="width:15px; margin: 0 5; padding: 0 5;">
+        								 #if(!$frozenItem)
+										  <input id="allcb_datagrid_id" type="checkbox"
+        										 />
+										 #end		
+										</div>
+        						  </td>
+							  #elseif($selectModel&&$selectModel=="single")	  
+								  <td>
+        								<div class="hc-datagrid-cell-check"  style="width:15px;">
+        								</div>
+        						  </td>
+							  #end
+							  
+							  ##冻结列逻辑
+							  #if($frozenItem)	
+								#if($frozenItem.hidden&&$frozenItem.hidden==true)
+									#set($hide="display:none")
+								#else	
+									#set($hide="")
+								#end	
+								<td style="$!{hide}"> 
+									<div style="TEXT-aLIGN:$!{frozenItem.hAlign};WIDTH: #nt(${frozenItem.width} 100)px; CURSOR: default"
+										class="hc-datagrid-cell" name="$!{frozenItem.name}" dictName="$!{frozenItem.dictName}"
+										buttons="$!{frozenItem.buttons}" renderer="$!{frozenItem.renderer}">$!{frozenItem.text}</div>
+								</td>
+							  #end	
+							 
+							  ##所有列头(如果有冻结列则排除)
+							  #foreach($colitem in $colItems)
+								 #if($colitem.dictName&&$colitem.dictName!="")
+							        $horn.addGlobal('componentSelects_s',$!{colitem.dictName})
+								 #end
+								 #if($colitem.name!=$frozenItem.name)
+    							    #if($colitem.hidden&&$colitem.hidden==true)
+									   #set($hide="display:none")
+									#else
+									   #set($hide="")   
+								    #end	
+								<td style="$!{hide}">
+									<div style="TEXT-aLIGN:$!{colitem.hAlign};WIDTH: #nt(${colitem.width} 100)px; CURSOR: default"
+    										class="hc-datagrid-cell" name="$!{colitem.name}" dictName="$!{colitem.dictName}"
+											buttons="$!{colitem.buttons}" renderer="$!{colitem.renderer}">$!{colitem.text}</div>
+    								</td>
+								#end	
+							  #end 	
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+				<!-- ********************** DataGrid  冻结数据区域 *******************-->
+			 #if($frozenItem)		
+				<div id='freeze_data_$id' style="position: absolute;overflow: hidden;"
+					class="hc-datagrid-body">
+					<table id="freez_body_$id" style="background-color:#fff;" border="0" cellSpacing="0" cellPadding="0"  class="hc-datagrid-fixed-table">
+						<tbody id="freez_tbody_$id">
+							#if($_data&&$_data.size()>0&&$_data!="")
+								#foreach($f_mdata in $_data)
+									#set($rowNumber = $velocityCount % 2)
+									#set($trid ="tr_"+${id}+"_"+$velocityCount )
+								    <tr id="$trid" style="HEIGHT: 22px" 
+										   class="#if($rowNumber==0)hc-datagrid-row-alt#end">
+								        #if($numberColumn&&$numberColumn==true)
+											<td><div style="TEXT-aLIGN: center;WIDTH:$!{numberColumnWidth}px; ">$velocityCount</div></td>
+										#end	
+										#if($selectModel&&$selectModel=="multi")
+											<td><div style="TEXT-aLIGN: left"
+        										class="hc-datagrid-cell-check">
+        										<input type="checkbox"
+        											 id="cb_${id}_$velocityCount">
+        									</div></td>
+										#elseif($selectModel&&$selectModel=="single")	
+											<td><div style="TEXT-aLIGN: left"
+        										class="hc-datagrid-cell-check">
+        										<input type="radio"
+        											 id="cb_${id}_$velocityCount">
+        									</div></td>
+										#end	
+        							    ##冻结列
+										#set($evalvalStr = "$"+"!" + "{f_mdata." + "$!{frozenColName}" + "}" )
+										#if($frozenItem.hidden&&$frozenItem.hidden==true)
+									       #set($hide="display:none")
+										#else
+									       #set($hide="")   
+								        #end
+        								<td style="$!{hide}"><div
+        										style="TEXT-aLIGN:$!{frozenItem.tAlign};WIDTH: $!{frozenItem.width}px; word-wrap: break-word;"
+        										class="hc-datagrid-cell">#evaluate($evalvalStr)</div></td>
+							       </tr>
+								#end
+							#else
+								<td colspan="$size" style="border-right:0px;padding:15px;"><p>暂时无数据</p></td>
+							#end	
+						</tbody>
+					</table>
+				</div>
+			 #end	
+				<!-- *****************DataGrid  数据区域 ***********************--> 
+				<div id='data_$id' style="WIDTH: 100%;"
+					class="hc-datagrid-body">
+					<table id="data_table_$id" border="0" cellSpacing="0" cellPadding="0" class="hc-datagrid-fixed-table">
+						<tbody id="body_$id">
+						 #if($_data&&$_data.size()>0&&$_data!="")	
+							#set($velocityCount = 1)
+							#foreach($mdata in $_data)
+								#set($rowNumber = $velocityCount % 2)
+								#set($trid ="tr_"+${id}+"_"+$velocityCount )
+								<tr id="$trid" style="HEIGHT: 22px" 
+									class="#if($rowNumber==0)hc-datagrid-row-alt#end">
+								       #if($numberColumn&&$numberColumn==true)
+											<td><div style="TEXT-aLIGN: center;WIDTH:$!{numberColumnWidth}px; ">$velocityCount</div></td>
+										#end	
+										#if($selectModel&&$selectModel=="multi")
+											<td><div style="TEXT-aLIGN: left"
+        										class="hc-datagrid-cell-check">
+        										<input type="checkbox"
+        											 id="cb_${id}_$velocityCount">
+        									</div></td>
+										#elseif($selectModel&&$selectModel=="single")	
+											<td><div style="TEXT-aLIGN: left"
+        										class="hc-datagrid-cell-check">
+        										<input type="radio"
+        											 id="cb_${id}_$velocityCount">
+        									</div></td>
+										#end	
+										##冻结列
+										#if($frozenItem)
+    										#set($evalvalStr = "$"+"!" + "{mdata." + "$!{frozenColName}" + "}" )
+											#if($frozenItem.hidden&&$frozenItem.hidden==true)
+									           #set($hide="display:none")
+											#else
+									           #set($hide="")   
+								            #end
+            								<td style="$!{hide}"><div
+        										style="TEXT-aLIGN:$!{frozenItem.tAlign};WIDTH: $!{frozenItem.width}px; word-wrap: break-word;"
+            										class="hc-datagrid-cell">#evaluate($evalvalStr)</div></td>
+										#end		
+        								#foreach($col in $colItems)
+										  #if($col.name!=$frozenItem.name)	
+        								   #set($evalvalStr = "$"+"!" + "{mdata." + "$!{col.name}" + "}" )
+										   #if($col.hidden&&$col.hidden==true)
+									           #set($hide="display:none")  
+											#else
+									           #set($hide="")   
+								            #end
+											<td style="$!{hide}"><div
+        										style="TEXT-aLIGN: $!{col.tAlign}; WIDTH: $!{col.width}px; word-wrap: break-word;"
+        										class="hc-datagrid-cell">#evaluate($evalvalStr)</div></td> 
+        								 #end
+										#end
+								</tr>	
+							 #end
+						 #else
+								<tr>
+            											
+						        <td colspan="$size" style="border-right:0px;padding:15px;"><p>暂时无数据</p></td>
+					           </tr>
+						  #end	
+						</tbody>
+					</table>
+				</div>
+               <!-- *******************　　pagebar区域　********************** -->
+			   #if($params.hasPage&&$params.hasPage==true)
+               <div id='page_$id' class="pagebar hc-datagrid-pager hc-pagination">
+					<table border='0' cellSpacing='0' cellPadding='0'>
+						<tbody>
+							<tr>
+								<td><a
+									class="l-btn l-btn-plain first_page_btn"
+									href="javascript:void(0)"> <span
+										class="l-btn-left"> <span class="l-btn-text"><span
+												class="l-btn-empty hc-pagination-first">&nbsp;</span></span>
+									</span>
+								</a></td>
+								<td><a
+									class="l-btn l-btn-plain pre_page_btn"
+									href="javascript:void(0)"> <span
+										class="l-btn-left"> <span class="l-btn-text"><span
+												class="l-btn-empty hc-pagination-prev">&nbsp;</span></span>
+									</span>
+								</a></td>
+								<td><div class='hc-pagination-btn-separator'></div></td>
+								<td><span style="PaDDING-LEFT: 6px;">第</span></td>
+								<td><input id='toPage_$id' class="hc-pagination-num"
+									readonly value="0" size="2" type="text" /></td>
+								<td><span id='totalPages_$id'
+									style="PaDDING-RIGHT: 6px;">页，每页20条，共0页</span></td>
+								<td><div class='hc-pagination-btn-separator'></div></td>
+								<td><a
+									class="l-btn l-btn-plain next_page_btn"
+									href="javascript:void(0)"> <span
+										class="l-btn-left"> <span class="l-btn-text"><span
+												class="l-btn-empty hc-pagination-next">&nbsp;</span></span>
+									</span>
+								</a></td>
+								<td><a
+									class="l-btn l-btn-plain last_page_btn"
+									href="javascript:void(0)"> <span
+										class="l-btn-left"> <span class="l-btn-text"><span
+												class="l-btn-empty hc-pagination-last">&nbsp;</span></span>
+									</span>
+								</a></td>
+								<td><div class='hc-pagination-btn-separator'></div></td>
+								<td><a class="l-btn l-btn-plain refresh_btn"
+									href="javascript:void(0)"> <span
+										class="l-btn-left"> <span class="l-btn-text"><span
+												class="l-btn-empty hc-pagination-load">&nbsp;</span></span>
+									</span>
+								</a></td>
+							</tr>
+						</tbody>
+					</table>
+					<div id='pageInfo_$id' class="hc-pagination-info">当前显示0到0，共0条记录</div>
+					<div
+						style="margin-top: -1px; height: 1px; clear: both; overflow: hidden;"></div>
+				</div>
+				#end
+			</div>
+#end				
+#**   
+ * @author zhangchao   
+ * @class
+ * @name grid
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param data {Json}　数据
+ * @param items {Json} 列表条目 格式如{"name":"organFlag","text":"机构类型","renderer":"renderer"}<br>
+ * items中的列表条目属性：
+ *               @param  hidden   {Boolean}  列是否隐藏
+ *               @param  width    {String}   列宽度
+ *               @param  dataType {String}   列格式化的类型，目前只支持日期和金额两种类型，日期：dataType="DATE",金额dataType="AMOUNT"
+ *               @param  format   {String}   列格式化时的格式
+ * @param titleButtons {Array} 工具栏　格式如[{"label":"添加","cls":"add","event":"add()"}]<br>
+	按钮属性：
+ *	     @param  label   {String}  按钮文本
+ *	     @param  cls     {String}  按钮css样式
+ *	     @param  event   {String}  按钮点击事件
+ *	     @param  disabled {Boolean} 是否禁用/启用按钮
+ * @param events {Json}
+ * @param numbercolumn {Boolean} 是否启用数字序列
+ * @param selectModel {String} single/muti 启用单选/多选选择框
+ * @param rowSelect  是否启用点击行选中行
+ * @param textOverHidden  列内容超出列宽时是否隐藏并加"..."，默认不隐藏，表格会根据内容自适应，如需隐藏，请设置为true
+ * @description grid组件，列表组件
+ * @see 
+ * @example
+ *	<pre>\	#grid({"name":"flowTable","title":"有数据的grid"
+    	    ,"numbercolumn":"true","selectModel":"muti"
+    		,"items":[{"name":"initDate","text":"发生日期","renderer":"domrender"},
+    			{"name":"branchNo", "text":"分支名称（静态字典）","items":[{"label":"杭州总部","value":"8888"},{"label":"b","value":"b1"},{"label":"c","value":"c1"}]},
+    			{"name":"branchNo", "dictName":"Branch", "text":"分支名称（动态字典）"},
+    			{"name":"scanType", "dictName":"ScanType", "text":"扫描类别"},
+    			{"name":"clientId","text":"客户编号"},
+    			{"name":"clientName","text":"客户名称"},
+    			{"name":"branchNo", "text":"操作","showwhenover":"true","buttons":[{"label":"设置默认","event":"edit"},{"label":"设置默认","event":"edit"}]},
+    			{"name":"taskStatus","text":"任务状态"}
+    			]
+    		,"data":$data
+    	})
+ *	</pre>
+ * @since version 0.1
+ *#	
+#**
+ * @lends grid
+ *#
+#**
+* -----------------------------------------------------------------------
+* 修订记录：
+* 2014-01-20    zhangsu        <table>标签中增加样式"h_table",使grid的数据以间隔行的形式展现
+* 2014-01-21    zhangsu        新增rowSelect属性，使grid支持点击行选中该行
+* 2014-01-22    zhangsu        Grid列需要支持常规类型的格式化配置（日期、金额）
+* 2014-01-22    zhangsu        Grid列支持hidden属性
+* 2014-02-12    zhangsu        td内容限制不换行 “nowrap”
+* 2014-02-12    zhangsu        去掉样式h_table
+* 2014-02-14    zhangsu        新增列属性width，可设置列宽度
+* 2014-02-21    zhangsu        表格的表头能够设置居左、居中、居右,新增属性headerAlign 
+* 2014-03-03    zhangsu        表格的选择列在设置了selectModel=single后，显示的仍旧是checkbox复选框 
+* 2014-03-06    zhangsu        增加配置项textOverHidden，用于配置列内容超出列宽时是否隐藏并加"..." 
+* 2014-04-11    周智星                         BUG #6610 【grid】"selectModel":"multi"之后会造成复选框变成input输入框，并且应该设置的muti是拼写错误 （已经做了兼容处理，muti或者multi都可以）
+* 2014-04-16    zhangsu        STORY #8089 添加save/query/confirm/refresh/open几种样式
+* 2014-06-13    zhangsu        STORY #8487 grid未设置selectModel 的情况下，不生成选择列
+* -----------------------------------------------------------------------
+*#
+#macro(grid $params)
+	<div class="h_formtable" #if ($params.name) name="$!{params.name}" #end  id="$!{params.id}" $horn.paramsCache($params) 
+            ##foreach($event in $params.events)
+            ##	$event.event = "$event.function"
+            ##end
+            #if($params.numbercolumn)
+            	numbercolumn="$params.numbercolumn"
+            #end
+            #if($params.selectModel=="multi" || $params.selectModel=="muti" || $params.selectModel=="single")
+				#set($selectModel = $params.selectModel)
+			#elseif($params.selectModel=="" || !$params.selectModel)
+				#set($selectModel = "null")
+			#end	
+            #if($selectModel=="single"||$selectModel=="multi"||$selectModel=="muti")
+                selectModel="$selectModel"
+            #end
+			#if($params.rowSelect)
+				rowSelect = "$params.rowSelect"
+			#end	
+			#if(${params.textOverHidden})
+				textOverHidden = "$!{params.textOverHidden}"
+			#end
+			>
+		#if($params.title)
+			<div class="h_formgridtitle">
+				<span>$!params.title</span>
+				#if($params.titleButtons)
+				  <div class="hc_btn_location">  ##修正此处的按钮默认从右往左排布的问题
+					#foreach($button in $params.titleButtons)
+						<a #if($button.refmenu)refmenu="$button.refmenu"#end class='#if($button.cls=="add"||$button.cls=="edit"||$button.cls=="del"||$button.cls=="confirm"||$button.cls=="save"||$button.cls=="query"||$button.cls=="open"||$button.cls=="refresh") h_btn-$!{button.cls} #else $!{button.cls} #end' href="javascript:void(0)" onclick="$!{button.event}">$!{button.label}</a>
+					#end
+				  </div>
+				#end
+				
+			</div>
+		#end
+		<table  cellpadding="0" cellspacing="0"  class="#if($params.textOverHidden == true)h_table_extend #end" >
+			<thead>
+				<tr>
+					#if($params.numbercolumn)
+                        <th class="h_numbercolumn"></th>
+        			#end
+        			#if($selectModel=="multi"||$selectModel=="muti")
+                        <th class="h_querytable_checkboxcolumn"><input type="checkbox" class="h_querytable_select_all"/></th>
+        			#elseif($selectModel == "single")
+						<th class="h_querytable_radioboxcolumn"></th>
+					#end
+					#foreach($pItem in $params.items)
+        				<th name="$!{pItem.name}"
+                            colno="$velocityCount"
+                        #if($pItem.dictName)
+							dictName="$!{pItem.dictName}"
+							$horn.addGlobal('componentSelects_s',$!{pItem.dictName})
+            			#end
+						#if($pItem.showwhenover)
+							showwhenover = '$pItem.showwhenover'
+						#end
+						#if ($pItem.renderer)
+        					renderer="$!{pItem.renderer}" 
+						#end
+						
+						#if($pItem.dataType)
+							dataType = "$!{pItem.dataType}"   
+						#end
+						#if($pItem.format)
+							format = "$!{pItem.format}" 
+						#end
+						#if($pItem.hidden)
+							hidden = "$!{pItem.hidden}"
+						#end	
+						#if($pItem.width)
+							width = "$!{pItem.width}"
+						#end	
+						#if($!{pItem.headerAlign}=="left")  ##表格的表头能够设置居左、居中、居右
+							class="hc_align-left"
+						#elseif($!{pItem.headerAlign}=="center")
+							class="hc_align-center"
+						#elseif($!{pItem.headerAlign}=="right")
+							class="hc_align-right"
+						#end
+        				>$!{pItem.text}</th>
+					#end
+				</tr>
+			</thead>
+			<tbody>
+                #if($params.data&&$params.data.size()>0&&$params.data!="")
+                    #foreach($mdata in $params.data)
+                        #set($rowNumber = $velocityCount % 2)
+                        <tr line="$velocityCount" class="#if($rowNumber==0) h_table-odd #end #if($mdata.isSign()) hc_formtable-cur #end " 
+							
+							>
+							#if($params.numbercolumn)
+                                <td>$velocityCount</td>
+        					#end
+        					#if($selectModel=="muti"||$selectModel=="multi")
+								## 表格的选择列在设置了selectModel=single后，显示的仍旧是checkbox复选框 
+                                <td><input type="checkbox" class="h_querytable_select" #if($mdata.isSign()) checked=true #end /></td>
+        					#elseif($selectModel=="single")
+								<td><input type="radio" class="h_querytable_select" name="_grid_row_checker"/></td>
+							#end
+                            #foreach($pItem in $params.items)
+                                #set($evalval = "$"+"!" + "{mdata." + "$!{pItem.name}" + "}" )
+                                <td class="#if($!{pItem.align}=="right")hc_align-right #elseif($!{pItem.align}=="center")hc_align-center #else hc_align-left #end #if($params.textOverHidden == true) hc_texthide #end" title='#evaluate($evalval)'>#evaluate($evalval)</td>
+							#end
+                        </tr>
+					#end
+				#else
+					<tr>
+						#set($size =$!{params.items.size()} ) 
+    					#if($params.numbercolumn)
+                            #set($size = $size+1 )
+            			#end
+            			#if($params.selectModel)
+                            #set($size = $size+1 )
+						#end						
+						<td colspan="$size" class="hc_formtable-nodata"><p>暂时无数据</p></td>
+					</tr>
+                #end
+            </tbody>
+		</table>
+	</div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name tab_panel_start
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param liWidth {String} 自定义标签宽度
+ * @param maxTabCn {String} 标签最大个数
+ * @description tab_panel_start组件，tab_panel开始组件需要和tab_panel_end组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#tab_panel_content_start({"name":"openAccount","cols":"3","rows":"10"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends tab_panel_start
+ *#
+#macro(tab_panel_start $params)
+	<div class="h_tabpanel" name="$!{params.name}" id="$!{params.id}"  liWidth="$!{params.width}" maxTabCn="$!{params.maxTabCn}" $horn.paramsCache($params) >
+		<div class="h_tabul">
+			<a href="javascript:void(0)" class="h_tablefta"></a>
+			<a href="javascript:void(0)" class="h_tabrightacur"></a>
+			<div class="h_tabuldiv">	
+				<ul>
+				</ul>
+			</div>
+		</div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name tab_panel
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @description tab_panel_start组件，tab_panel开始组件需要和tab_panel_end组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#@tab_panel({"name":"openAccount","cols":"3","rows":"10"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends tab_panel
+ *#
+#macro(tab_panel $params)
+	<div class="h_tabpanel" id="$!{params.id}" $horn.paramsCache($params)  name="$!{params.name}" liWidth="$!{params.width}" maxTabCn="$!{params.maxTabCn}" >
+		<div class="h_tabul">
+			<a href="javascript:void(0)" class="h_tablefta"></a>
+			<a href="javascript:void(0)" class="h_tabrightacur"></a>
+			<div class="h_tabuldiv">	
+				<ul>
+				</ul>
+			</div>
+		</div>
+		$bodyContent
+	</div>
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name tab_panel_end
+ * @description tab_panel_end组件，tab_panel结束组件需要和tab_panel_start组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#tab_panel_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends tab_panel_end
+ *#
+#macro(tab_panel_end)
+	</div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name tab_panel_content_start
+ * @param name ｛String｝ tab页名称
+ * @param id {String} 唯一标识
+ * @param title ｛String｝ tab页标题
+ * @param events {Json} 事件，格示见示例
+ * @description tab_panel_content_start组件，tab_panel_content标签页开始组件需要和tab_panel_content_end组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#tab_panel_content_start({"title":"机构信息","name":"org", "events":[{"event":"onblur","function":"getFundAccount(this)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends tab_panel_content_start
+ *#
+ 
+ #**
+* -----------------------------------------------------------------------
+* 修订记录：                  修改人                   修改原因
+* 2014-4-22       周智星                BUG #6775 【tab_panel】在某种场景下第二个标签页会显示第一个标签页的title
+* 2014-06-24      zhangsu     去掉静态tab创建时tab的title属性文字较长被截断的代码
+* -----------------------------------------------------------------------
+*#
+#macro(tab_panel_content_start $uiTabPanelContentConfig)
+		#set($uiTabContenttitle=$uiTabPanelContentConfig.title )
+		##if($uiTabContenttitle.length() > 6) 去掉静态tab创建时tab的title属性文字较长被截断的代码
+			##set($uiTabContenttitle = $title.substring(0,4)+"...")
+		##end
+		#set($uiTabContentName="")
+		#if($uiTabPanelContentConfig.name)
+			#set($uiTabContentName=$uiTabPanelContentConfig.name)
+		#else
+			#set($uiTabContentName=$horn.getUUID())
+		#end
+		<ul>
+			<li ref="$!{uiTabContentName}" title="$!{uiTabPanelContentConfig.title}" tipMsg="$!{uiTabPanelContentConfig.title}"
+				#foreach($event in $uiTabPanelContentConfig.events)
+    				$event.event = "$event.function" 
+    			#end
+				>$!{uiTabContenttitle}</li>
+		</ul>
+		<div ref_target="$!{uiTabContentName}" id="$!{uiTabPanelContentConfig.id}" $horn.paramsCache($uiTabPanelContentConfig)  class="h_tabpanel-content" style="display:none" #if($uiTabPanelContentConfig.lazy)lazyload="$uiTabPanelContentConfig.lazy"#end>
+		#set($uiTabPanelContentConfig={})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name tab_panel_content
+ * @param name ｛String｝ tab页名称
+ * @param title ｛String｝ tab页标题
+ * @param id {String} 唯一标识
+ * @param events {Json} 事件，格示见示例
+ * @description tab_panel_content_start组件，tab_panel_content标签页开始组件需要和tab_panel_content_end组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#@tab_panel_content({"title":"机构信息","name":"org", "events":[{"event":"onblur","function":"getFundAccount(this)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends tab_panel_content
+ *#
+#macro(tab_panel_content $uiTabPanelContentConfig)
+		#set($uiTabContenttitle=$uiTabPanelContentConfig.title )
+		##if($uiTabContenttitle.length() > 6)
+			##set($uiTabContenttitle = $title.substring(0,4)+"...")
+		##end
+		#set($uiTabContentName="")
+		#if($uiTabPanelContentConfig.name)
+			#set($uiTabContentName=$uiTabPanelContentConfig.name)
+		#else
+			#set($uiTabContentName=$horn.getUUID())
+		#end
+		<ul>
+			<li ref="$!{uiTabContentName}" title="$!{uiTabPanelContentConfig.title}" tipMsg="$!{uiTabPanelContentConfig.title}"
+				#foreach($event in $uiTabPanelContentConfig.events)
+    				$event.event = "$event.function" 
+    			#end
+				>$!{uiTabContenttitle}</li>
+		</ul>
+		<div ref_target="$!{uiTabContentName}" id="$!{uiTabPanelContentConfig.id}" $horn.paramsCache($uiTabPanelContentConfig)  class="h_tabpanel-content" style="display:none" #if($uiTabPanelContentConfig.lazy)lazyload="${uiTabPanelContentConfig.lazy}"#end>
+			#if(!${uiTabPanelContentConfig.lazy})
+				$bodyContent
+			#end
+		</div>
+	#set($uiTabPanelContentConfig={})
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name tab_panel_content_end
+ * @description tab_panel_content_end组件，tab_panel_content标签页结束组件需要和tab_panel_content_start组件配合使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#tab_panel_content_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends tab_panel_content_end
+ *#
+#macro(tab_panel_content_end)
+		</div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name query_table
+ * @param cols {String} 跨列数
+ * @param rows {String} 跨行数
+ * @param name {String} 名称
+ * @param url {String} 请求地址
+ * @param title {String} 标题
+ * @param id {String} 表单ID
+ * @param bindformname {String} 绑定的表单name
+ * @param request_num {String} 请求的条数
+ * @param data {Array} 展示的数据源
+ * @param hasPage {Boolean} 是否有分页
+ * @param callback {String} 回调函数
+ * @param position_str {String} 定位串
+ * @param baseparams {Json} 用户自定义基本参数
+ * @param items {Array} 列表条目 格式如{"name":"organFlag","text":"机构类型","dealFun":"lhkh.organFlagFn"}
+ * @param events {Array}
+ * @param numbercolumn {Boolean} 是否启用数字序列
+ * @param selectModel {String} single/multi 启用单选/多选选择框
+ * @param simpleRequest {Boolean} 是否使用普通参数模式（发送index到后台）
+ * @param titleButtons {Array} 工具栏　格式如[{"label":"添加","cls":"add","event":"add()"}]
+ * @description query_table组件，查询列表组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example
+ *	<pre>\#query_table({"cols":"2","rows":"10","name":"queryTable","url":"callback/getCallBack.json", "request_num":"2","position_str":"positionStr",
+ *		"hasPage":true, "items":[{"name":"clientId","text":"客户号","width":"100px"},
+ *		{"name":"clientName","text":"客户姓名"},{"name":"fundAccount","text":"资产账号"},
+ *		{"name":"operatorNo","text":"操作员编号"},{"name":"phone","text":"移动电话"},
+ *		{"name":"contact","text":"联系方式"},{"name":"organFlag","text":"机构类型","dealFun":"lhkh.organFlagFn"}],
+ *		"events":[{"event":"onclick","function":"lhkh.tableClick()"},
+ *		{"event":"rowclick","function":"lhkh.tableRowClick()"},
+ *		{"event":"rowdblclick","function":"lhkh.tableRowDblClick()"}]})
+ *	</pre>
+ * @since version 0.1
+ *#	
+#**
+ * @lends query_table
+ *#
+#**
+* -----------------------------------------------------------------------
+* 修订记录：
+* 2014-01-22    zhangsu        列支持hidden属性
+* 2014-01-22    zhangsu        新增rowSelect属性，使grid支持点击行选中该行
+* 2014-01-24    zhangsu        新增rowclick和rowdbclick事件
+* 2014-03-31    zhangsu        BUG #6530 目前titleButtons全部居左，和grid中默认居右不一致
+* 2014-04-04    zhangsu        BUG #6574 [queryTable]:单选模式最好选择列是圆圈 
+* 2014-04-09    zhangsu        BUG #6548 [query_table]设置cols无效
+* 2014-04-14    zhangsu        BUG #6728 query_table属性hasPage不配置时，未使用默认值
+* 2014-04-15    zhangsu        BUG #6492 selectModel：“ 行数据选择模式（single/muti 启用单选/多选选择框） ”，这里是“multi”误拼居“muti”了吗？它的默认值是什么？
+* 2014-04-16    zhangsu        STORY #8089 添加save/query/confirm/refresh/open几种样式
+* 2014-04-28    周智星                         BUG #6884 【query_table】设置非法selectModel；BUG #6883 【query_table】设置非法numbercolumn，都会显示索引
+* 2014-04-28    周智星                         BUG #6882 【query_table】title设置为空、不设置、设置有值表现出现的结果出人意料
+* 2014-05-22    zhangsu        STORY #8368 [研发中心/内部需求][jresplus][ui]-queryTable组件当分页属性hasPage设置为false时，dom结构还是会生成分页的结构
+* 2014-06-13    zhangsu        STORY #8487 querytalbe 未设置selectModel 的情况下，出现多选，无法实现无选择框的情况 
+* 2014-06-16    zhangsu        STORY #8487 querytalbe 未设置hasPage 的情况下出现分页栏，不配置，不分页
+* 2014-10-22 	wangyb10555		STORY #10064 [研发中心/内部需求]JRESPlus-ui-分组菜单式按钮的组件的菜单可以绑定到Querytable组件当中的titleButtons中的button上 
+* -----------------------------------------------------------------------
+*# 
+#macro(query_table $params) 
+    #if($params.cols)
+    	#set($cols = $params.cols)
+	#else
+        #set($cols = 3)
+	#end
+    <div class="h_colspan-${cols}">
+		#if($params.title || $params.titleButtons)
+			<div class="h_formgridtitle">
+				<span>#if($params.title&&"$!params.title"!="")$!params.title #else &nbsp;&nbsp; #end</span>
+				#if($params.titleButtons)
+					<div class="hc_btn_location">  ##修正此处的按钮默认从右往左排布的问题
+					#foreach($button in $params.titleButtons)
+						<a class='#if($button.cls=="add"||$button.cls=="edit"||$button.cls=="del"||$button.cls=="confirm"||$button.cls=="save"||$button.cls=="query"||$button.cls=="open"||$button.cls=="refresh") h_btn-$!{button.cls} #else $!{button.cls} #end' href="javascript:void(0)" #if($button.refmenu)refmenu="${button.refmenu}"#end onclick="$!{button.event}">$!{button.label}</a>
+					#end
+					</div>
+				#end
+			</div>
+		#end
+        <div class="h_listtable" >
+          <table class="h_table h_querytable"  
+			  ##foreach($event in $params.events)
+              ##	  $event.event = "$event.function"
+              ##end
+              #if($params.id)
+                  id="$!{params.id}"  
+			  #end
+			  $horn.paramsCache($params)
+              #if ($params.name)
+              	name="$!{params.name}" 
+              #end  
+              #if ($params.bindformname )
+              	bindformname="$!{params.bindformname}" 
+              #end
+              url="$!{params.url}" 
+              #if ($params.request_num)
+              	request_num="$!{params.request_num}" 
+              #end
+              #if ($params.position_str )
+              	position_str="$!{params.position_str}" 
+              #end
+            
+              #if ($params.hasPage&&($params.hasPage==true||$params.hasPage==false))
+              	hasPage="$!{params.hasPage}" 
+              #end
+              #if ($params.autoLoad&&$params.autoLoad==true)
+                autoLoad="$!{params.autoLoad}"
+              #end
+              #if ($params.requestMethod )
+                requestMethod="$!{params.requestMethod}"
+              #end
+              ##foreach($event in $params.events)
+              ##  $event.event = "$event.function"
+              ##end
+              #if($params.numbercolumn&&$params.numbercolumn==true)
+                numbercolumn="$params.numbercolumn"
+			  #end
+			  #if($params.selectModel=="multi" || $params.selectModel=="muti" || $params.selectModel=="single")
+				#set($selectModel = $params.selectModel)
+			  #elseif($params.selectModel=="" || !$params.selectModel)
+				#set($selectModel = "null")
+			  #end	
+              #if($selectModel=="single"||$selectModel=="multi"||$selectModel=="muti")
+                selectModel="$selectModel"
+              #end
+              #if($params.simpleRequest)
+                simpleRequest="$!{params.simpleRequest}"
+			  #end
+			  #if($params.callback)
+				callback="$params.callback"
+			  #end
+			  #if($params.rowSelect)
+				rowSelect = "$params.rowSelect"
+			#end
+          >
+            <thead>
+        		#if($params.items)
+					#if($params.numbercolumn&&$params.numbercolumn==true)
+                        <th class="h_numbercolumn h_numbercolumn-width"></th>
+					#end
+					#if($selectModel=="multi"||$selectModel=="muti") ##bug6492
+                        <th class="h_querytable_checkboxcolumn h_checkcolumn-width"><input type="checkbox" class="h_querytable_select_all"/></th>
+					#elseif($selectModel == "single")
+						<th class="h_querytable_radioboxcolumn h_checkcolumn-width"></th>
+					#end
+        			#foreach($pItem in $params.items)
+        				<th name="$!{pItem.name}"
+                            colno="$velocityCount"
+                        #if($pItem.dictName)
+							dictName="$!{pItem.dictName}"
+							$horn.addGlobal('componentSelects_s',$!{pItem.dictName})
+            			#end
+        				#if ($pItem.dealFun)
+        					dealFun="$!{pItem.dealFun}" 
+        				#end
+        				#if ($pItem.renderer)
+        					renderer="$!{pItem.renderer}" 
+						#end
+						#if($pItem.hidden)
+							hidden = "$!{pItem.hidden}"
+						#end	
+						#if($pItem.width)
+							width = "$!{pItem.width}"
+						#end
+        				>$!{pItem.text}</th>
+					#end
+        		#end
+            </thead>
+            <tbody>
+                #if($params.data)
+                    #foreach($mdata in $params.data)
+                        #set($rowNumber = $velocityCount % 2)
+                        <tr #if($rowNumber==0) class="h_table-odd" #end>
+							#if($params.numbercolumn&&$params.numbercolumn==true)
+                                <td>$velocityCount</td>
+        					#end
+        					#if($selectModel=="muti"||$selectModel=="multi")
+                                <td><input type="checkbox" class="h_querytable_select"/></td>
+							#elseif($selectModel=="single")
+								<td><input type="radio" class="h_querytable_select"/></td>
+        					#end
+                            #foreach($pItem in $params.items)
+                                #set($evalval = "$"+"!" + "{mdata." + "$!{pItem.name}" + "}" )
+                                <td>#evaluate($evalval)</td>
+                            #end
+                        </tr>
+					#end
+				#else
+					<tr>
+						#set($size =$!{params.items.size()} ) 
+    					#if($params.numbercolumn&&$params.numbercolumn==true)
+                            #set($size = $size+1 )
+            			#end
+            			#if($params.selectModel&&$selectModel!="null")
+                            #set($size = $size+1 )
+						#end						
+						<td colspan="$size" class="h_table-nodata"><p>暂时无数据</p></td>
+					</tr>
+                #end
+            </tbody>
+          </table>
+		  #if($params.hasPage ==true || $params.hasPage == false)   ##BUG #6728 query_table属性hasPage不配置时，未使用默认值
+    	    #set($hasPage = $params.hasPage)
+	      #else
+            #set($hasPage = false)
+	      #end
+          #if ($hasPage == true)   ##STORY #8368 zhangsu
+          	<div class="h_querytable_pages" $hasPage></div>
+		  #end
+        </div>
+    </div>
+#end
+#**   
+ * @author zhangchao   
+ * @class
+ * @name window_start
+ * @param name ｛String｝ 名称
+ * @param id {String} 唯一标识
+ * @param title ｛String｝标题
+ * @param height ｛String｝高度
+ * @param width ｛String｝宽度
+ * @param events {Json} 事件，格示见示例
+ * @description window_start组件
+ * @see 
+ * @example \#window_start({"title":"弹出窗口","name":"org"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends window_start
+ *#
+#macro(window_start $uiWindowConfig)
+<div class="h_floatdiv" id="$!{uiWindowConfig.id}" $horn.paramsCache($uiWindowConfig)  name="$!{uiWindowConfig.name}" h_height="$!{uiWindowConfig.height}" h_width="$!{uiWindowConfig.width}" style="display:none">
+	<div class="h_floatdiv-title"><span title="$!{uiWindowConfig.title}">$!{uiWindowConfig.title}</span> <a href="javascript:void(0);">X</a></div>
+    <div class="h_floatdiv-con">
+
+#end
+#**   
+ * @author zhangchao   
+ * @class
+ * @name window_start
+ * @param name ｛String｝ 名称
+ * @param id {String} 唯一标识
+ * @param title ｛String｝标题
+ * @param height ｛String｝高度
+ * @param width ｛String｝宽度
+ * @param events {Json} 事件，格示见示例
+ * @description window_start组件
+ * @see 
+ * @example \#window_start({"title":"弹出窗口","name":"org"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends window_start
+ *#
+#macro(window $uiWindowConfig)
+<div class="h_floatdiv" id="$!{uiWindowConfig.id}" $horn.paramsCache($uiWindowConfig)  name="$!{uiWindowConfig.name}" h_height="$!{uiWindowConfig.height}" h_width="$!{uiWindowConfig.width}" style="display:none">
+	<div class="h_floatdiv-title"><span title="$!{uiWindowConfig.title}">$!{uiWindowConfig.title}</span> <a href="javascript:void(0);">X</a></div>
+	<div class="h_floatdiv-con">
+		$bodyContent
+	</div>
+	#if($uiWindowConfig.buttons)
+	<div class="h_btndiv" >
+		#if($uiWindowConfig.buttons)
+			#foreach($button in $uiWindowConfig.buttons)
+				<button type="button"
+                name="$!{button.name}"
+				#if($!button.className)
+				    class="$!{button.className}"
+				#end 
+				onclick="$!{button.event}">$!{button.label}</button>
+			#end
+		#end
+    </div>
+	#end
+</div>
+#set($uiWindowConfig = {})
+#end
+#**   
+ * @author zhangchao   
+ * @class
+ * @name window_end
+ * @description window_end组件
+ * @see
+ * @example \#window_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends window_end
+ *#
+#macro(window_end $uiWindowConfig)
+	</div>
+		#if($uiWindowConfig.buttons)
+	<div class="h_btndiv" >
+		#if($uiWindowConfig.buttons)
+			#foreach($button in $uiWindowConfig.buttons)
+				<button type="button"
+                name="$!{button.name}"
+				#if($!button.className)
+				    class="$!{button.className}"
+				#end 
+				onclick="$!{button.event}">$!{button.label}</button>
+			#end
+		#end
+    </div>
+	#end
+</div>
+#set($uiWindowConfig = {})
+#end
+#**
+ * @author caint
+ * @class
+ * @name canvas
+ * @param id {String} 唯一标识
+ * @param state {String} 状态,折叠collapse或展开expand
+ * @param name {String} 名称
+ * @param toggle {String} 事件,状态切换时触发的事件
+ * @param title {String} 标题，格示见示例
+ * @description 可以折叠的画板组件
+ * @see
+ * @example \#@canvas({"name":"name1","state":"collapse","title":"title","toggle":"test()"})
+ * @since version 0.1
+ *#
+#**
+ * @lends canvas_start
+ *#
+#macro(canvas_start $params)
+    #if($params.state)
+        #set($state = $params.state)
+    #end
+    <div class="hc_canvas"
+        id="$!{params.id}" $horn.paramsCache($params) 
+        name="$!{params.name}"
+        toggle="$!{params.toggle}"
+        >
+        <div class="hc_canvas-title">
+            <span class="hc_canvas-title-icon #if($state=="collapse") hc_close #elseif($state=="expand") hc_open #else hc_open #end"></span>
+            $!{params.title}
+        </div>
+#end
+#**   
+ * @author caint   
+ * @class
+ * @name canvas
+ * @param state {String} 状态,折叠collapse或展开expand
+ * @param name {String} 名称
+ * @param toggle {String} 事件,状态切换时触发的事件
+ * @param title {String} 标题，格示见示例
+ * @description 可以折叠的画板组件
+ * @see 
+ * @example \#@canvas({"name":"name1","state":"collapse","title":"title","toggle":"test()"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends canvas
+ *#
+#macro(canvas $params)
+    #if($params.state)
+        #set($state = $params.state)
+    #end
+    <div class="hc_canvas"
+        id="$!{params.id}" $horn.paramsCache($params) 
+        name="$!{params.name}"
+        toggle="$!{params.toggle}"
+        >
+        <div class="hc_canvas-title">
+            <span class="hc_canvas-title-icon #if($state=="collapse") hc_close #elseif($state=="expand") hc_open #else hc_open #end"></span>
+            $!{params.title}
+        </div>
+        <div class="hc_canvas-content" #if($state=="collapse") style="display: none" #end>
+            $bodyContent
+        </div>
+    </div>
+#end
+#**   
+ * @author caint   
+ * @class
+ * @name canvas_end
+ * @description 可以折叠的画板组件(结尾)
+ * @see 
+ * @example \#canvas_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends canvas_end
+ *#
+#macro(canvas_end $params)
+        </div>
+    </div>
+#end
+
+#**   
+ * @author zhangc   
+ * @class
+ * @name ztree
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param data {JSON} 组成树结构的组件
+ * @param checkMode {String} radio/checkbox选择模式,单选和多选的选择
+ * @param expandFirst {Boolean} 载入时展开
+ * @param reRenderFn {Function} 用于对dom重新进行重新渲染的函数
+ * @param nodeclick {String} 当节点被点击时使用的函数
+ * @param beforenodeclick {String} 当节点被点击前会调用的函数。
+ * @description 一个简单Ztree封装，暂仅作bate版本，慎用。
+ * @see 
+ * @example \#ztree({"name":"testztree","data":"$treedata","expandFirst":true,"checkMode":"checkbox","nodeclick":"show","beforenodeclick":"show"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends ztree
+ *#
+#macro(ztree $params)
+    <div class="h_ztree" id="$!{params.id}" $horn.paramsCache($params)  name="$!{params.name}"
+		items='$!{params.data}' 
+		#if($params.checkMode)
+			checkMode="$!{params.checkMode}"
+		#end
+		#if($params.expandFirst)
+			expandFirst="$!{params.expandFirst}"
+		#end
+		#if($params.reRenderFn)
+			reRenderFn="$!{params.reRenderFn}"
+		#end
+		treeclick="$!{params.nodeclick}" 
+		beforetreeclick="$!{params.beforenodeclick}">
+        <div class="ztree"></div>
+    </div>
+#end
+#macro(menu $params)
+	<div name="$!params.name" class="hc_menu" id="$!params.id" $horn.paramsCache($params)>
+	</div>
+	<ul class="h_toolbar-menu">
+       <li class="h_toolbar-item" base>
+           <a class="h_toolbar-item-a" title="" href="javascript:void(0)">
+               <span class="h_toolbar-item-icon"></span>
+               <span class="h_toolbar-item-txt"></span> 
+               <span class="h_toolbar-item-arrow">&gt;</span>
+           </a>
+        </li>
+    </ul>
+#end
+#**   
+ * @author zhangc   
+ * @class
+ * @name imager
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param width {String} 宽度 
+ * @param height {String} 高度
+ * @param imageautoresize {String} 图片是否自适应（超出则出现滚动条） 
+ * @param notfound {String} 如果图片未找到时使用的替代图片
+ * @param items {List<String>} 图片地址列表。
+ * @description 一个简单的图片展示控件，暂仅作bate版本。
+ * @see 
+ * @example \#imager({"name":"img","items":["http://1.su.bdimg.com/all_small_skin/bg_16.jpg"],"width":"200","height":"270","notfound":"http://1.su.bdimg.com/all_small_skin/bg_17.jpg"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends canvas_start
+ *#
+#macro(imager $params)
+	<div class="h_imager" name="$!{params.name}" id="$!{params.id}" $horn.paramsCache($params)  xwidth="$!{params.width}" xheight="$!{params.height}" imageautoresize="$!{params.imageautoresize}" notfound="$!{params.notfound}">
+		#foreach($item in $params.items)
+			<img #if($velocityCount == 1) class="h_img_show" #end src="$item" />
+		#end
+    </div>
+#end	
+#**
+ * @class
+ * @name imagebox
+ * @param name {name} 名称
+ * @param id {String} 唯一标识
+ * @param width {String} 宽度
+ * @param height {String} 高度
+ * @param win_w {String} 弹出窗口宽度
+ * @param win_h {String} 弹出窗口高度
+ * @param items {Array} 图片地址数组
+ * @description imageBox组件,图片查看组件
+ * @see
+ * @example
+ *	<pre>
+ *    \#imagebox({"name":"aa","width":"400","height":"400",
+ * "win_w":"300","win_h":"200",
+ * "items":['http://localhost:8082/JresAPI/images/demo/i1.jpg',
+ * 'http://localhost:8082/JresAPI/images/demo/Koala.jpg',
+ * 'http://localhost:8082/JresAPI/images/demo/i6.jpg']})
+ *	</pre>
+ * @since version 0.1
+ *#
+#**
+ * @lends imageBox
+ *#
+#macro(imagebox $params)
+	<div class="hc_image" name="$!{params.name}" id="$!{params.id}" $horn.paramsCache($params)  hwidth="$!params.width" hheight="$!params.height">
+    	<div class="hc_image-box">
+    		<div class="hc_image-page">
+    			<a href="javascript:void(0)" class="hc_image-pagepre" title="上一张">上一张</a>
+    			<a href="javascript:void(0)" class="hc_image-pagenext" title="下一张">下一张</a>
+    		</div>
+    		<div class="hc_miniimg ">
+				<div class="hc_image-title" style="text-align:center;font-size:20">当前第[<span class='hc_image-page-cur'>10</span>]页，共[<span class='hc_image-page-count'>10</span>]页</div>
+				#foreach($img in $params.items)
+					<a href="javascript:void(0)" class="image-artzoom"><img src="$img"/></a>
+				#end
+			</div>
+    	</div>
+    	<div class="hc_image-zoombox">
+    		<div class="hc_image-zoomtool">
+    			<a class="hc_image-imgleft" href="javascript:void(0)" title="向右转">向右转</a>
+    			<a class="hc_image-imgright" href="javascript:void(0)" title="向左转">向左转</a>
+    		</div>
+    		<a class="hc_maximglink" href="javascript:void(0)">
+				<img class="hc_maxImg" src=""/>
+			</a>
+    	</div>
+    </div>
+    #@window({"title":"查看图像","width":$params.win_w,"height":"${params.win_h}","name":"${params.name}win"})
+        <div id="${params.name}ViewPic">
+        </div>
+    #end
+#end
+#**
+* @description 一个查询的panel，日后可能会加上输入框自动边长等
+* @class
+* @name search_panel
+* @param id {String} 唯一标识
+* @example
+* \#search_panel({"url":"$appServer.get('/demo/extend-field/testSearchField.htm')","name":"query","text":"请输入客户号"})
+*
+* @since version 0.1
+*#
+#**
+ * @lends search_panel
+ *#
+#macro(search_panel $params)
+    <form action="#if($params.url)$params.url#else$!{sourceurl}#end" >
+        <div class="h_search" id="$!{params.id}" $horn.paramsCache($params) >
+            <input type="text" #if($params.name)name="$!{params.name}"#end value="#if($params.text)${params.text}#else请输入查询内容#end" class="h_search-txt">
+            <input type="submit" value="" class="h_search-mbtn">               
+        </div>
+    </form>
+#end
+#**
+ * @class
+ * @name fieldset
+ * @param id {String} 唯一标识
+ * @param title {String} 标题
+ * @description 分组组件
+ * @see
+ * @example
+ * \#@fieldset({"title":"详细信息"})
+ *       \#textfield({"title":"详细信息","id":"fieldsetId"})
+ *   \#end
+ * @since version 0.1
+ *#
+#macro(fieldset $uiFieldSetConfig)
+	<fieldset class="h_fieldset" id="$!{uiFieldSetConfig.id}" $horn.paramsCache($uiFieldSetConfig)  >
+		<legend>$!uiFieldSetConfig.title</legend>
+		$bodyContent
+	</fieldset>
+	#set($uiFieldSetConfig = {})
+#end
+#**   
+ * @author zhangc   
+ * @class
+ * @name page_bar
+ * @param id {String} 唯一标识
+ * @param name {String} 名称
+ * @param pageNo {int} 当前页码，一般由分页组件Page提供。
+ * @param url {String} 默认为当前页面地址，可提供其他页面的分页跳转。
+ * @param pages {int} 总页码数
+ * @param pageSize {int} 页面大小，每页显示条目数
+ * @param count {int} 总条目数
+ * @param bindFormName {String} 绑定的查询表单名称,用于分页时将查询条件的参数传入
+ * @description 用于分页的组件。
+ * @see 
+ * @example
+ * \#page_bar($page)
+ * \#page_bar({"pageNo":1,"pageSize":20,"pages":})
+ *  
+ * @since version 0.1
+ *#	
+#**
+ * @lends page_bar
+ *#
+#**
+*  -----------------------------------------------------------------------
+*  修订记录:
+*  2014-01-28    zhangsu    Grid的分页栏支持展示当前显示条数，总条数信息
+*  2014-01-28    zhangsu    Grid分页支持动态设置每页显示条数
+*  2014-02-10    zhangsu    Grid分页增加分页页数判断
+*  2014-02-13    zhangsu    Grid分页时pageNo<=0时,将$pageNo置为1,
+*  2014-02-14    zhangsu    如果总条数为0，将动态设置跳转页和页码input框disabled，跳转按钮disabled	
+*  2014-02-17    zhangsu    如果表格无数据，不显示分页栏
+*  2014-03-12    zhangsu    STORY #7836 grid分页grid的查询条件带不过去
+*  2014-06-19    zhangsu    STORY #8436 [研发中心/内部需求][jresplus][ui]-pagebar的dom结构和样式建议优化调整
+*  2014-10-08    wangyb10555 STORY #9853 [财富管理事业部/陈为][TS:201409260084]-JRESPlus-ui-1. Grid组件中的分页栏：当只有单页数据的时，首页、末页】
+*  -----------------------------------------------------------------------
+*#
+#macro(page_bar $params $pagebarparams)
+	#if($pagebarparams.align=="left"||$pagebarparams.align=="right"||$pagebarparams.align=="center")
+		#set($align = "h_pages-"+$pagebarparams.align)
+	#else
+		#set($align = "")
+	#end
+    <div class="h_pages $align" 
+    	#if($params.url) url="$!params.url" #end
+        id="$!{params.id}" $horn.paramsCache($params) 
+    	target="$!params.targetName"
+    	pageNo="$params.pageNo"               ##当前页
+    	pageSize="$params.pageSize"           ##每页显示条目数
+    	pageCount="$params.count"             ##总条数
+    	pages="$params.pages"                 ##总页数
+		bindFormName = "$!{pagebarparams.bindFormName}"          ##绑定的查询表单名称  STORY7836
+    	>
+		 #if($params.pageNo <=0)   
+		    #set($pageNo=1) ##当前页码
+		 #else
+		    #set($pageNo=$params.pageNo) ##当前页码
+		 #end 
+		    
+	     #set($pageSum=$params.pages) ##总页数 
+	     #set($pagePrev=$pageNo+1) ##上一页    
+	     #set($pageNext=$pageNo-+1) ##下一页
+		
+#if($params.count>0&&$pageSum>0)
+		##<span class="h_red">$pageNo</span>/<span class="h_red">$pageSum</span>   展示当前显示页数，总页数信息
+	   
+		
+    	<a href="javascript:void(0)"  class="h_pagebtn-index #if($params.count<=0||$pageSum<=0||$pageNo==1)h_page-dis #end ">首页</a>
+    	<a href="javascript:void(0)" class="h_pagebtn-prev #if(1==$pageNo||$params.count<=0||$pageSum<=0)h_page-dis #end">上一页</a>
+
+		#set($liststep = 6)                ##显示分页页数   
+		#if($pageNo < 1)   
+	             $pageNo = 1     ##如果分页变量小于１,则将分页变量设为１   
+	    #end  
+			 
+		#set($bar = $liststep/2)  
+		#if(($pageNo - $bar) < 1)   
+	            #set($listbegin = 1)   
+	     #else  
+	            #set($listbegin = $pageNo - $bar)   ##分页信息开始显示到第几页   
+		#end
+		
+		 #set($listend = $pageNo + $bar)     ##分页信息结束显示到第几页
+		 #if($listend > $pageSum)   
+	            #set($listend = $pageSum)           ##分页信息结束显示超过了总页数处理    
+	            #end 
+		 
+		#if($listbegin > 1)      ##第一页控制   
+		    <a href="javascript:void(0)" class="h_page-num #if($params.count<=0||$pageSum<=0)h_page-dis #end">1</a><SPAN> … </SPAN>
+	     #end  
+    	 #foreach($i in [$listbegin..$listend])   
+	            ##if($i <= $pageSum)             ##分页码的显示   
+	                #if($i != $pageNo)   
+	                <a href="javascript:void(0)" class="h_page-num #if($params.count<=0||$pageSum<=0)h_page-dis #end">$i</a>   
+	                #else  
+	                <a class="h_cur">$i</a>   
+	                #end   
+	            ##end   
+	               
+	     #end   
+	               
+	            #if($listend < $pageSum)         ##最后一页的处理   
+	            <span> … </span><a href="javascript:void(0)" class="h_page-num #if($params.count<=0||$pageSum<=0)h_page-dis #end">$pageSum</a>
+	               
+	            #end 
+		
+    	<a href="javascript:void(0)" class="h_pagebtn-next #if($params.count<=0||$pageSum==$pageNo||$pageSum<=0)h_page-dis #end">下一页</a>
+    	<a href="javascript:void(0)"  class="h_pagebtn-end #if($params.count<=0||$pageSum<=0||$pageSum==$pageNo)h_page-dis #end ">尾页</a>
+		##动态设置每页显示条数
+		至 <input name="pageNo" type="text" id="$!{pagebarparams.bindFormName}_topageid" size="1" value="$pageNo" class="h_page-num #if($params.count<=0||$pageSum<=0)h_page-dis #end" /> 页&nbsp;
+		每页 <input type="text" name="pageSize" class="h_page-num #if($params.count<=0||$pageSum<=0)h_page-dis #end" value="$params.pageSize"  id="$!{pagebarparams.bindFormName}_topagesize"> 条&nbsp;
+		<a href="javascript:void(0)" class="h_pagebtn-go #if($params.count<=0||$pageSum<=0)h_page-dis #end" id="$!{pagebarparams.bindFormName}_pagebtn-go">go</a>
+#end  
+  </div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name button_panel_ex
+ * @param id {String} 唯一标识
+ * @param buttons {Json} 自定义按钮组 格式如："buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}] 名称 样式名 点击事件
+ * @description button_panel_ex组件，按钮组组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#button_panel_ex({"buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}]}) <br/>注：内含“内提”、“重置”按钮，后面才是自己添加的button
+ * @since version 0.1
+ *#	
+#**
+ * @lends button_panel_ex
+ *#
+
+#macro(button_panel_ex $uiButtonPanelExConfig)
+	<div class="h_btndiv" name="$!{uiButtonPanelExConfig.name}" id="$!{uiButtonPanelExConfig.id}" $horn.paramsCache($uiButtonPanelExConfig) >
+		#if($uiButtonPanelExConfig.buttons)
+			#foreach($button in $uiButtonPanelExConfig.buttons)
+				<button type="button" #if($button.refmenu)refmenu="$button.refmenu"#end
+                name="$!{button.name}"
+				#if($!button.className)
+				    class="$!{button.className}"
+				#end 
+				onclick="$!{button.event}">$!{button.label}</button>
+			#end
+		#end
+    </div>
+	#set($uiButtonPanelExConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name button_panel_ex
+ * @param id {String} 唯一标识
+ * @param buttons {Json} 自定义按钮组 格式如："buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}] 名称 样式名 点击事件
+ * @description button_panel_ex组件，按钮组组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#button_panel_ex({"buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}]}) <br/>注：内含“内提”、“重置”按钮，后面才是自己添加的button
+ * @since version 0.1
+ *#	
+#**
+ * @lends button_panel_ex
+ *#
+
+#macro(button_panel_bar $uiButtonPanelBar)
+	<div class="h_btndiv" id="$!{uiButtonPanelBar.id}" name="$!{uiButtonPanelBar.name}">
+		$bodyContent
+    </div>
+	#set($uiButtonPanelBar = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name button_panel_ex
+ * @param id {String} 唯一标识
+ * @param buttons {Json} 自定义按钮组 格式如："buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}] 名称 样式名 点击事件
+ * @description button_panel_ex组件，按钮组组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#button_panel_ex({"cols":"3", "rows":"2", "buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}]}) <br/>注：内含“内提”、“重置”按钮，后面才是自己添加的button
+ * @since version 0.1
+ *#	
+#**
+ * @lends button_panel_ex
+ *#
+#macro(button $uiButtonConfig)
+	<button type="button"
+    id="$!{uiButtonConfig.id}" name="$!{uiButtonConfig.name}"
+	#if($!{uiButtonConfig.className})
+	    class="$!{uiButtonConfig.className}"
+	#end 
+	onclick="$!{uiButtonConfig.event}">$!{uiButtonConfig.label}</button>
+	#set($uiButtonConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name calendar
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param defValue {String} 如果设置了defValue的值，重置成的defValue值，否则重置成初始值
+ * @param label {String} 日历组件显示值
+ * @param check {String} 验证串
+ * @param config {String} 日历自定义配置项 示例： "config":"{minDate:'%y-%M-%d', noToday:true, format:'yyyyMMdd'}"} 具体接口详见lhgcalendar接口文档<a href=""></a>
+ * @param events {Json} 事件，格示见示例.日期改变时调用onchange配置的函数，实参为当前选择的日期值
+ * @description calendar组件，日历组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#calendar({"label":"日历","name":"testCalendar","config":"{format:'yyyyMMdd'}","events":[{"event":"onchange","function":"getValue()"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends calendar
+ *# 
+#macro(calendar $uiCalendarConfig)
+    #set($val = "")
+    #set($val = $uiCalendarConfig.value)
+    #if((!$val || $val =="") && $uiCalendarConfig.name )
+        #set($val =  "$horn.getValue($!uiCalendarConfig.name)")
+    #end
+	##查看模式
+    #if($view)
+    	<li class="hc_panel-li #if($uiCalendarConfig.cols)h_licols-$!{uiCalendarConfig.cols}#end">
+    		<span ref="$!uiCalendarConfig.name">
+    			$uiCalendarConfig.label
+    		</span>
+    		<div name="$!{uiCalendarConfig.name}" class="hc_label"  $horn.paramsCache($uiCalendarConfig) 
+    			#if($uiCalendarConfig.dictName)
+    				dictName="$!{uiCalendarConfig.dictName}"
+    				$horn.addGlobal('componentSelects_s',$!{uiCalendarConfig.dictName})
+    			#end	
+    			>$!val</div>
+    	</li>
+    #else	
+    	<li class="hc_panel-li #if($uiCalendarConfig.cols)h_licols-$!{uiCalendarConfig.cols}#end"><span ref="$!uiCalendarConfig.name" title="$uiCalendarConfig.label">
+    	#set($checkStr=$horn.getCheckStr($uiCalendarConfig.name,$uiCalendarConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiCalendarConfig.name,$uiCalendarConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiCalendarConfig.label</span>
+    	<div class="hc_calendar" id="$!{uiCalendarConfig.id}" $horn.paramsCache($uiCalendarConfig)  name="$uiCalendarConfig.name" 
+			#if($uiCalendarConfig.alias)
+    			alias="${uiCalendarConfig.alias}"
+    		#end
+			config="$!{uiCalendarConfig.config}">
+        	<input type="hidden" name="$uiCalendarConfig.name" value="$val"
+        		#if($uiCalendarConfig.alias)
+        			alias="${uiCalendarConfig.alias}"
+				#end
+				check="$checkStr"
+        		group="$groupStr"
+        	/><input type="text" value="$val"
+            		##foreach($event in $uiCalendarConfig.events)
+            		##	$event.event = "$event.function"
+            		##end
+            		check="$checkStr"
+        			group="$groupStr"
+				></div>
+    	</li>
+	#end
+	#set($uiCalendarConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name calendargroup
+ * @param cols {String} 跨列数
+ * @param id {String} 唯一标识
+ * @param name1 {String} 开始日期名称
+ * @param value1 {String} 开始日期值
+ * @param defValue1 {String} 如果设置了defValue1的值，重置成的defValue1值，否则重置成初始值
+ * @param name2 {String} 结束日期名称
+ * @param value2 {String} 结束日期值
+ * @param defValue2 {String} 如果设置了defValue2的值，重置成的defValue2值，否则重置成初始值
+ * @param label {String} 日历组组件显示值
+ * @param check {String} 验证串
+ * @param config {String} 日历自定义配置项 示例： "config":"{minDate:'%y-%M-%d', noToday:true, format:'yyyyMMdd'}"} 具体接口详见lhgcalendar接口文档<a href=""></a>
+ * @param events {Json} 事件，格示见示例
+ * @description calendargroup组件，日期组组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#calendargroup({"label":"证件有效期", "name1":"client.idBeginDate", "name2":"client.idEndDate", "check":""})
+ * @since version 0.1
+ *#	
+#**
+ * @lends calendargroup
+ *# 
+#macro(calendargroup $uiCalendarGroupConfig)
+ #calendar_group($uiCalendarGroupConfig)
+#end
+#macro(calendar_group $uiCalendarGroupConfig)
+	#set($val1 = "")
+    #set($val1 = $uiCalendarGroupConfig.value1)
+    #if(!$val1 || $val1 =="" && $uiCalendarGroupConfig.name1 )
+        #set($val1 =  "$horn.getValue($!uiCalendarGroupConfig.name1)")
+    #end
+    #set($val2 = "")
+    #set($val2 = $uiCalendarGroupConfig.value2)
+    #if(!$val2 || $val2 =="" && $uiCalendarGroupConfig.name2 )
+        #set($val2 =  "$horn.getValue($!uiCalendarGroupConfig.name2)")
+    #end
+	##查看模式
+    #if($view)
+		<li class="hc_panel-li #if($uiCalendarGroupConfig.cols)h_licols-$!{uiCalendarGroupConfig.cols}#end">
+    		<span ref="$!uiCalendarGroupConfig.name1" title="$!{uiCalendarGroupConfig.label}">
+				$uiCalendarGroupConfig.label
+			</span>
+    		<div name="$!{uiCalendarGroupConfig.name1}" class="hc_label"  $horn.paramsCache($uiCalendarGroupConfig) >$!val1<lable class="hc_hyphen">-</lable>$!val2</div>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($uiCalendarGroupConfig.cols)h_licols-$!{uiCalendarGroupConfig.cols}#end"><span ref="$!uiCalendarGroupConfig.name1" title="$!{uiCalendarGroupConfig.label}">
+    	#set($checkStr=$horn.getCheckStr($uiCalendarGroupConfig.name1,$uiCalendarGroupConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiCalendarGroupConfig.name,$uiCalendarGroupConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiCalendarGroupConfig.label</span>
+    	<div class="hc_calendargroup" id="$!{uiCalendarGroupConfig.id}" $horn.paramsCache($uiCalendarGroupConfig)  config="$!{uiCalendarGroupConfig.config}">
+        	<input type="hidden" name="$uiCalendarGroupConfig.name1" value="$!val1"
+        		#if($uiCalendarGroupConfig.alias)
+        			alias="${uiCalendarGroupConfig.alias}"
+        		#end
+        	/><input type='text'
+				##if($uiCalendarGroupConfig.disabled)
+                ##    disabled="disabled"
+                ##end
+                #if($uiCalendarGroupConfig.readonly)
+                    readonly="readonly"
+                #end
+        		##foreach($event in $uiCalendarGroupConfig.events)
+        		##	$event.event = "$event.function" 
+        		##end
+        		check="$checkStr"
+        		group="$groupStr"
+				value="$!val1" /><lable class="hc_hyphen">-</lable><input type="hidden" name="$uiCalendarGroupConfig.name2" value="$!val2"
+        	/><input type='text' 
+				##if($uiCalendarGroupConfig.disabled)
+                ##    disabled="disabled"
+                ##end
+                #if($uiCalendarGroupConfig.readonly)
+                    readonly="readonly"
+                #end
+        		##foreach($event in $uiCalendarGroupConfig.events)
+        		##	$event.event = "$event.function" 
+        		##end
+        		check="$horn.getCheckStr($uiCalendarGroupConfig.name2,$uiCalendarGroupConfig.check)"
+        		group="$groupStr"
+				value="$!val2" />
+    	</div>
+    	</li>
+	#end
+	#set($uiCalendarGroupConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name select_tree
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param value {String} 值
+ * @param label {String} 日历组组件显示值
+ * @param check {String} 验证串
+ * @param dictName {String} 数据字典名称
+ * @param checkbox {String} 是否有复选框 可选值"checkbox"、"radio"或""
+ * @param isLevelSelect {String} 同级是否能选择多次 可选值"true"、"false"，默认"false"
+ * @param root_id {String} 根节点的key 默认为"0"表示全部展示，如果不为"0"则表示要展示的单一树
+ * @param url {String} 组件请求的数据地址，默认不需要此项，使用框架提供的地址"/dict/getDictEntries.htm?format=json"
+ * @param events {Json} 事件，格示见示例
+ * @description select_tree组件，树形下拉组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#select_tree({"label":"行业分类","name":"industryRange", "dictName":"IndustryCode", "check":"", "value":"", "checkbox":"","root_id":"0","events":[{"event":"onchange","function":"return chgIndustryCode.apply(this,arguments)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends select_tree
+ *#
+#macro(select_tree $params)
+    #set($val = "")
+    #set($val = $params.value)
+    #if(!$val || $val =="" && $params.name )
+        #set($val =  "$horn.getValue($!params.name)")
+    #end
+	##查看模式
+    #if($view)
+        #set($val = "")
+        #set($val = $params.value)
+        #if(!$val || $val =="" && $params.name )
+            #set($val =  "$horn.getValue($!params.name)")
+        #end
+		<li class="hc_panel-li #if($params.cols)h_licols-$!{params.cols}#end">
+    		<span ref="$!params.name">
+				$params.label
+			</span>
+    		<div name="$!{params.name}" class="hc_label"  $horn.paramsCache($params) >
+				$val
+			</div>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($params.cols)h_licols-$!{params.cols}#end"><span>
+    	#set($checkStr=$horn.getCheckStr($params.name,$params.check))
+        #set($groupStr=$horn.getGroupStr($params.name,$params.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$!{params.label}</span>
+    	<div class="hc_select-tree" id="$!{params.id}" $horn.paramsCache($params) >
+    	<input type="hidden" name="$params.name" 
+    	value=#if($params.value)"$!{params.value}"#else"$val"#end
+    	dictName="$!{params.dictName}" 
+    	checkbox="$!{params.checkbox}"
+    	isLevelSelect="$!{params.isLevelSelect}"  
+    	check="$checkStr"
+    	group="$groupStr"
+    	 root_id="$!{params.root_id}" >
+    	<input type="text" 
+    		#foreach($event in $params.events)
+    			$event.event = "$event.function" 
+    		#end
+            readonly="readonly"
+            #if($params.disabled)
+                disabled="disabled"
+            #end
+        	value=#if($params.value)"$!{params.value}"#else"$val"#end
+        	ref="ztree_$params.name.replaceAll('\.', '_')" 
+    		url="$!{params.url}" 
+    	/>
+    	$horn.addGlobal("componentSelect_trees",$params.name.replaceAll("\.", "_"))
+    	</div>
+    	</li>
+	#end
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name panel_extend_hide_div
+ * @description panel_extend_hide_div组件，如果页面上需要使用select_tree组件，则需要添加此宏
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#panel_extend_hide_div
+ * @since version 0.1
+ *#	
+#**
+ * @lends panel_extend_hide_div
+ *# 
+#macro(panel_extend_hide_div)
+	<div class="hc_hide_div-tree">
+		#foreach($componentSelect_tree in $componentSelect_trees)
+			<div class="hc_selectbox-tree-div" ref_target="ztree_$componentSelect_tree">
+				<div class="hc_selectbox-tree-left">
+					<ul class="ztree" id="ztree_$componentSelect_tree">
+
+					</ul>
+				</div>
+				<div class="hc_selectbox-tree-right">
+					<ul class="ztree">
+					</ul>
+				</div>
+			</div>
+		#end
+	</div>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name combox
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param items {Json} 静态显示值 格式："items":[{"label":"男", "pLabel":"0", "value":"1"},{"label":"女", "value":"2", "pLabel":"1"}] pLabel为当前节点的父节点编号
+ * @param headItem {Json} 选项头格式如:{"label":"","pLabel":"","value":"请选择"} 如果设置了pKeyField,labelField,valueField请使用对应的值
+ * @param dictName {String} 数据字典名
+ * @param refname {String} 关联筛选的组件名
+ * @param multiple {String} 是否多选
+ * @param checkAll {boolean} 是否全选
+ * @param delimiter {String} 多选时的显示分隔符
+ * @param pKeyField {String} 用于渲染列表中的显示项目使用的item属性，默认为'pLabel'
+ * @param labelField {String} 用于渲染列表中的显示项目使用的item属性，默认为'label'
+ * @param valueField {String} 用于渲染列表中显示项目的实际值使用的item属性,默认为'value'
+ * @param showLabel {Boolean} 是否在渲染列表项目时显示实际值，默认为true
+ * @param events {Json} 事件，格示见示例
+ * @description combox组件，下拉选项扩展组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#combox({"label":"自定义静态字典","multiple":true, "name":"sysNodes3","showLabel":"true","labelField":"key","valueField":"val","items":[{"key":"0","val":"个人账户"},{"key":"1","val":"机构账户"},{"key":"3","val":"特殊机构账户"}], "events":[{"event":"onchange","function":"alert(2)"}], "check":""})
+ * @since version 0.1
+ *#	
+#**
+ * @lends combox
+ *#
+##combox 组件的宏 第一个参数是中文名，第二个是id，第三个是字典名
+#macro(combox $uiComboxConfig)
+	##查看模式
+    #if($view)
+        #set($val = "")
+        #set($val = $uiComboxConfig.value)
+        #if((!$val || $val =="") && $uiComboxConfig.name )
+            #set($val =  "$horn.getValue($!uiComboxConfig.name)")
+        #end
+		<li class="hc_panel-li #if($uiComboxConfig.cols)h_licols-$!{uiComboxConfig.cols}#end">
+    		<span ref="$!uiComboxConfig.name" title="$!{uiComboxConfig.label}">
+				$uiComboxConfig.label
+			</span>
+    		<div name="$!{uiComboxConfig.name}" class="hc_label" #if($uiComboxConfig.multiple) mutiValue="true" #end
+                #if($uiComboxConfig.dictName)
+    				dictName="$!{uiComboxConfig.dictName}"
+    				$horn.addGlobal('componentSelects_s',$!{uiComboxConfig.dictName})
+				#end
+				 $horn.paramsCache($uiComboxConfig) 
+    			>$!val</div>
+    	</li>
+	#else
+    	#set($items=[])
+		#set($pKeyField = "pLabel" ) 
+		#set($keyField = "label" ) 
+        #set($titleField = "value")
+        #if($uiComboxConfig.items)
+        	#set($items = $uiComboxConfig.items)
+        #elseif($dictManager && $uiComboxConfig.dictName)
+            #set($items = $dictManager.getDicts($uiComboxConfig.dictName))
+		#end
+		#foreach($item in $items)
+			#if($item.code)
+				#set($keyField = "code" ) 
+				#set($titleField = "text")
+			#end
+			#break
+		#end
+
+    	##如果有传入参数，则替换掉对应的field
+    	#if($uiComboxConfig.pKeyField) 
+    		#set($pKeyField = $uiComboxConfig.pKeyField ) 
+		#end
+
+    	#if($uiComboxConfig.labelField && $uiComboxConfig.labelField.length() > 0)
+    		#set($keyField = $uiComboxConfig.labelField ) 
+    	#end
+    	#if($uiComboxConfig.codeField && $uiComboxConfig.codeField.length() > 0)
+    		#set($keyField = $uiComboxConfig.codeField ) 
+    	#end
+    	#if($uiComboxConfig.valueField && $uiComboxConfig.valueField.length() > 0) 
+    		#set($titleField = $uiComboxConfig.valueField )
+    	#end
+    	#if($uiComboxConfig.textField && $uiComboxConfig.textField.length() > 0) 
+    		#set($titleField = $uiComboxConfig.textField )
+    	#end
+    	
+    	##设置是否显示标签
+    	#set($showLabel = true)
+    	#if($uiComboxConfig.showLabel == "false")
+    		#set($showLabel = false)
+    	#end
+        #set($multipleValue="")
+        #if($uiComboxConfig.delimiter)
+            #set($delimiter=$!{uiComboxConfig.delimiter})
+        #else
+            #set($delimiter=",")
+        #end
+    	<li class="hc_panel-li #if($uiComboxConfig.cols)h_licols-$!{uiComboxConfig.cols}#end"><span ref="$!uiComboxConfig.name" title="$uiComboxConfig.label">
+    	#set($checkStr=$horn.getCheckStr($uiComboxConfig.name,$uiComboxConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiComboxConfig.name,$uiComboxConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiComboxConfig.label</span>
+    	<div class="hc_combox" id="$!{uiComboxConfig.id}" $horn.paramsCache($uiComboxConfig)  pKeyField=$!{pKeyField} keyField=$!{keyField} titleField=$!{titleField} showLabel="$!{showLabel}">
+    	#set($curvalue="")
+    	#if($uiComboxConfig.value)
+    		#set($curvalue=$!{uiComboxConfig.value})
+    	#else
+    		#set($curvalue="$horn.getValue($!uiComboxConfig.name)")
+    	#end
+    	<input type="hidden" name="$uiComboxConfig.name" 
+    		#if($uiComboxConfig.alias)
+    			alias="${uiComboxConfig.alias}"
+    		#end
+    	#if($uiComboxConfig.refname)
+    		refname="$uiComboxConfig.refname" 
+    	#end
+    	#if(!$curvalue.equals(""))
+    		value="$curvalue"
+        #else
+        	#if($uiComboxConfig.multiple != true && $items.size()>0)
+    			#set($item = $items.get(0))
+    	        #set($itemLabelCommand="$"+"!"+"{item."+"$keyField"+"}")
+    			#set($itemLabel = "#evaluate($itemLabelCommand)")
+                #if($uiComboxConfig.headItem)
+                    #set($headItem = $uiComboxConfig.headItem)
+                    #set($headItemLabelCommand="$"+"!"+"{headItem."+"$keyField"+"}")
+                    #set($headItemLabel = "#evaluate($headItemLabelCommand)")
+                    value="$headItemLabel"
+                #else
+                    value="$itemLabel"
+                #end
+            #elseif($uiComboxConfig.multiple == true && $items.size()>0 && ($uiComboxConfig.checkAll==true || $uiComboxConfig.selectAll == true))
+                #foreach($item in $items)
+                        #set($itemLabelCommand="$"+"!"+"{item."+"$keyField"+"}")
+                        #set($itemLabel = "#evaluate($itemLabelCommand)")
+                        #if($velocityCount == $items.size())
+                            #set($multipleValue = $multipleValue+$!{itemLabel})
+                        #else
+                            #set($multipleValue = $multipleValue+$!{itemLabel}+$!{delimiter})
+                        #end
+                    #end
+                value = "$!{multipleValue}"
+        	#end
+    	#end
+    	check="$checkStr"
+    	group="$groupStr"
+    	 />
+    	<input multiple="$!{uiComboxConfig.multiple}" type="text" 
+        	##foreach($event in $uiComboxConfig.events)
+        	##	$event.event = "$event.function" 
+        	##end
+        	#if($uiComboxConfig.dictName && $horn)
+        		#if($uiComboxConfig.multiple == true)
+        		 	ref="${uiComboxConfig.dictName}_m"
+        		#else
+        		 	ref="${uiComboxConfig.dictName}_s"
+        		#end
+        	#end
+        	#if(!$curvalue.equals(""))
+        		#if($uiComboxConfig.multiple == true)
+        			value="$curvalue"
+        		#else
+					#if($dictManager && $uiComboxConfig.dictName)
+						#set($val = $dictManager.getDictEntry($uiComboxConfig.dictName,$curvalue));
+						value="$curvalue:$!val.getValue()" 
+                	#else
+    					#foreach($item in $items)
+        	    			#if($item.label == $curvalue)
+        	    				value="$item.label:$item.value" 
+        	    			#end
+						#end
+						
+						
+                		#foreach($item in $items)
+                			#set($itemLabelCommand="$"+"!"+"{item."+"$keyField"+"}")
+                			#set($itemTitleCommand="$"+"!"+"{item."+"$titleField"+"}")
+            				#set($itemLabel = "#evaluate($itemLabelCommand)")
+            				#set($itemTitle = "#evaluate($itemTitleCommand)")
+                			#if($itemLabel == $curvalue)
+            					##如果有设置showLabel，则显示
+                    			value="#if($showLabel)$itemLabel:#end$itemTitle"
+            				#end
+                		#end
+                	#end
+					
+					
+					
+        		#end
+        	#elseif($uiComboxConfig.multiple != true && $items.size()>0)
+        		#set($item = $items.get(0))
+        		##如果有设置showLabel，则显示
+                #set($itemLabelCommand="$"+"!"+"{item."+"$keyField"+"}")
+        		#set($itemTitleCommand="$"+"!"+"{item."+"$titleField"+"}")
+        		#set($itemLabel = "#evaluate($itemLabelCommand)")
+        		#set($itemTitle = "#evaluate($itemTitleCommand)")
+        		##如果有设置showLabel，则显示
+                #if($uiComboxConfig.headItem)
+                    #set($headItem = $uiComboxConfig.headItem)
+                    #set($headItemTitleCommand="$"+"!"+"{headItem."+"$titleField"+"}")
+                    #set($headItemTitle = "#evaluate($headItemTitleCommand)")
+                    value="$headItemTitle"
+                #else
+                    value="#if($showLabel)$itemLabel:#end$itemTitle"
+                #end
+            #elseif($uiComboxConfig.multiple == true && $items.size()>0 && ($uiComboxConfig.checkAll==true || $uiComboxConfig.selectAll == true))
+                value="$!{multipleValue}"
+        	#end
+                delimiter="$!{delimiter}"
+    
+    	/>
+    		#if($uiComboxConfig.dictName && $horn)
+    			#foreach($dicname in $uiComboxConfig.dictName.split(","))
+    				#if($uiComboxConfig.multiple == true)
+            		 	$horn.addGlobal('componentSelects_m',$dicname)
+            		#else
+            		 	$horn.addGlobal('componentSelects_s',$dicname)
+        			#end
+    			#end
+        		
+    		#else
+    			
+    			#if($items)
+    				<div class="hc_checkboxdiv"
+    					#if($uiComboxConfig.multiple == true)
+    						multiple_line="true"
+    					#else
+    						multiple_line="false"
+    					#end
+    				>
+    					<ul>
+    
+    						#foreach($pItem in $items)
+                                ##如果有设置showLabel，则显示
+                                    #set($itemLabelCommand="$"+"!"+"{pItem."+"$keyField"+"}")
+                                    #set($itemTitleCommand="$"+"!"+"{pItem."+"$titleField"+"}")
+                                    #set($pKeyCommand="$"+"!"+"{pItem."+"$pKeyField"+"}")
+                                    #set($itemLabel = "#evaluate($itemLabelCommand)")
+                                    #set($itemTitle = "#evaluate($itemTitleCommand)")
+                                    #set($pKey = "#evaluate($pKeyCommand)")
+
+                                    <li title="$!{itemTitle}" pKeyCommand="$pKeyCommand" pKey="$!{pKey}" key="$!{itemLabel}"><label>
+                                        #if($uiComboxConfig.multiple == true)
+                                            <input type="checkbox">
+                                        #end
+
+                                        #if($showLabel)<span class="hce_dictlabel" >$!{itemLabel}:</span>#end$!{itemTitle}
+                                    </label></li>
+    						#end
+    					</ul>
+    				</div>
+    			#end
+    		#end	
+    	</div>
+    	</li>
+	#end
+	#set($uiComboxConfig = {})
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name switch_field
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param value {String} 值
+ * @param label {String} 单选框组件显示值
+ * @param labelName {String} 就是label的对应hidden属性名
+ * @param check {String} 验证串
+ * @param labelitems {Json} 静态显示值 格式：{"label":"0","value":"客户号"}
+ * @param events {Json} 事件，格示见示例
+ * @description switch_field组件，可选文本框扩展组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example 
+ * <pre>\#switch_field({"label":"3","name":"client.branchNo","labelName":"type", "value":"", "check":"required","url":"callback/getCallBack.json",
+ *			"labelitems":[
+ *				{"label":"0","value":"客户号"},
+ *				{"label":"1","value":"资产账号"},
+ *				{"label":"3","value":"身份证号码"},
+ *				{"label":"4","value":"股东帐号"},
+ *				{"label":"5","value":"资金卡"}],
+ *			"events":[{"event":"beforeSend","function":"lhkh.sfBeforeSend()"},
+ *					  {"event":"complete","function":"lhkh.sfComplete()"},
+ *					  {"event":"success","function":"lhkh.sfSuccess()"},
+ *					  {"event":"error","function":"lhkh.sfError()"},
+ *			          {"event":"labelChange","function":"lhkh.sfLabelChange()"}]})	
+ *	</pre>
+ * @since version 0.1
+ *#	
+#**
+ * @lends switch_field
+ *#
+
+#macro(switch_field $params) 
+	#if($params.label)
+		#foreach($litem in $params.labelitems)
+			#if($litem.label==$params.label)
+				#set($labelitem = $litem)
+			#end
+		#end
+	#else
+		#set($labelitem = $params.labelitems.get(0))
+	#end
+
+    #set($val = $params.value)
+    #if(!$val || $val =="" && $params.name )
+        #set($val =  "$horn.getValue($!params.name)")
+    #end
+	##查看模式
+    #if($view)
+		<li class="hc_panel-li #if($params.cols)h_licols-$!{params.cols}#end">
+    		<span ref="$!params.name">
+				$params.label
+			</span>
+    		<div name="$!{params.name}" class="hc_label"  $horn.paramsCache($params) >
+				$val
+			</div>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($params.cols)h_licols-$!{params.cols}#end">
+    	#set($checkStr=$horn.getCheckStr($params.name,$params.check))
+        #set($groupStr=$horn.getGroupStr($params.name,$params.group))
+    	<div class="hc_switchfieldlabel ">
+    		<div  class="hc_switchfieldlabeltitle " title="$!{labelitem.value}">
+				<b class="hc_switchfieldicon">~</b>
+				<span >
+    			<b class="hc_red">
+    			#if($params.check.indexOf("required")>-1)
+    				*
+    			#end
+    			</b>
+				$!{labelitem.value}<input type="hidden" name="$!{params.labelName}" value="$!{labelitem.label}"/>
+                </span>
+		</div>
+    		<ul>
+    			#foreach($litem in $params.labelitems)
+    				<li title="$!{litem.value}" key="$!{litem.label}"
+    				#if($litem.label==$labelitem.label)
+    					class="h_cur" 
+    				#end
+    				><label>
+    					$!{litem.value}
+    				</label></li>
+    			#end
+    		</ul>
+    	</div>
+    	<div class="hc_switchfield" id="$!{params.id}" $horn.paramsCache($params)  >
+    	<input type="text" 
+    	name="$params.name" 
+    	#if($params.alias)
+    		alias="${params.alias}" 
+    	#end
+    	value=#if($params.value)"$!{params.value}"#else"$val"#end
+    	check="$checkStr"
+    	group="$groupStr"
+    	url="$!{params.url}"  
+    	param="$!{params.param}"  
+    	#foreach($event in $params.events)
+    		$event.event = "$event.function" 
+    	#end
+    	/>
+    		<div class="hc_checkboxdiv">
+    			<ul>
+    			</ul>
+    		</div>
+    	</div>
+	</li>
+	#end
+#end
+#**
+ * @description 验证码
+ * @class
+ * @name checkcode
+ * @param name 名称
+ * @param id {String} 唯一标识
+ * @example \#checkcode({"name":"checkcode","label":"验证码"})
+ * @since version 0.1
+ *#
+#macro(checkcode $params)
+	#set($checkCodeParam_Url="/horn/checkCode/get.htm")
+	#if($params.url)
+		#set($checkCodeParam_Url=${params.url})
+	#end
+	<li class="hc_panel-li">
+    	<span>$!params.label</span>
+    	<div class="hc_validcode" id="$!{params.id}" $horn.paramsCache($params)  name="$!params.name"><input name="$!params.name" type="text" /><img src="${appServer}${checkCodeParam_Url}"/></div>
+    </li>
+#end
+#**   
+ * @author zhangc   
+ * @class
+ * @name tooglefield
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param disabled {String} 是否禁用
+ * @param readonly {String}是否只读
+ * @description textfield组件，文本框组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#tooglefield({"label":"初始值开","value":"1"})
+			\#tooglefield({"label":"初始值关","value":"0"})
+			\#tooglefield({"label":"初始值无"})
+			\#tooglefield({"label":"禁止点击","disabled":"true"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends tooglefield
+ *#
+#macro(tooglefield $uiToogleFieldConfig)
+    #set($val = "")
+    #set($val = $uiToogleFieldConfig.value)
+    #if(!$val || $val =="" && $uiToogleFieldConfig.name )
+        #set($val =  "$horn.getValue($!uiToogleFieldConfig.name)")
+    #end
+	#if($val != 1 && $val != "1")
+		#set($val = 0)
+	#end
+    <li class="hc_panel-li #if($uiToogleFieldConfig.cols)h_licols-$!{uiToogleFieldConfig.cols}#end">
+		<span title="$!uiToogleFieldConfig.label" title="$!{uiToogleFieldConfig.label}">$!uiToogleFieldConfig.label</span>
+    	#set($checkStr=$horn.getCheckStr($uiToogleFieldConfig.name,$uiToogleFieldConfig.check))
+    	#set($groupStr=$horn.getGroupStr($uiToogleFieldConfig.name,$uiToogleFieldConfig.group))
+    	<div class="hc_switch" id="$!{uiToogleFieldConfig.id}" $horn.paramsCache($uiToogleFieldConfig)  name="$!uiToogleFieldConfig.name" >
+    		<button class="#if($val==0)hc_switch-close #else hc_switch-open #end #if(${uiToogleFieldConfig.disabled})hc_switch-disabled #end"
+				#if(${uiToogleFieldConfig.disabled})
+                    disabled="disabled"
+                #end
+                #if(${uiToogleFieldConfig.readonly})
+                    readonly="readonly"
+                #end
+        		##foreach($event in $uiToogleFieldConfig.events)
+        		##	$event.event = "$event.function" 
+        		##end
+        		check="$checkStr"
+    			group="$groupStr"
+			></button>
+    		<input  name="$!uiToogleFieldConfig.name" value="$!val" type="hidden" 
+				#if($uiToogleFieldConfig.alias)
+        			alias="$!{uiToogleFieldConfig.alias}"
+				#end
+				#if(${uiToogleFieldConfig.disabled})
+                    disabled="disabled"
+                #end
+			>
+    	</div>
+    </li>
+	#set($uiToogleFieldConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name screen_start
+ * @param title {String} 标题
+ * @param id {String} 唯一标识
+ * @param cols {String} 列数
+ * @description screen_start组件，是screen中最顶层的容器开始组件，需要配以#screen_end实现
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#screen_start({"cols":"3",  "columns":"4", "title":"联合开户"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends screen_start
+ *#
+ #**
+  * 修改记录：
+  * 2014-09-05    zhangsu    STORY #9592 [财富管理事业部/陈凯][TS:201409030133]-JRESPlus-ui-screen和screen_end里面的数据字典渲染过程不一致
+  *#
+#macro(screen_start $uiScreenConfig)
+	#set($layoutcolumn = 3)
+	#if($uiScreenConfig.columns) 
+		#set($layoutcolumn = $uiScreenConfig.columns)
+	#end
+	<div id="$!{uiScreenConfig.id}" class="h_screen-content-$layoutcolumn  #if(!$uiScreenConfig.title) h_screen-content-notitlebd #end"><h1><span>$!{uiScreenConfig.title}</span></h1>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name screen_start
+ * @param title {String} 标题
+ * @param id {String} 唯一标识
+ * @param cols {String} 列数
+ * @description screen组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#@screen({"cols":"3",  "columns":"4", "title":"联合开户"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends screen
+ *#
+#macro(screen $uiScreenConfig)
+	#set($layoutcolumn = 3)
+	#if($uiScreenConfig.columns) 
+		#set($layoutcolumn = $uiScreenConfig.columns)
+	#end
+	<div id="$!{uiScreenConfig.id}" class="h_screen-content-$layoutcolumn  #if(!$uiScreenConfig.title) h_screen-content-notitlebd #end"><h1><span>$!{uiScreenConfig.title}</span></h1>
+		$bodyContent
+	</div>
+	<div class="hc_hide_div">
+		#foreach($componentSelect in $!componentSelects_m)
+			<div class="hc_checkboxdiv" multiple_line="true" ref_target="${componentSelect}_m">
+				<ul>
+					#foreach($dictEntry in $dictManager.getDicts($componentSelect))
+					<li key="${dictEntry.label}" pKey="$!{dictEntry.pLabel}" title="${dictEntry.value}"><label>
+						<input type="checkbox">
+						<span class="hce_dictlabel" >${dictEntry.label}:</span>${dictEntry.value}
+						</label>
+					</li>
+					#end
+				</ul>
+			</div>
+		#end
+		#foreach($componentSelect in $!componentSelects_s)
+			<div class="hc_checkboxdiv" multiple_line="false" ref_target="${componentSelect}_s">
+				<ul>
+					#foreach($dictEntry in $dictManager.getDicts($componentSelect))
+					<li key="${dictEntry.label}" pKey="$!{dictEntry.pLabel}" title="${dictEntry.value}"><label>
+						<span class="hce_dictlabel" >${dictEntry.label}:</span>${dictEntry.value}
+						</label>
+					</li>
+					#end
+				</ul>
+			</div>
+		#end
+	    #jscode()
+			Horn.paramCaches = Horn.paramCaches || {};
+    		Horn.apply(Horn.paramCaches,$!horn.printParamCaches());
+    		#if($ToBackField)
+        		#foreach($backFild in $ToBackField)
+        			Horn.Validate.addError("$backFild.label","$backFild.value");
+        		#end
+    		#end
+    		#foreach($tipMessage in $tipMessages)
+    			Horn.Tip.show("$tipMessage.type","$tipMessage.message") ;
+    		#end
+			#if(true == $devMode)
+				Horn.debug_=true;
+				if(BigPipe){
+					BigPipe.debug_=true;
+				}
+			#else
+				Horn.debug_=false;
+				if(BigPipe){
+					BigPipe.debug_=false;
+				}
+			#end
+    	#end
+	</div>
+	#set($uiScreenConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name screen_end
+ * @description screen_end组件，是screen中最顶层的容器结束组件，需要配以#screen_start实现
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#screen_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends screen_end
+ *#
+#macro(screen_end)
+</div>
+	<div class="hc_hide_div">
+		#foreach($componentSelect in $!componentSelects_m)
+			<div class="hc_checkboxdiv" multiple_line="true" ref_target="${componentSelect}_m">
+				<ul>
+					#foreach($dictEntry in $dictManager.getDicts($componentSelect))
+					<li key="${dictEntry.label}" pKey="$!{dictEntry.pLabel}" title="${dictEntry.value}"><label>
+						<input type="checkbox">
+						<span class="hce_dictlabel" >${dictEntry.label}:</span>${dictEntry.value}
+						</label>
+					</li>
+					#end
+				</ul>
+			</div>
+		#end
+		#foreach($componentSelect in $!componentSelects_s)
+			<div class="hc_checkboxdiv" multiple_line="false" ref_target="${componentSelect}_s">
+				<ul>
+					#foreach($dictEntry in $dictManager.getDicts($componentSelect))
+					<li key="${dictEntry.label}" pKey="$!{dictEntry.pLabel}" title="${dictEntry.value}"><label>
+						<span class="hce_dictlabel" >${dictEntry.label}:</span>${dictEntry.value}
+						</label>
+					</li>
+					#end
+				</ul>
+			</div>
+		#end
+	    #jscode()
+			Horn.ready(function(){
+				if(window.doLayout){
+					window.doLayout();
+				}
+			});
+			Horn.paramCaches = Horn.paramCaches || {};
+    		Horn.apply(Horn.paramCaches,$!horn.printParamCaches());
+    		#if($ToBackField)
+        		#foreach($backFild in $ToBackField)
+        			Horn.Validate.addError("$backFild.label","$backFild.value");
+        		#end
+    		#end
+    		#foreach($tipMessage in $tipMessages)
+    			Horn.Tip.show("$tipMessage.type","$tipMessage.message") ;
+			#end
+			#if(true == $devMode)
+				Horn.debug_=true;
+			#end
+    	#end
+			</div>
+		#set($uiScreenConfig = {})
+#end
+#macro(getValue $uiGetValueParam)
+	$horn.getValue($uiGetValueParam)
+#end
+#macro(resource_include)
+	<!--resources-->
+	#if($headStyleLinks)
+	    #foreach($headStyleLink in $headStyleLinks)
+	    <link rel="stylesheet" href="$imageServer.get($headStyleLink)" type="text/css">
+	    #end
+    #end
+    #if($headScriptLinks)
+    	#foreach($headScriptLink in $headScriptLinks)
+    	<script src="$imageServer.get($headScriptLink)" type="text/javascript"></script>
+    	#end
+	#end	
+#end
+##三元表达式的宏
+#macro(nt $p1 $p2)
+	#if($p1)$p1#else$p2#end
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name panel_start
+ * @description panel_start组件，是面板容器的开始组件，需要配以#panel_end一起使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#panel_start({"cols":"2","rows":"2"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends panel_start
+ *#
+#macro(panel_start $uiPanelConfig)
+	#if($uiPanelConfig.expandable)
+		<div class="hc_extendsearch" #if($uiPanelConfig.expanded) expanded="true" #end>
+        	<div  style="display:none" class="hc_btn-es-div"><a href="javascript:void(0)" class="hc_btn-searchextend">&nbsp;</a></div>
+				<ul id="$!{uiPanelConfig.id}" $horn.paramsCache($uiPanelConfig)   class="h_panel hc_panelextend #if($view) hc_view #elseif($uiPanelConfig.view=='true')  hc_view #end" name="$!{uiPanelConfig.name}">
+	#else
+	<ul id="$!{uiPanelConfig.id}" $horn.paramsCache($uiPanelConfig)  class="h_panel #if($view) hc_view #elseif($uiPanelConfig.view=='true')  hc_view #end" name="$!{uiPanelConfig.name}">
+	#end
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name panel_start
+ * @description panel组件，面板容器组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example #panel({"id":"","expandable":"true","name":"panel"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends panel_start
+ *#
+#macro(panel $uiPanelConfig)
+	#if($uiPanelConfig.expandable)
+    	<div class="hc_extendsearch" #if($uiPanelConfig.expanded) expanded="true" #end>
+        	<div  style="display:none" class="hc_btn-es-div"><a href="javascript:void(0)" class="hc_btn-searchextend">&nbsp;</a></div>
+				<ul id="$!{uiPanelConfig.id}" $horn.paramsCache($uiPanelConfig)   class="h_panel hc_panelextend #if($view) hc_view #elseif($uiPanelConfig.view=='true')  hc_view #end" name="$!{uiPanelConfig.name}">
+            		$bodyContent
+            	</ul>
+        	<div class="hc_btn-es-div hc_minus" title="点击收起"><a href="javascript:void(0)" class="hc_btn-searchextend">&nbsp;</a></div>
+    	</div>
+	#else
+		<ul id="$!{uiPanelConfig.id}" $horn.paramsCache($uiPanelConfig)   class="h_panel #if($view) hc_view #elseif($uiPanelConfig.view=='true')  hc_view #end" name="$!uiPanelConfig.name">
+			$bodyContent
+		</ul>
+	#end
+	#set($uiPanelConfig = {})
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name panel_end
+ * @description panel_end组件，是面板容器的结束组件，需要配以#panel_start一起使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#panel_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends panel_end
+ *#
+#macro(panel_end)
+	#if($uiPanelConfig.expandable)
+		</ul>
+        	<div class="hc_btn-es-div hc_minus" title="点击收起"><a href="javascript:void(0)" class="hc_btn-searchextend">&nbsp;</a></div>
+    	</div>
+	#else
+    	</ul>
+	#end
+	#set($uiPanelConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name blankcol
+ * @param id {String} 唯一标识
+ * @param cols {String} 跨列数
+ * @description blankcol组件，空白占位符组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#blankcol({"cols":"3"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends blankcol
+ *#
+#macro(blankcol $uiBlankcolConfig)
+	<li id="$!{uiBlankcolConfig.id}" $horn.paramsCache($uiBlankcolConfig)  class="hc_panel-li #if($uiBlankcolConfig.cols)h_licols-$!{uiBlankcolConfig.cols}#end"></li>
+	#set($uiBlankcolConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name label
+ * @param cols {String} 跨列数
+ * @param id {String} 唯一标识
+ * @param dictName {String} 字典名称
+ * @param items {Array} 静态字典（若有的话）
+ * @param value {String} 初始值
+ * @param hiddenName {String} 如有值，则以此name提交一个当前的值到后台。
+ * @description blankcol组件，空白占位符组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#label({"cols":"3","label":"用户名"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends label
+ *#
+#macro(label $uiLabelConfig)
+	<li class="hc_panel-li #if($uiLabelConfig.cols)h_licols-$!{uiLabelConfig.cols}#end">
+		<span  ref="#if($!uiLabelConfig.hiddenName)$!{uiLabelConfig.hiddenName}#else$!{uiLabelConfig.name}#end" title='$!{uiLabelConfig.label}'>$!{uiLabelConfig.label}</span>
+		<div $horn.paramsCache($uiLabelConfig) id="$!{uiLabelConfig.id}" name="$!{uiLabelConfig.name}" alias="$!{uiLabelConfig.alias}" class="hc_label" mutivalue="$!{uiLabelConfig.mutivalue}"
+			#if($uiLabelConfig.dictName)
+				dictName="$!{uiLabelConfig.dictName}"
+				$horn.addGlobal('componentSelects_s',$!{uiLabelConfig.dictName})
+			#end
+			>
+		#set($val = "")
+    	#set($val = $!{uiLabelConfig.value})
+	    #if((!$val || $val =="") && $uiLabelConfig.name )
+			#set($val =  "$horn.getValue($!uiLabelConfig.name)")
+		#end
+		#if($view && $uiLabelConfig.hiddenName)
+    		#set($command = "$" + "!" + $!{uiLabelConfig.hiddenName} )
+    		#set($val = "#evaluate($command)")
+        	#if(!$val || $val =="" )
+                #set($val =  "$horn.getValue($!uiLabelConfig.hiddenName)")
+			#end
+		#end
+			$!{val}
+		</div>
+		#if($uiLabelConfig.hiddenName) <input type='hidden' name='$uiLabelConfig.hiddenName' value='$!val' /> #end
+	</li>
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name checkbox
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param static {String} 静态值
+ * @param value {String} 值
+ * @param label {String} 复选框显示值
+ * @param check {String} 验证串
+ * @param group {String}所属分组名字
+ * @param checked {boolean} 是否选中
+ * @param events {Json} 事件，格示见示例
+ * @description checkbox组件，复选框组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#checkbox({"label":"证券6", "name":"age","static":"6","checked":true,"events":[{"event":"onclick","function":"checkA(this.value)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends checkbox
+ *#
+#macro(checkbox $uiCheckboxConfig)
+    #set($val = "")
+    #set($val = $uiCheckboxConfig.value)
+    #if(!$val || $val =="" && $uiCheckboxConfig.name )
+        #set($val =  "$horn.getValue($!uiCheckboxConfig.name)")
+    #end
+	##查看模式
+    #if($view)
+		<li class="hc_panel-li #if($uiCheckboxConfig.cols)h_licols-$!{uiCheckboxConfig.cols}#end">
+    		<span ref="$!uiCheckboxConfig.name" title="$!{uiCheckboxConfig.label}">
+				$uiCheckboxConfig.label 
+			</span>
+            <span> #if($val) √#end </span>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($uiCheckboxConfig.cols)h_licols-$!{uiCheckboxConfig.cols}#end" ><span style="visibility:hidden" title="$!{uiCheckboxConfig.label}">
+    	#set($checkStr=$horn.getCheckStr($uiCheckboxConfig.name,$uiCheckboxConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiCheckboxConfig.name,$uiCheckboxConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiCheckboxConfig.label</span>
+    	<div class="hc_checkbox" id="$!{uiCheckboxConfig.id}" $horn.paramsCache($uiCheckboxConfig) >
+    		<label >
+    		<input type="checkbox" name="$uiCheckboxConfig.name" #if($uiCheckboxConfig.disabled) disabled="disabled" #end
+    			#if($uiCheckboxConfig.alias)
+    				alias="${uiCheckboxConfig.alias}"
+    			#end
+    			##foreach($event in $uiCheckboxConfig.events)
+    			##	$event.event = "$event.function" 
+    			##end
+    			#if(($uiCheckboxConfig.checked && $uiCheckboxConfig.checked==true) || ($val && $uiCheckboxConfig.static && $val==$uiCheckboxConfig.static))
+    				checked="checked"
+    			#end
+    			value=#if($uiCheckboxConfig.static)"$!{uiCheckboxConfig.static}"#else"$val"#end
+    			check="$!{checkStr}"
+    			group="$!{groupStr}"
+    			/>$uiCheckboxConfig.label
+            </label>
+    	</div>
+    	</li>
+	#end
+	#set($uiCheckboxConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name checkboxGroup
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param static {String} 静态值
+ * @param value {String} 值
+ * @param label {String} 复选框显示值
+ * @param check {String} 验证串
+ * @param events {Json} 事件，格示见示例
+ * @description checkbox组件，复选框组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#checkbox({"label":"投机", "name":"futuresAccount[3].futuAccountType", "events":[{"event":"onclick","function":"checkA(this.checked)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends checkboxGroup
+ *#
+#macro(checkboxGroup $uiCheckboxGroupConfig)
+    #checkbox_group($uiCheckboxGroupConfig)
+#end
+#macro(checkbox_group $uiCheckboxGroupConfig)
+	#set($val = "")
+    #set($val = $uiCheckboxGroupConfig.value)
+    #if((!$val || $val =="") && $uiCheckboxGroupConfig.name)
+        #set($val =  "$horn.getValue($!uiCheckboxGroupConfig.name)")
+	#end
+	##查看模式
+    #if($view)
+		<li class="hc_panel-li #if(${uiCheckboxGroupConfig.cols})h_licols-$!{uiCheckboxGroupConfig.cols}#end">
+    		<span ref="$!{uiCheckboxGroupConfig.name}" title="$!{uiCheckboxGroupConfig.label}">
+				$uiCheckboxGroupConfig.label
+			</span>
+    		<div name="$!{uiCheckboxGroupConfig.name}" class="hc_label"  $horn.paramsCache($uiCheckboxGroupConfig)  >
+				$val
+			</div>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($uiCheckboxGroupConfig.cols)h_licols-$!{uiCheckboxGroupConfig.cols}#end" ><span  ref="$!uiCheckboxGroupConfig.name" title="$uiCheckboxGroupConfig.label">
+    	#set($checkStr=$horn.getCheckStr($uiCheckboxGroupConfig.name,$uiCheckboxGroupConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiCheckboxGroupConfig.name,$uiCheckboxGroupConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiCheckboxGroupConfig.label</span>
+        	<div class="hc_checkbox-group" id="$!{uiCheckboxGroupConfig.id}" $horn.paramsCache($uiCheckboxGroupConfig)  name="$!uiCheckboxGroupConfig.name"
+        		#if($uiCheckboxGroupConfig.alias)
+                    alias="${uiCheckboxGroupConfig.alias}"
+        		#end
+    		>
+    		#foreach($item in $uiCheckboxGroupConfig.items)
+        		<label>
+            		<input type="checkbox" name="$!{uiCheckboxGroupConfig.name}"
+            			value="#if(${item.value})${item.value}#else$!{item.code}#end"
+            			check="$!{checkStr}"
+    					group="$!{groupStr}"
+            		/>
+    				#if(${item.label})${item.label}#else$!{item.text}#end
+        		</label>
+    		#end
+        	</div>
+    	</li>
+	#end
+	#set($uiCheckboxGroupConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name radio
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param disabled {String} 是否禁用
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param items {Json} 静态显示值 格式见示例
+ * @param events {Json} 事件，格示见示例
+ * @description radio组件，单选按钮组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#radio({"label":"客户类型", "name":"client.organFlag", "items":[{"label":"A","value":"投机"},{"label":"B","value":"套保"},{"label":"C","value":"套利"}], "events":[{"event":"onclick","function":"checkA(this.checked)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends radio
+ *#
+#macro(radiogroup $uiRadiogroupConfig)
+#radio_group($uiRadiogroupConfig)
+#end
+#macro(radio_group $uiRadiogroupConfig)
+	   #set($val = "")
+    #set($val = $uiRadiogroupConfig.value)
+    #if((!$val || $val =="") && $uiRadiogroupConfig.name)
+        #set($val =  "$horn.getValue($!uiRadiogroupConfig.name)")
+    #end
+	##查看模式
+    #if($view)
+		<li class="hc_panel-li #if($uiRadiogroupConfig.cols)h_licols-$!{uiRadiogroupConfig.cols}#end">
+    		<span ref="$!uiRadiogroupConfig.name" title="$!{uiRadiogroupConfig.label}">
+				$uiRadiogroupConfig.label
+			</span>
+    		<div name="$!{uiRadiogroupConfig.name}" class="hc_label"  $horn.paramsCache($uiRadiogroupConfig) 
+    			#if($uiRadiogroupConfig.dictName)
+    				dictName="$!{uiRadiogroupConfig.dictName}"
+    				$horn.addGlobal('componentSelects_s',$!{uiRadiogroupConfig.dictName})
+    			#end	
+    			>
+				#foreach($item in $uiRadiogroupConfig.items)
+					#if($val==$item.code) $!item.text
+					#elseif($val==$item.value) $!item.label #end ## 兼容性冗余
+				#end
+			</div>
+    	</li>
+	#else
+        <li class="hc_panel-li #if($uiRadiogroupConfig.cols)h_licols-$!{uiRadiogroupConfig.cols}#end">
+        	<span ref="$!uiRadiogroupConfig.name" title="$!{uiRadiogroupConfig.label}">
+        	#set($checkStr=$horn.getCheckStr($uiRadiogroupConfig.name,$uiRadiogroupConfig.check))
+            #set($groupStr=$horn.getGroupStr($uiRadiogroupConfig.name,$uiRadiogroupConfig.group))
+            #if($checkStr.indexOf("required")>-1)
+                <b class="hc_red">*</b>
+            #end
+            $uiRadiogroupConfig.label</span>
+            <div id="$!{uiRadiogroupConfig.id}" $horn.paramsCache($uiRadiogroupConfig)  class="hc_radio-group" name="$!uiRadiogroupConfig.name">
+				#set($items=[])
+            	#if($dictManager && $uiRadiogroupConfig.dictName)
+                	#set($items = $dictManager.getDicts($uiRadiogroupConfig.dictName))
+                #else
+                	#set($items = $uiRadiogroupConfig.items)
+            	#end
+                #foreach($item in $items)
+				  ##dom结构优化：label不再包含input，通过for属性关联
+				  #set($radioGroupInputId=$horn.getUUID())
+                  <input type="radio" name="$!uiRadiogroupConfig.name" id="$!{radioGroupInputId}"
+					#if($uiRadiogroupConfig.alias)
+                       alias="$!{uiRadiogroupConfig.alias}"
+                    #end
+                    ##foreach($event in $uiRadiogroupConfig.events)
+                    ##    $event.event = "$event.function"
+                    ##end
+                    value=#if($uiRadiogroupConfig.dictName) "$!item.label" #else #if($item.value)"$item.value"#else"$!item.code"#end #end
+                    check="$checkStr"
+        			group="$groupStr"
+                    />
+					<label for="$!{radioGroupInputId}">
+                	#if($uiRadiogroupConfig.dictName)$!item.value#else #if($item.label)$!item.label#else$!item.text#end #end
+					</label>
+					#set($radioGroupInputId="")
+				#end
+            </div>
+        </li>
+	#end
+	#set($uiRadiogroupConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name password
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param disabled {String} 是否禁用
+ * @param readonly {String} 是否只读
+ * @param alias {String} 别名
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param events {Json} 事件，格示见示例
+ * @description password组件，密码组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#password({"id":"passwordId","cols":"1","label":"密码","name":"testPassword","check":"required",
+ * "events":[{"event":"onblur","function":"getValue(this.value)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends password
+ *#
+#macro(password $uiPasswordConfig)
+	##查看模式
+    #set($val = "")
+    #set($val = $uiPasswordConfig.value)
+    #if((!$val || $val =="") && $uiPasswordConfig.name )
+        #set($val =  "$horn.getValue($!uiPasswordConfig.name)")
+    #end
+    	<li class="hc_panel-li #if($uiPasswordConfig.cols)h_licols-$!{uiPasswordConfig.cols}#end" ><span title="$uiPasswordConfig.label">
+    	#set($checkStr=$horn.getCheckStr($uiPasswordConfig.name,$uiPasswordConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiPasswordConfig.name,$uiPasswordConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiPasswordConfig.label</span>
+    	<div id="$!{uiPasswordConfig.id}" $horn.paramsCache($uiPasswordConfig)  class="hc_password">
+    
+	#if($view)
+		******
+	#else
+    	<input type="password" name="$!{uiPasswordConfig.name}" maxlength="$!{uiPasswordConfig.maxlength}" value="$!val"
+    		#if($uiPasswordConfig.alias)
+    			alias="$!{uiPasswordConfig.alias}"
+    		#end
+            #if(${uiPasswordConfig.disabled})
+               disabled="disabled"
+            #end
+            #if(${uiPasswordConfig.readonly})
+               readonly="readonly"
+            #end
+    		##foreach($event in $uiPasswordConfig.events)
+    		##	$event.event = "$event.function" 
+    		##end
+    		check="$!{checkStr}"
+    		group="$!{groupStr}"
+    	/>
+	#end
+	</div>
+   </li>
+	#set($uiPasswordConfig = {})
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name passwordgroup
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param disabled {String} 是否禁用
+ * @param readonly {String} 是否只读
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param events {Json} 事件，格示见示例
+ * @description passwordgroup组件，密码组组件，可自动实现关联检验
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#passwordgroup({"label":"密码", "name":"client.password"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends passwordgroup
+ *#
+#macro(passwordgroup $uiPasswordGroupConfig)
+#password_group($uiPasswordGroupConfig)
+#end
+#macro(password_group $uiPasswordGroupConfig)
+		##查看模式
+    #set($val = "")
+    #set($val = $uiPasswordGroupConfig.value)
+    #if(!$val || $val =="" && $!{uiPasswordGroupConfig.name} )
+        #set($val =  "$horn.getValue($!uiPasswordGroupConfig.name)")
+    #end
+    	<li class="hc_panel-li #if($uiPasswordGroupConfig.cols)h_licols-$!{uiPasswordGroupConfig.cols}#end"><span title="$!{uiPasswordGroupConfig.label}">
+    	#set($checkStr=$horn.getCheckStr($uiPasswordGroupConfig.name,$uiPasswordGroupConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiPasswordGroupConfig.name,$uiPasswordGroupConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$uiPasswordGroupConfig.label</span>
+    	<div id="$!{uiPasswordGroupConfig.id}" $horn.paramsCache($uiPasswordGroupConfig)  class="hc_passwordgroup">
+    #if($view)
+		******
+	#else
+    	<input name="$uiPasswordGroupConfig.name" type="password" value="$!val" maxlength="$!{uiPasswordGroupConfig.maxlength}"
+    	#if($uiPasswordGroupConfig.alias)
+    		alias="$!{uiPasswordGroupConfig.alias}"
+    	#end
+        #if(${uiPasswordGroupConfig.disabled})
+           disabled="disabled"
+        #end
+        #if(${uiPasswordGroupConfig.readonly})
+           readonly="readonly"
+        #end
+    	check="$checkStr"
+    	 title="请输入密码"><lable class="hc_hyphen">-</lable><input type="password" title="请输入确认密码" value="$!val" maxlength="$!{uiPasswordGroupConfig.maxlength}"
+    		##foreach($event in $uiPasswordGroupConfig.events)
+    		##	$event.event = "$event.function" 
+    		##end
+            #if(${uiPasswordGroupConfig.disabled})
+                disabled="disabled"
+            #end
+            #if(${uiPasswordGroupConfig.readonly})
+                readonly="readonly"
+            #end
+        	check="$!checkStr;compare('$uiPasswordGroupConfig.name')"
+    		group="$!{groupStr}"
+    	/>
+	#end
+	</div>
+	</li>
+	#set($uiPasswordGroupConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name hidden
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param defValue {String} 如果设置了defValue的值，重置成的defValue值，否则重置成初始值
+ * @description hidden组件，隐藏域组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#hidden({"name":"futuresAccount[4].futuExchType"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends hidden
+ *#
+#macro(hidden $params)
+    #set($val = "")
+    #set($val = $params.value)
+    #if(!$val || $val =="" && $params.name )
+        #set($val =  "$horn.getValue($!params.name)")
+    #end
+	<input class="hc_hiddenfield" id="$!{params.id}" $horn.paramsCache($params)  type="hidden" name="$params.name"
+		#if($params.alias)
+			alias="$!{params.alias}"
+		#end
+	value="$!val" />
+#end
+
+#**   
+ * @author huling   
+ * @class
+ * @name textfield
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param defValue {String} 如果设置了defValue的值，重置成的defValue值，否则重置成初始值
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param disabled {String} 是否禁用
+ * @param readonly {String} 是否只读
+ * @param maxlength {String} 最大长度
+ * @param events {[Json]} 事件，json数组
+ * @description textfield组件，文本框组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#textfield({"id":"userName","label":"名称","name":"name","cols":"1","maxlength":"20","check":"required","events":[{"event":"onclick","function":"getDom(this)"},{"event":"onblur","function":"getName(this.name)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends textfield
+ *#
+#macro(textfield $uiTextfieldConfig)
+    #set($val = "")
+    #set($val = $uiTextfieldConfig.value)
+    #if((!$val || $val =="") && $uiTextfieldConfig.name )
+        #set($val =  "$horn.getValue($!uiTextfieldConfig.name)")
+    #end
+	#if($view)
+		<li class="hc_panel-li #if($uiTextfieldConfig.cols)h_licols-$!{uiTextfieldConfig.cols}#end">
+    		<span ref="$!uiTextfieldConfig.name" title="$!{uiTextfieldConfig.label}">
+				$!{uiTextfieldConfig.label}
+			</span>
+    		<div name="$!{uiTextfieldConfig.name}" class="hc_label"  $horn.paramsCache($uiTextfieldConfig) 
+        		#if($uiTextfieldConfig.alias)
+        			alias="$!{uiTextfieldConfig.alias}"
+        		#end
+                #if($uiTextfieldConfig.dictName)
+    				dictName="$!{uiTextfieldConfig.dictName}"
+    				$horn.addGlobal('componentSelects_s',$!{uiTextfieldConfig.dictName})
+
+    			#end	
+    			>$!val</div>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($uiTextfieldConfig.cols)h_licols-$!{uiTextfieldConfig.cols}#end"><span ref="$!uiTextfieldConfig.name" title="$!uiTextfieldConfig.label">
+    	#set($checkStr=$horn.getCheckStr($!uiTextfieldConfig.name,$!uiTextfieldConfig.check))
+    	#set($groupStr=$horn.getGroupStr($!uiTextfieldConfig.name,$!uiTextfieldConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$!uiTextfieldConfig.label</span>
+        	<div id="$!{uiTextfieldConfig.id}" $horn.paramsCache($uiTextfieldConfig) name="$uiTextfieldConfig.name" class="hc_textfield">
+            	<input type="text" name="$uiTextfieldConfig.name" maxlength="$!{uiTextfieldConfig.maxlength}" value="$!val"
+            		#if($uiTextfieldConfig.alias)
+            			alias="${uiTextfieldConfig.alias}"
+            		#end
+                    #if(${uiTextfieldConfig.disabled})
+                        disabled="disabled"
+                    #end
+                    #if(${uiTextfieldConfig.readonly})
+                        readonly="readonly"
+                    #end
+            		##foreach($event in $uiTextfieldConfig.events)
+            		##	$event.event = "$event.function" 
+            		##end
+            		check="$!{checkStr}"
+        			group="$!{groupStr}"
+            	/>
+    		</div>
+    	</li>
+	#end
+	#set($uiTextfieldConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name textarea
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param disabled {String} 是否禁用
+ * @param readonly {String} 是否只读
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param events {Json} 事件，格示见示例
+ * @description textarea组件，文本域组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#textarea({"label":"业务备注","name":"businRemark", "cols":3})
+ * @since version 0.1
+ *#	
+#**
+ * @lends textarea
+ *#
+#macro(textarea $uiTextAreaConfig)
+    #set($val = "")
+    #set($val = $uiTextAreaConfig.value)
+    #if(!$val || $val =="" && $uiTextAreaConfig.name )
+        #set($val =  "$horn.getValue($!uiTextAreaConfig.name)")
+    #end
+	##查看模式
+    #if($view)
+		<li class="hc_panel-li #if($uiTextAreaConfig.cols)h_licols-$!{uiTextAreaConfig.cols}#end">
+    		<span ref="$!uiTextAreaConfig.name" title="$!{uiTextAreaConfig.label}">
+				$!{uiTextAreaConfig.label}
+			</span>
+    		<div name="$!{uiTextAreaConfig.name}" class="hc_label" $horn.paramsCache($uiTextAreaConfig) 
+                #if($uiTextAreaConfig.dictName)
+    				dictName="$!{uiTextAreaConfig.dictName}"
+    				$horn.addGlobal('componentSelects_s',$!{uiTextAreaConfig.dictName})
+    			#end
+    			>$!val</div>
+    	</li>
+	#else
+    	<li 
+    	#if($uiTextAreaConfig.cols==2)
+    		class="hc_panel-li h_licols-2 h_lirows-3"
+    	#elseif($uiTextAreaConfig.cols==3)
+    		class="hc_panel-li h_licols-3 h_lirows-3"
+    	#else
+    		class="hc_panel-li h_licols-1 h_lirows-3"
+    	#end
+    	><span ref="$!uiTextAreaConfig.name" title="$!{uiTextAreaConfig.label}">
+    	#set($checkStr=$horn.getCheckStr($uiTextAreaConfig.name,$uiTextAreaConfig.check))
+    	#set($groupStr=$horn.getGroupStr($uiTextAreaConfig.name,$uiTextAreaConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$!{uiTextAreaConfig.label}</span>
+    	<div id="$!{uiTextAreaConfig.id}" $horn.paramsCache($uiTextAreaConfig)  name="$uiTextAreaConfig.name"  class="hc_textarea">
+    	<textarea name="$uiTextAreaConfig.name" 
+    	#if($uiTextAreaConfig.alias)
+    		alias="${uiTextAreaConfig.alias}"
+    	#end
+        #if(${uiTextAreaConfig.disabled})
+              disabled="disabled"
+        #end
+        #if(${uiTextAreaConfig.readonly})
+              readonly="readonly"
+        #end
+    	##foreach($event in $uiTextAreaConfig.events)
+    	##	$event.event = "$event.function" 
+    	##end
+    	check="$!{checkStr}"
+		group="$!{groupStr}"
+    	>$!val</textarea></div>
+    	</li>
+	#end
+	#set($uiTextAreaConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name select
+ * @param cols {String} 跨列数
+ * @param name {String} 名称
+ * @param disabled {String} 是否禁用
+ * @param id {String} 唯一标识
+ * @param alias {String} 别名
+ * @param value {String} 值
+ * @param headItem {Json} 选项头格式如:{"label":"","value":"请选择"}
+ * @param label {String} 单选框组件显示值
+ * @param check {String} 验证串
+ * @param items {Json} 静态显示值 格式："items":[{"label":"男", "pLabel":"0", "value":"1"},{"label":"女", "value":"2", "pLabel":"1"}] pLabel为当前节点的父节点编号
+ * @param dictName {String} 数据字典名
+ * @param refname {String} 关联筛选的组件名
+ * @param multiple {String} 是否多选
+ * @param checkAll {boolean} 是否全选
+ * @param delimiter {String} 多选时的显示分隔符
+ * @param events {Json} 事件，格示见示例
+ * @description select组件，下拉选项组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#select({"label":"多交易中心","name":"sysNodes", "dictName":"SysNode", "multiple":true, "value":"1,1001", "check":"", "events":[{"event":"onblur","function":"getFundAccount(this)"}]})
+ * @since version 0.1
+ *#	
+#**
+ * @lends select
+ *#
+#macro(select $uiSelectConfig)
+			##查看模式
+    #if($view)
+        #set($val = "")
+        #set($val = $uiSelectConfig.value)
+        #if(!$val || $val =="" && $!{uiSelectConfig.name} )
+            #set($val =  "$horn.getValue($!uiSelectConfig.name)")
+        #end
+		<li class="hc_panel-li #if($uiSelectConfig.cols)h_licols-$!{uiSelectConfig.cols}#end">
+    		<span ref="$!uiSelectConfig.name" title="$!{uiSelectConfig.label}">
+				$uiSelectConfig.label
+			</span>
+    		<div name="$!{uiSelectConfig.name}" $horn.paramsCache($uiSelectConfig)  class="hc_label" #if($uiSelectConfig.multiple) mutiValue="true" #end
+                #if($uiSelectConfig.dictName)
+    				dictName="$!{uiSelectConfig.dictName}"
+    				$horn.addGlobal('componentSelects_s',$!{uiSelectConfig.dictName})
+    			#end
+    			>$!val</div>
+    	</li>
+	#else
+    	<li class="hc_panel-li #if($uiSelectConfig.cols)h_licols-$!{uiSelectConfig.cols}#end"><span  ref="$!uiSelectConfig.name" title="$!{uiSelectConfig.label}">
+    	#set($checkStr=$horn.getCheckStr($uiSelectConfig.name,$uiSelectConfig.check))
+        #set($groupStr=$horn.getGroupStr($uiSelectConfig.name,$uiSelectConfig.group))
+    	#if($checkStr.indexOf("required")>-1)
+    		<b class="hc_red">*</b>
+    	#end
+    	$!{uiSelectConfig.label}</span>
+    	<div id="$!{uiSelectConfig.id}" $horn.paramsCache($uiSelectConfig)  class="hc_select">
+
+        #if($uiSelectConfig.items)
+        	#set($uiSelectConfigItems = $uiSelectConfig.items)
+        #elseif($dictManager && $uiSelectConfig.dictName)
+            #set($uiSelectConfigItems = $dictManager.getDicts($uiSelectConfig.dictName))
+		#end
+    	#set($curvalue="")
+    	#if($uiSelectConfig.value)
+    		#set($curvalue=$!{uiSelectConfig.value})
+    	#else
+    		#set($curvalue="$horn.getValue($!uiSelectConfig.name)")
+    	#end
+        #if($uiSelectConfig.delimiter)
+            #set($delimiter=$!{uiSelectConfig.delimiter})
+        #else
+            #set($delimiter=",")
+        #end
+        #set($multipleValue="")
+    	<input type="hidden" name="$!{uiSelectConfig.name}"
+    		#if($uiSelectConfig.alias)
+    			alias="$!{uiSelectConfig.alias}"
+    		#end
+    	#if($uiSelectConfig.refname)
+    		refname="$!{uiSelectConfig.refname}"
+    	#end
+    	#if(!$curvalue.equals(""))
+    		value="$!curvalue"
+        #else
+        	#if($uiSelectConfig.multiple != true && $uiSelectConfigItems.size()>0)
+    			#set($item = $uiSelectConfigItems.get(0))
+                #if($uiSelectConfig.headItem)
+                    value="$uiSelectConfig.headItem.label"
+                #else
+                    value="$item.label"
+                #end
+            #elseif($uiSelectConfig.multiple == true && $uiSelectConfigItems.size()>0 && $uiSelectConfig.checkAll==true)
+                #foreach($item in $uiSelectConfigItems)
+                    #if($velocityCount == $uiSelectConfigItems.size())
+                        #set($multipleValue = $multipleValue+$!{item.label})
+                    #else
+                        #set($multipleValue = $multipleValue+$!{item.label}+$!{delimiter})
+                    #end
+               #end
+                value = "$!{multipleValue}"
+            #end
+    	#end
+    	check="$!{checkStr}"
+    	group="$!{groupStr}"
+    	/>
+    	<input type="text" 
+    		##foreach($event in $uiSelectConfig.events)
+    		##	$event.event = "$event.function" 
+    		##end
+        	#if($uiSelectConfig.dictName && $horn)
+        		#if($uiSelectConfig.multiple == true)
+        		 	ref="$!{uiSelectConfig.dictName}_m"
+        		 #else
+        		 	ref="$!{uiSelectConfig.dictName}_s"
+        			#end
+        	#end
+            #if(${uiSelectConfig.disabled})
+                disabled="disabled"
+            #end
+            #if(${uiSelectConfig.readonly})
+                readonly="readonly"
+            #end
+        	#if(!$curvalue.equals(""))
+        		#if($uiSelectConfig.multiple == true)
+        			value="$!curvalue" 
+        		#else
+                	#if($uiSelectConfigItems)
+    					#foreach($item in $uiSelectConfigItems)
+        	    			#if($item.label == $curvalue)
+        	    				value="$item.label:$item.value" 
+        	    			#end
+        	    		#end
+                    #elseif($dictManager && $uiSelectConfig.dictName)
+                        #set($val = $dictManager.getDictEntry($uiSelectConfig.dictName,$curvalue));
+                        value="$curvalue:$val.getValue()"
+                	#end
+        		#end
+        	#elseif($uiSelectConfig.multiple != true && $uiSelectConfigItems.size()>0)
+        		#set($item = $uiSelectConfigItems.get(0))
+                #if($uiSelectConfig.headItem)
+                    value="$uiSelectConfig.headItem.value"
+                #else
+                    value="$item.label:$item.value"
+                #end
+            #elseif($uiSelectConfig.multiple == true && $uiSelectConfigItems.size()>0 && $uiSelectConfig.checkAll==true)
+                value = "$!{multipleValue}"
+        	#else
+        		value="" 
+        	#end
+            delimiter="$!{delimiter}"
+    	/>
+    		#if($uiSelectConfig.dictName && $horn)
+        		#if($uiSelectConfig.multiple == true)
+        		 	$horn.addGlobal("componentSelects_m",$!{uiSelectConfig.dictName})
+        		 #else
+        		 	$horn.addGlobal("componentSelects_s",$!{uiSelectConfig.dictName})
+    			#end
+    		#else
+    			#if($uiSelectConfigItems)
+    				<div class="hc_checkboxdiv"
+    					#if($uiSelectConfig.multiple == true)
+    						multiple_line="true"
+    					#else
+    						multiple_line="false"
+    					#end
+    				>
+    					<ul>
+    						#foreach($pItem in $uiSelectConfigItems)
+    							<li title="$!{pItem.value}" pKey="$!{pItem.pLabel}" key="$!{pItem.label}"><label>
+    								#if($uiSelectConfig.multiple == true)
+    									<input type="checkbox">
+    								#end
+    								$!{pItem.label}:$!{pItem.value}
+    							</label></li>
+    						#end
+    					</ul>
+    				</div>
+    			#end
+    		#end	
+    	</div>
+    	</li>
+	#end
+	#set($uiSelectConfig = {})
+	#set($uiSelectConfigItems = [])
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name form_start
+ * @param name {String} 名称
+ * @param id {String} 唯一标识
+ * @param url {String} form的action地址
+ * @param ajax {Boolean} 是否使用Ajax的方式提交form
+ * @param onSuccess {Function} 在请求返回时调用的方法
+ * @param beforeSubmit {Function} 在请求之前调用的方法，return false可阻止form提交
+ * @param events {Json} 事件，格示见示例
+ * @param postName {Boolean} 是否提交form的名称（在某些需要场景保存的时候有用，其他地方是无效的。）
+ * @description form_start组件，form表单开始组件，需要配合form_end一起使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#form_start({"url":"$appServer.get('/acco/jointAccount.htm')"})
+ * @since version 0.1
+ *#	
+#**
+ * @lends form_start
+ *#
+#macro(form_start $uiFormConfig)
+	<form id="$!{uiFormConfig.id}" $horn.paramsCache($uiFormConfig)  #if($!{uiFormConfig.fileupload}) enctype="multipart/form-data" #end  method="post" action="$!{uiFormConfig.url}" ajax='$!{uiFormConfig.ajax}' name="$!{uiFormConfig.name}"
+		##foreach($event in $uiFormConfig.events)
+		##	$event.event = "$event.function" 
+		##end 
+		autocomplete="off">
+	<input type="hidden" name="$!{validSourceUrlField}" value="$!{_screen_name}"/>
+	#if($uiFormConfig.postName)
+		<input type="hidden" name="_submit_form_name" value="$!{uiFormConfig.name}"/>
+	#end
+#end 
+
+#macro(form $uiFormConfig)
+	<form id="$!{uiFormConfig.id}" $horn.paramsCache($uiFormConfig)  method="post"   #if($uiFormConfig.fileupload) enctype="multipart/form-data" #end action="$!{uiFormConfig.url}" ajax='$!{uiFormConfig.ajax}' name="$!{uiFormConfig.name}"
+		##foreach($event in $uiFormConfig.events)
+		##	$event.event = "$event.function" 
+		##end 
+		autocomplete="off">
+	<input type="hidden" name="$!{validSourceUrlField}" value="$!{_screen_name}"/>
+	#if($uiFormConfig.postName)
+		<input type="hidden" name="_submit_form_name" value="$!{uiFormConfig.name}"/>
+	#end
+	$bodyContent
+	</form>
+	#set($uiFormConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name form_end
+ * @description form_end组件，form表单结束组件，需要配合#form_start一起使用
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#form_end
+ * @since version 0.1
+ *#	
+#**
+ * @lends form_end
+ *#
+#macro(form_end)
+	</form>
+	#set($uiFormConfig = {})
+#end
+#**   
+ * @author huling   
+ * @class
+ * @name button_panel
+ * @param id {String} 唯一标识
+ * @param buttons {Json} 自定义按钮组 格式如："buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}] 名称 样式名 点击事件
+ * @description button_panel组件，按钮面板组件
+ * @see The <a href="huling@hundsun.com">huling</a >.   
+ * @example \#button_panel({"buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}]}) 注：内含“内提”、“重置”按钮，后面才是自己添加的button
+ * @since version 0.1
+ *#	
+#**
+ * @lends button_panel
+ *#
+#macro(button_panel $uiButtonPanelConfig)
+	<div id="$!{uiButtonPanelConfig.id}" $horn.paramsCache($uiButtonPanelConfig)  class="h_btndiv" name="$!{uiButtonPanelConfig.name}">
+		<button type="submit" class="h_btn-submit" name="button_submit">#if($uiButtonPanelConfig.submitLabel&&"$!uiButtonPanelConfig.submitLabel"!="")$!{uiButtonPanelConfig.submitLabel}#else 提交#end</button>
+		<button type="reset" class="h_btn-cencel" name="button_reset">#if($uiButtonPanelConfig.resetLabel&&"$!uiButtonPanelConfig.resetLabel"!="")$!{uiButtonPanelConfig.resetLabel}#else 重置#end</button>
+		#if($uiButtonPanelConfig.buttons)
+			#foreach($button in $uiButtonPanelConfig.buttons)
+				<button #if($button.refmenu)refmenu="$button.refmenu"#end type="button" class="$!{button.className}" name="$!{button.name}" onclick="$!{button.event}">$!{button.label}</button>
+			#end
+		#end
+    </div>
+	#set($uiButtonPanelConfig = {})
+#end
+#**   
+ * @author zhangchao   
+ * @class
+ * @name button_group
+ * @param name 名称
+ * @param label 标签
+ * @param cols {String} 跨列数
+ * @param buttons {Json} 自定义按钮组 格式如："buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}] 名称 样式名 点击事件
+ * @description 按纽组件组
+ * @see
+ * @example \#button_group({"buttons":[{"name":"查询", "class":"h_btn-cencel", "event":"lhkh.query()"}]}) 注：内含“内提”、“重置”按钮，后面才是自己添加的button
+ * @since version 0.1
+ *#	
+#**
+ * @lends button_group
+ *#
+#macro(button_group $uiButtonGroupConfig)
+	<li class="hc_panel-li #if($uiButtonGroupConfig.cols)h_licols-$!{uiButtonGroupConfig.cols}#end">
+		<div id="$!{uiButtonGroupConfig.id}" $horn.paramsCache($uiButtonGroupConfig)  name="$!{uiButtonGroupConfig.name}" class="hc_button-group" >
+    		#if($uiButtonGroupConfig.buttons)
+    			#foreach($button in $uiButtonGroupConfig.buttons)
+    				<button type="button" #if($button.refmenu)refmenu="$button.refmenu"#end class="$!{button.className}" name="$!{button.name}" onclick="$!{button.event}">$!{button.label}</button>
+    			#end
+    		#end
+		</div>
+	</li>
+	#set($uiButtonGroupConfig = {})
+#end
+#macro(themecss $uiThemeURL)
+#set($csspath='/css/'+$theme+'/'+$uiThemeURL)
+#css("$appServer.get($csspath)")
+#end
+
+#**   
+ * @author zhangchao 
+ * @class
+ * @name layout_colspan_start
+ * @param id {String} 唯一标识
+ * @param cols {int} 块所占列数
+ * @param rows {String} 块所占行数，计算方式为rows*30=实际高度
+ * @description 和layout_colspan_end联合使用
+ * @see The see   /layout/muti-layout.htm
+ * @example \#layout_colspan_start({"cols":3,"rows":"11"})
+ * @since version version
+ *#	
+#**
+ * @lends layout_colspan_start
+ *#
+#macro(layout_colspan_start $uiLayoutColspanConfig)
+    #if($columns)
+        #set($cols = $columns)
+    #else
+        #set($cols = "0")
+    #end
+    #if($uiLayoutColspanConfig.cols)
+        #set($cols = $uiLayoutColspanConfig.cols)
+    #end
+    #set($height = 0 )
+    #if($uiLayoutColspanConfig.rows && $uiLayoutColspanConfig.rows!="")
+		#set($Integer=0)
+        #set($height= $Integer.parseInt($uiLayoutColspanConfig.rows) * 30 )
+    #end
+	<div id="$!{uiLayoutColspanConfig.id}" $horn.paramsCache($uiLayoutColspanConfig)  class="h_colspan-${cols} h_colspan-bg" #if($height!=0)style="height:${height}px;"#end>
+#end
+#**   
+ * @author zhangchao 
+ * @class
+ * @name layout_colspan_end
+ * @description 和layout_colspan_start联合使用
+ * @see The see  /layout/muti-layout.htm 
+ * @example \#layout_colspan_end
+ * @since version version
+ *#	
+#**
+ * @lends layout_colspan_end
+ *#
+#macro(layout_colspan_end)
+</div>
+#end
+#**   
+ * @author zhangchao 
+ * @class
+ * @name layout_colspan
+ * @param id {String} 唯一标识
+ * @param cols {int} 块所占列数
+ * @param rows {String} 块所占行数，计算方式为rows*30=实际高度
+ * @description 和layout_colspan_end联合使用
+ * @see The see   /layout/muti-layout.htm
+ * @example \#@layout_colspan({"cols":3,"rows":"11"})
+ * @since version version
+ *#	
+#**
+ * @lends layout_colspan
+ *#
+#macro(layout_colspan $uiLayoutColspanConfig )
+    #if($columns)
+        #set($cols = $columns)
+    #else
+        #set($cols = "0")
+    #end
+    #if($uiLayoutColspanConfig.cols)
+        #set($cols = $uiLayoutColspanConfig.cols)
+    #end
+    #set($height = 0 )
+    #if($uiLayoutColspanConfig.rows && $uiLayoutColspanConfig.rows!="")
+		#set($Integer=0)
+        #set($height= $Integer.parseInt($uiLayoutColspanConfig.rows) * 30 )
+    #end
+	<div id="$!{uiLayoutColspanConfig.id}" $horn.paramsCache($uiLayoutColspanConfig)  class="h_colspan-${cols} h_colspan-bg" #if($height!=0)style="height:${height}px;"#end>
+			$bodyContent
+	</div>
+#end

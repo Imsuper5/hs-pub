@@ -1,0 +1,8 @@
+<div class="toolbar">
+  <input type="button" id="clearRoleMenu" value="清空缓存" class="btn-toolbar-add hasOperRight" />
+</div>
+
+<div id="cacheModuls">
+
+</div>
+#parse("/screen/common/cachecenter/script.vm")

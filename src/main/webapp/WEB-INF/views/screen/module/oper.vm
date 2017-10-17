@@ -1,0 +1,283 @@
+<!-- 新增机构弹窗 -->
+<div class="modal inmodal" id="companyWrapAdd" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span> <span class="sr-only">关闭</span>
+				</button>
+				<h4 class="">新增机构</h4>
+			</div>
+			<div class="diolag-content">
+				<form id="companyAddForm">
+					<div class="form-horizontal" style="height:360px;overflow-y:scroll;overflow-x:hidden;">
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构简称:</label>
+							<div class="col-sm-8">
+								<input id="companyShortNameAdd" class="form-control input-sm"
+									name="companyShortName" type="text"  maxlength="15"  required noSpecial="机构简称"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构全称:</label>
+							<div class="col-sm-8">
+								<input id="companyFullNameAdd" class="form-control input-sm"
+									name="companyFullName" type="text" maxlength="30" required  special="true"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>所属行业:</label>
+							<div class="col-sm-8">
+								<select name="companyIndustry" id="companyIndustryAdd"
+									class="form-control input-sm" required></select>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>所属类型:</label>
+							<div class="col-sm-8">
+								<select name="companyType" id="companyTypeAdd"
+									class="form-control input-sm" required></select>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>邮箱:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanEmailAdd" class="form-control input-sm"
+									name="companyLinkmanEmail" type="text" required email="true"
+									maxlength="40" />
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>电话:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanTelAdd" class="form-control input-sm"
+									name="companyLinkmanTel" type="text" required isTelOrPhone="true"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>责任人:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanAdd1" class="form-control input-sm"
+									name="companyLinkman" type="text" maxlength="15" required strictSpecial="责任人"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构地址:</label>
+							<div class="col-sm-8">
+								<textarea id="companyAddrAdd" class="form-control input-sm"
+									name="companyAddr" type="text" required zhmaxlength="64" special="true"/></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer diolag-footer">
+						<button type="button" id="button4companyAdd"
+							class="btn  btn-primary">确认</button>
+						<button type="button" class="btn  btn-primary" data-dismiss="modal">关闭</button>
+					</div>
+				</form>
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- 修改机构弹窗 -->
+<div class="modal inmodal" id="companyWrapUpdate" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span> <span class="sr-only">关闭</span>
+				</button>
+				<h4 class="">修改机构</h4>
+			</div>
+			<div class="diolag-content">
+				<form id="companyUpdateForm">
+					<input type="hidden" id="companyIdUpdate" name="companyId">
+					<div class="form-horizontal" style="height:360px;overflow-y:scroll;overflow-x:hidden;">
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构编号:</label>
+							<div class="col-sm-8">
+								<input id="companyNoUpdate" class="form-control input-sm"
+									name="companyNo" type="text" readonly />
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构简称:</label>
+							<div class="col-sm-8">
+								<input id="companyShortNameUpdate" class="form-control input-sm"
+									name="companyShortName" type="text" maxlength="15" required noSpecial="机构简称" />
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构全称:</label>
+							<div class="col-sm-8">
+								<input id="companyFullNameUpdate" class="form-control input-sm"
+									name="companyFullName" type="text" maxlength="30" required special="true"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>所属行业:</label>
+							<div class="col-sm-8">
+								<select name="companyIndustry" id="companyIndustryUpdate"
+									class="form-control input-sm" required></select>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>所属类型:</label>
+							<div class="col-sm-8">
+								<select name="companyType" id="companyTypeUpdate"
+									class="form-control input-sm" required></select>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>邮箱:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanEmailUpdate"
+									class="form-control input-sm" name="companyLinkmanEmail"
+									type="text" required email="true" maxlength="40" />
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>电话:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanTelUpdate"
+									class="form-control input-sm" name="companyLinkmanTel"
+									type="text" required isTelOrPhone="true" />
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>责任人:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanUpdate" class="form-control input-sm"
+									name="companyLinkman" type="text" maxlength="15" required strictSpecial="责任人"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>机构地址:</label>
+							<div class="col-sm-8">
+								<input id="companyAddrUpdate" class="form-control input-sm"
+									name="companyAddr" type="text" zhmaxlength="64" required special="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer diolag-footer">
+						<button type="button" id="button4companyUpdate"
+							class="btn  btn-primary">确认</button>
+						<button type="button" class="btn  btn-primary" data-dismiss="modal">关闭</button>
+		
+					</div>
+				</form>
+				
+			</div>
+			
+		</div>
+	</div>
+</div>
+<!-- 新增联系人弹窗 -->
+<div class="modal inmodal" id="companyLinkmanWrapAdd" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span> <span class="sr-only">关闭</span>
+				</button>
+				<h4 class="">新增联系人</h4>
+			</div>
+			<div class="diolag-content">
+				<form id="companyLinkmanAddForm">
+					<input type="hidden" id="companyLinkmanIdAdd" name="companyId">
+					<div class="form-horizontal">
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>姓名:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanAddSub" class="form-control input-sm"
+									name="companyLinkman" type="text" maxlength="15" required strictSpecial="姓名"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>电话:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanTelAddSub"
+									class="form-control input-sm" name="companyLinkmanTel"
+									type="text" required isTelOrPhone="true" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer diolag-footer">
+				<button id="button4companyLinkmanAdd" class="btn  btn-primary">确认</button>
+				<button class="btn  btn-primary" data-dismiss="modal">关闭</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 修改联系人弹窗 -->
+<div class="modal inmodal" id="companyLinkmanWrapUpdate" tabindex="-1"
+	role="dialog" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span> <span class="sr-only">关闭</span>
+				</button>
+				<h4 class="">修改联系人</h4>
+			</div>
+			<div class="diolag-content">
+				<form id="companyLinkmanUpdateForm">
+					<input type="hidden" id="companyLinkmanIdUpdateSub"
+						name="companyLinkmanId">
+					<div class="form-horizontal">
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>姓名:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanUpdateSub"
+									class="form-control input-sm" name="companyLinkman" type="text"
+									maxlength="15" required strictSpecial="姓名"/>
+							</div>
+						</div>
+						<div class="form-group p-b m-error">
+							<label class="col-sm-3 control-label"><em>*</em>电话:</label>
+							<div class="col-sm-8">
+								<input id="companyLinkmanTelUpdateSub"
+									class="form-control input-sm" name="companyLinkmanTel"
+									type="text" required isTelOrPhone="true" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer diolag-footer">
+				<button id="button4companyLinkmanUpdate" class="btn  btn-primary">确认</button>
+				<button class="btn  btn-primary" data-dismiss="modal">关闭</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+<form id="companyProQueryForm">
+	<input type="hidden" id="companyIdQuery" name="companyId">
+	<input type="hidden" id="companyNoQuery" name="companyNo">
+</form>
+
+<form id="companyLinkmanQueryForm">
+	<input type="hidden" id="companyLinkmanIdQuery" name="companyLinkmanId">
+</form>
+
+<form id="companySearchForm">
+	<input type="hidden" id="companyShortNameQuery" name="companyShortName">
+	<input type="hidden" id="companyTypeListQuery" name="companyTypeList">
+</form>
+
+
+
+

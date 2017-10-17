@@ -1,0 +1,3 @@
+#parse("/screen/official/officialDraftInformation/top.vm")
+#parse("/screen/official/officialDraftInformation/oper.vm")
+#parse("/screen/official/officialDraftInformation/script.vm")

@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${menuName}</title>
+<link href="${appServer}/css/theme/default/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+<link href="${appServer}/css/theme/default/css/font-awesome.min.css?v=4.3.0"	rel="stylesheet">
+<link href="${appServer}/css/plugins/iCheck/custom.css" rel="stylesheet">
+<link href="${appServer}/css/theme/default/css/basestyle.min.css?v=3.0.0" rel="stylesheet">
+<link href="${appServer}/css/theme/default/css/basemystyle.css" rel="stylesheet">
+<link href="${appServer}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+<link href="${appServer}/css/theme/default/css/basemystyle.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css"	href="${appServer}/plugins/jqueryui/jquery-ui-1.11.2.css?ver=${sysVersion}" />
+<link rel="stylesheet" type="text/css"	href="${appServer}/plugins/jqueryui/jquery.multiselect.css?ver=${sysVersion}" />
+<link rel="stylesheet" type="text/css"	href="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/dhtmlxgrid.css?ver=${sysVersion}" />
+<link rel="stylesheet" type="text/css"	href="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/dhtmlxgrid_skins.css?ver=${sysVersion}" />
+<link rel="stylesheet" type="text/css"	href="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/skins/dhtmlxgrid_dhx_skyblue.css?ver=${sysVersion}" />
+<link rel="stylesheet" type="text/css"	href="${appServer}/plugins/dhtmlGrid/dhtmlxTree/dhtmlxtree.css?ver=${sysVersion}" />
+
+<script src="${appServer}/plugins/jquery/jquery-2.1.1.min.js"></script>
+<script	src="${appServer}/plugins/jqueryui/jquery-ui-1.11.2.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/jquery/jquery.cookie.js"></script>
+<script src="${appServer}/plugins/jquery/jquery.form.js"></script>
+<script src="${appServer}/plugins/jquery/jquery.json-2.4.js"></script>
+<script src="${appServer}/plugins/jquery/jquery.pagination.js"></script>
+
+<script src="${appServer}/plugin/bootstrap.min.js?v=3.4.0"></script>
+<script src="${appServer}/plugins/iCheck/icheck.min.js"></script>
+<script src="${appServer}/plugins/validate/jquery.validate.min.js"></script>
+<script src="${appServer}/plugins/validate/messages_zh.min.js"></script>
+
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/dhtmlxcommon.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/dhtmlxgrid.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/dhtmlxgridcell.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/ext/dhtmlxgrid_drag.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/ext/dhtmlxgrid_splt.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/ext/dhtmlxgrid_mcol.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/ext/dhtmlxgrid_deprecated.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/ext/dhtmlxgrid_srnd.js?ver=${sysVersion}"></script>
+<script	src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/ext/dhtmlxgrid_fast.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/excells/dhtmlxgrid_excell_dhxcalendar.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/excells/dhtmlxgrid_excell_link.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxGrid/excells/dhtmlxgrid_excell_cntr.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxCalendar/dhtmlxcalendar.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxDataStore/datastore.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxTree/dhtmlxtree.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxTree/dhtmlxcommon.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/dhtmlGrid/dhtmlxTree/ext/dhtmlxtree_json.js?ver=${sysVersion}"></script>
+
+<script src="${appServer}/script/global_local.js?ver=${sysVersion}"></script>
+<script src="${appServer}/script/dhtmlxgrid_page.js?ver=${sysVersion}"></script>
+<script src="${appServer}/script/dhtmlxgrid_customexcell.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${appServer}/script/dictitem.js?ver=${sysVersion}"></script>
+<script src="${appServer}/script/component.js?ver=${sysVersion}"></script>
+<script src="${appServer}/script/common.js?ver=${sysVersion}"></script>
+<script src="${appServer}/script/btn_search.js?ver=${sysVersion}"></script>
+<script src="${appServer}/script/grid_field_mapping.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/layer/layer.min.js"></script>
+<script src="${appServer}/plugins/layer/laydate/laydate.js"></script>
+<script src="${appServer}/script/placeholder.js?ver=${sysVersion}"></script>
+<script src="${appServer}/plugins/jNotify/jNotify.js"></script>
+<style>
+.sweet-alert button{
+	padding: 7px 52px;
+}
+</style>
+<script>
+	_appServer = "${appServer}";
+</script>
+
+</head>
+<body class="gray-bg">
+<div class="myScroll" >

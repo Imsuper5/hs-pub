@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+$contain.get('/contain/login/head.htm')
+<body class="gray-bg">
+
+<div class="h_login-top">
+	<div class="h_login-w">
+		
+	</div>
+</div>
+
+$screen_content
+
+
+$contain.get('/contain/login/end.htm')

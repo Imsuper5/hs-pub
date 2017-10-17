@@ -1,0 +1,346 @@
+<style type="text/css">
+body{
+	font-family:微软雅黑;
+	font-size:14px;
+	color:#666;
+	overflow: auto;
+}
+#content-main {
+	height: calc(100% - 20px);
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.mywrapper{
+    padding: 16px 0 0;
+}
+
+.layout {
+	width: 98%;
+	margin: 0 auto;
+}
+
+.form-control {
+	line-height: 6px;
+}
+
+.userinfo-wrap {
+	padding: 16px 0 0;
+}
+
+.formbox {
+	background: #fff;
+	border: 1px solid #17444;
+	padding: 3px 24px;
+	margin-bottom: 9px;
+}
+
+.formbox-hd {
+	position: relative;
+	padding-bottom: 29px;
+}
+.formbox-hd-ex{
+	position: relative;
+}
+
+.form-tit {
+	float: left;
+	padding: 10px 0 9px;
+	width: 154px;
+	font-size: 16px;
+}
+
+.form-cont {
+	margin-left: 154px;
+	font-size: 0;
+}
+
+.form-col1 {
+	margin-right: 10px;
+}
+
+.form-col {
+	font-size: 16px;
+	display: inline-block;
+	line-height: 40px;
+}
+
+.formbox .text {
+	line-height: 28px;
+	padding: 7px 0 5px;
+	word-break: break-all;
+	float: left;
+	
+}
+
+.userinfo-wrap .user-pic {
+	display: inline-block;
+	vertical-align: top;
+	width: 198px;
+	height: 138px;
+	overflow: hidden;
+	border: 1px solid #EDEDED;
+}
+
+.userinfo-wrap .btn-wrap {
+	text-align: center;
+	padding: 18px 0 0;
+}
+
+.p-b {
+	height: 70px;
+	margin-bottom: 0px;
+}
+label{
+	font-weight: 400;
+}
+img{
+	width:100px;
+	htight:100px;
+}
+.my_btn-info{
+	height:30px;
+	width:70px;
+}
+.box-head{
+	margin-left:33px;
+}
+.form-row{
+	border: 1px #d6d6d6 solid;
+	border-bottom-width: 0px;
+	padding: 0 0 14px;
+	zoom: 1;
+}
+.form-row-ex{
+	border: 1px #d6d6d6 solid;
+	padding: 0 0 14px;
+	zoom: 1;
+}
+.my_row{
+	height:30px;
+}
+.my_tit{
+	height:30px;
+}
+.my_label{
+	margin-top: -7px;
+    margin-left: 30px;
+}
+.my_labe_ex{
+	margin-top: 2px;
+    margin-left: 30px;
+}
+.my_span{
+	background-color: #fff;
+    border: none;
+    height: 20px;
+    margin-top: 5px;
+    font-size:14px;
+    font-family:微软雅黑;
+    width:80px;
+    margin-left:-12px;
+}
+.upload_avatar{
+	    position: absolute;
+	    margin-top:50px;
+	    margin-left:470px;
+	    font-size:14px;
+}
+#officialAccountNicknameEdit{
+	margin-top: -5px;
+	font-size: 14px;
+    font-family: 微软雅黑;
+    color: #000;
+}
+</style>
+<script>
+	loadDict("704");
+	$(document).ready(function(){
+		 init();
+	});
+	
+	function init(){
+		var type = ${accountInfo.officialAccountSubjecttype};
+		switch(type)
+			{
+			case 1:
+			 	$("#SubjecttypeEdit").html("个人")
+			  break;
+			case 2:
+			  	$("#SubjecttypeEdit").html("企业")
+			  break;
+			default:
+			  	$("#SubjecttypeEdit").html("-")
+			}
+	}
+	var offlist = new Array();
+	var avaFlag = false;
+    Subjecttype = getDictItem("704", ${accountInfo.officialAccountSubjecttype}).text;
+	$("#SubjecttypeEdit").val(Subjecttype);
+
+	changeType();
+	$("#edit").click(function() {
+		$("#status").val("1");
+		changeType();
+	});
+	$("#nodeal").click(function() {
+		$("#status").val("0");
+		changeType();
+		//refresh();
+	});
+	$("#upload_avatar_btn").click(function(){
+		$("#myRelatedFile").click();
+	});
+	
+	var prePath = "";
+	function onUploadImgBack(e) {
+		var  curPath= $('#myRelatedFile').val();
+	    if (prePath != "" && prePath == curPath) {
+	        return false;
+	    }
+	    prePath = curPath;
+		var json = $('form#imgForm').serializeJson();
+		json.prefixStr = "avatar";
+		avaFlag = false;
+		$.ajaxFileUpload({
+					url : _appServer
+							+ '/official/officialsend/officialMsgUpload.json',
+					type : 'post',
+					secureuri: false,
+					fileElementId : 'myRelatedFile',
+					dataType : 'html',
+					data:json,
+					success : function(msg) {
+						prePath = "";
+						var data = JSON.parse($(msg).html());
+						if (data.success) {
+							$('#imgAvatar').attr('src', '');
+							var Num = "";
+							for (var i = 0; i < 6; i++) {
+								Num += Math.floor(Math.random() * 10);
+							}
+							document.getElementById('imgAvatar').src = _appServer
+									+ '/official/officialsend/uploadOfficialMsgBack.json?prefixStr=avatar&&officialMsgUpload='
+									+ Num;
+							avaFlag = true;		
+						} else {
+							var obj = document.getElementById('myRelatedFile') ; 
+							obj.outerHTML=obj.outerHTML; 
+							swal(data.message,"","error");
+							avaFlag = false;	
+							document.getElementById('imgAvatar').src = _appServer
+									+ '/official/userinfo/officialAdjunct.json?adjuncdType=0';
+						}
+					},
+					error : function(msg, status, e) {
+						var obj = document.getElementById('myRelatedFile') ; 
+						obj.outerHTML=obj.outerHTML; 
+						prePath = "";
+						avaFlag = false;
+						document.getElementById('imgAvatar').src = _appServer
+									+ '/official/userinfo/officialAdjunct.json?adjuncdType=0';	
+					}
+				});
+	}
+	
+	$("#sumbitTo").click(function() {
+		var arr = $("#UpdateForm").serializeJson();
+		var temp = $("#offaccAutoReplyEdit").val();
+		arr["offaccAutoReply"]= temp;
+		var temp = $("#officialAccountFuncDescEdit").val();
+		arr["officialAccountFuncDesc"]= temp;
+		var img = $("#imgAvatar")[0].src;
+		arr["avatarStr"] = 1;
+		$.ajax({
+					url : _appServer + '/official/officialmanagement/updateOfficial.json',
+					type : 'post',
+					errorCallback : true,
+					autoErrorMsg:false,
+					data : arr,
+					success : function(data) {
+						var success = data.success;
+						if (success) {
+							avaFlag = false;
+							swal({
+								title : "修改成功！",
+								text : "",
+								type : "warning",
+								showCancelButton : false,
+								confirmButtonColor : "#ff9e01",
+								confirmButtonText : "确定",
+								closeOnConfirm : true
+							}, function() {
+								$("#status").val("0");
+								$("#oldOffaccAutoReplyEdit").val(temp);
+								changeType();
+								window.location.reload();
+							});
+						} else {
+							swaltimer("修改失败！", "", "error");
+						}
+					},
+					error : function(msg, status, e) {
+						swaltimer("修改失败！", "", "error");
+					}
+				});
+	});
+	
+	
+	function limitImg(id) {
+	    var img = document.getElementById(id); //显示图片的对象
+	    var maxSize = 2; //图片的大小
+	    var allowGIF = arguments[2] || false;
+	    var maxWidth = 100;
+	    var maxHeight = 100;
+	    var str = "jpeg";
+	　　
+	    if (img.fileSize > maxSize * 1024) {
+	        return "图片大小超过限制,请限制在" + maxSize + "K以内";
+	    }
+	    if (img.fileSize == -1) {
+	        return "图片格式错误，可能是已经损坏或者更改扩展名导致，请重新选择一张图片";
+	    } else {
+	        if (maxWidth > 0) {
+	            if (img.width > maxWidth) {
+	                return "图片宽度超过限制，请保持在" + maxWidth + "像素内";
+	            } 
+	            if (img.height > maxHeight) {  
+	                return "图片高度超过限制，请保持在" + maxHeight + "像素内";
+	            } 
+	        }else{
+	            return ""
+	        }
+	    }
+	}
+	
+	function changeType() {
+		var type = $("#status").val();
+		if (type == "1") {
+			$("#offaccAutoReplyEdit").attr("disabled", false);
+			$("#edit").hide();
+			$("#sumbitTo").show();
+			$("#upload_avatar_btn").css("display", "block");
+			$("#nodeal").show();
+		} else {
+			avaFlag = false;
+			$("#offaccAutoReplyEdit").attr("disabled", "disabled");
+			$("#edit").show();
+			$("#sumbitTo").hide();
+			$("#upload_avatar_btn").css("display", "none");
+			$("#nodeal").hide();
+			$("#offaccAutoReplyEdit").val($("#oldOffaccAutoReplyEdit").val());
+			document.getElementById('imgAvatar').src = _appServer
+									+ '/official/userinfo/officialAdjunct.json?adjuncdType=0';
+		}
+	}
+</script>

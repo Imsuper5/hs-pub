@@ -1,0 +1,57 @@
+
+<div class="wrapper wrapper-content">
+	<div class="formbox-hd main_top">
+			<h3 class="formbox-tit main-fit">修改密码</h3>
+	</div>
+	<div class="form-horizontal" style="background:#fff; margin-top:30px;color:#666;font-size:14px;">
+		<form id="pwdResetForm" style="margin-left:40px;">
+
+			<div class="form-group ">
+
+				<div class="form-group p-b">
+					
+					<div class="col-sm-8">
+						<label class="col-sm-2" style="font-family:微软雅黑;">原密码</label>
+						<input  id="userOldPwdEdit"
+							class="form-control p-l my_ipnut" name="oldPassword" type="password"
+							required="true"
+							placeholder="请输入原密码" autocompleted="off"/>
+					</div>
+				</div>
+				<div class="form-group p-b">
+					
+					<div class="col-sm-8">
+						<label class="col-sm-2" style="font-family:微软雅黑;">新密码</label>
+						<input  id="userPwdEdit"
+							class="form-control p-l my_ipnut" name="newPassword" type="password"
+							isPwd="true" required="true"
+							placeholder="请输入新密码" autocompleted="off"/>
+					</div>
+				</div>
+				<div class="form-group p-b">
+					
+					<div class="col-sm-8">
+						<label class="col-sm-2" style="font-family:微软雅黑;">确认密码</label>
+						<input  type="password" id="newPwdConfirm"
+							name="newPwdConfirm" password"" placeholder="请再次输入密码"
+							class="form-control p-l my_ipnut" isPwd="true" required="true"
+							equalTo="#userPwdEdit" autocompleted="off">
+					</div>
+				</div>
+				<input type="hidden" id="officialAccountIdPwd"
+							name="officialAccountId"  />
+			</div>
+				
+			<div class="form-group p-b">
+				<div class="col-sm-9" style="margin-left:201px;">
+					<input type="reset" id="resetBtn" style="width:70px;height:30px;margin-right:3px;" class="btn btn-info-round " value="取消"/>
+					<input type="button" id="PwdReset" style="width:100px;height:30px;" class="btn btn-info" value="确认">
+				</div>
+			</div>	
+		</form>
+		
+	</div>
+
+</div>
+
+

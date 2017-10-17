@@ -1,0 +1,28 @@
+<head>
+    <title>BKOS/IM-公众号后台-登录</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+    <!--[if lt IE 8]>
+    <script>
+        alert('H+已不支持IE6-8，请使用谷歌、火狐等浏览器\n或360、QQ等国产浏览器的极速模式浏览本页面！');
+    </script>
+    <![endif]-->
+    <link href="${appServer}/css/theme/default/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
+    <link href="${appServer}/css/theme/default/css/font-awesome.min.css?v=4.3.0" rel="stylesheet">
+
+    <link href="${appServer}/css/theme/default/css/basestyle.min.css?v=3.0.0" rel="stylesheet">
+    <link href="${appServer}/css/plugins/sweetalert/sweetalert.css"rel="stylesheet">
+    
+    <script src="${appServer}/plugins/jquery/jquery-2.1.1.min.js"></script>
+    <script src="${appServer}/plugins/jquery/jquery.cookie.js?ver=${sysVersion}" type="text/javascript"></script>
+     <!-- 全局js -->
+    <script src="${appServer}/plugin/bootstrap.min.js?v=3.4.0"></script>
+    <script src="${appServer}/plugins/validate/jquery.validate.min.js"></script>
+    <script src="${appServer}/script/component.js"></script>
+    <script src="${appServer}/script/common.js"></script>
+	<script src="${appServer}/plugins/sweetalert/sweetalert.min.js"></script>
+    <script src="${appServer}/script/placeholder.js?ver=${sysVersion}"></script>
+</head>
+

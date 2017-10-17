@@ -1,0 +1,34 @@
+.fr-left {
+	float: left;
+	width: 219px;
+	border: 1px solid #060;
+}
+
+.fr-right {
+	float: right;
+	width: 219px;
+	border: 1px solid #060;
+}
+
+.fr-top {
+	height: 20px;
+	background-color: #CCCCCC;
+}
+
+.fr-content {
+	height: 380px;
+	overflow: auto;
+}
+
+.list-group-item {
+	cursor: pointer;
+}
+
+span.indent {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+span.icon {
+	margin-right: 5px;
+}

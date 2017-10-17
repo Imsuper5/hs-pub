@@ -1,0 +1,73 @@
+<div class="layout">
+	<div class="userinfo-wrap">
+		<div class="formbox-hd main_top">
+			<h3 class="formbox-tit main-fit">我的主页</h3>
+		</div>
+		<div class="layout" style="margin-top:20px;">
+			<div class="formbox">
+				<div class="formbox-hd">
+					<h3 class="formbox-tit main-fit"><label class="formfit-img"></label><span class="formfit-span">数据截止到昨天</span></h3>
+				</div>
+				<div class="formbox-bd">
+					<div class="form-row">
+						<div class="form-tit">
+							<label>新关注人数</label>
+						</div>
+						<div class="form-num form-right-border">
+							<p class="text" id="addUsersNum"></p>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-tit">
+							<label>取消关注人数</label>
+						</div>
+						<div class="form-num form-right-border">
+								<p class="text" id="delUsersNum">
+								</p>
+						</div>
+					</div>
+					<div class="form-row ">
+						<div class="form-tit">
+							<label>净增关注人数</label>
+						</div>
+						<div class="form-num form-right-border">
+								<p class="text" id="addDayUsersNum">
+								</p>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-tit">
+							<label>累积关注人数</label>
+						</div>
+						<div class="form-num form-right-border">
+								<p class="text" id="allUsersNum">
+								</p>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="form-tit">
+							<label>图文阅读人数</label>
+						</div>
+						<div class="form-num">
+								<p class="text" id="readUsersNum">
+								</p>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+
+
+
+
+
+
+

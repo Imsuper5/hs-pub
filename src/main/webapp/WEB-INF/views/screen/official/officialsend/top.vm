@@ -1,0 +1,142 @@
+<link rel="shortcut icon" href="favicon.ico">
+
+<script src="${appServer}/plugins/ueditor/ueditor.config.js"></script>
+<script src="${appServer}/plugins/ueditor/ueditor.all.js"></script>
+<script src="${appServer}/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script src="${appServer}/script/ajaxfileupload.js"></script>
+<script src="${appServer}/plugins/jquery/jquery.base64.js"></script>
+
+<div class="mywrapper">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins">
+
+				<div class="mail-box">
+					<div class="formbox-hd main_top">
+						<h3 class="formbox-tit main-fit">图文消息</h3>
+					</div>
+					<div class="mail-body ">
+						<form class="form-horizontal" id="msgAddForm">
+							<div class="">
+								<div class="form-group">
+									<input type="hidden" id="officialAccountMsgIdAdd"
+										name="officialAccountMsgId"> <input type="hidden"
+										id="operAdd" name="oper"> <label
+										class="col-sm-2 control-label" style="width:125px;margin-left:23px;">标题</label>
+
+									<div class="col-sm-9">
+										<input type="text" class="form-control send_input"
+											id="officialMsgTitleAdd" name="officialMsgTitle"
+											maxlength="60" value="" placeholder="请输入标题,长度不能超过30">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-2 control-label" style="width:125px;margin-left:23px;" >作者</label>
+									<div class="col-sm-9">
+										<input type="text" class="form-control  send_input"
+											id="officialMsgAuthorAdd" name="officialMsgAuthor" value=""
+												maxlength="25" placeholder="请输入作者,长度不能超过25">
+									</div>
+								</div>
+							</div>
+
+
+						</form>
+					</div>
+					<div class="mail-body editor_body">
+						<div class="form-group" >
+							<div class="mypanel mypanel-info">
+								<div class="mypanel-body" style="width:700px;">
+									<div class="mail-text h-200  no-padding">
+										<div id="myEditor" class="summernote" style="height:300px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="mail-body " style="height:170px;margin-top:-40px;margin-left: 2px;">
+							<div class="form-group">
+								<label style="width: 125px;text-align:right;padding-right:10px;" class="col-sm-2 control-label">摘要</label>
+								<div style="width:700px;" class="col-sm-6">
+									<textarea id="officialMsgAbstractAdd" class=""
+										style="outline: 0; height: 90px;width:700px;margin-left:-15px;max-height:90px; border: 1px solid #d6d6d6;resize: none;"
+										name="officialMsgAbstract" maxlength="60"
+										placeholder="摘要选填，如果不填写会默认抓取正文前60个字符"></textarea>
+									<span id="countchar">0/60</span>
+								</div>
+							</div>
+							<div class="form-group" style="display: inline-block;margin-top: -1px;">
+								<label class="col-sm-2 control-label" style="width:125px;margin-left: 4px;margin-top: 22px;padding-left: 62px;">原文链接</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control send_input" style="margin-top:15px;" id="officialSrcUrlAdd"
+										name="officialSrcUrl" value="" placeholder="请输入链接" maxlength="100">
+								</div>
+							</div>
+					</div>
+					<div class="mail-body " style="height:90px;margin-top: -20px; margin-left: -15px;">
+						<div class="form-group">
+							<label style="width: 125px;text-align:right;padding-right:10px;margin-left: 17px;" class="col-sm-2 control-label">封面图片</label>
+							<div class="col-sm-2" style="margin-left: -15px;">
+								<button type="button" class="my_upload_btn"
+									id="select_file" onclick="myRelatedFileOnclick();">上传照片</button>
+							</div>
+							<form id="imgForm" target="if" style="display:none;">
+								<input type="file" text="封面图片" id="myRelatedFile"
+									name="myRelatedFile " onchange="onUploadImgBack(this)"
+									accept="image/jpeg,image/jpg,image/png" />
+							</form>
+							<p id="imgPload" style="">
+								<label id="imgPload_name" style="margin-top:20px;font-size:13px;color:#3195ea;font-family:微软雅黑;"></label>
+								<img id="imgBack" src="" style="display:none;border:none;">
+								<input type="text" class="form-control send_input" style="display:none" id="officialMsgSrc"
+									value="">
+							<p>
+						</div>
+					</div>
+					<div class="mail-body  tooltip-demo" style="height:120px;">
+						<div class="form-group" style="margin-top:-5px;margin-left: 113px;">
+							<div class="col-sm-6">
+								<button id="MsgSave" class="btn btn-info-round my_btn_round"> 保存</button> 
+								<button id="MsgView" class="btn btn-info-round my_btn_round" style="margin-left:7px;"> 预览</button> 
+								<button id="MsgSend" class="btn btn-info my_btn" style="margin-left:7px;">发送</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- 消息预览弹窗 -->
+<div class="modal inmodal" id="msgWatchWrap" tabindex="-1" role="dialog"
+	aria-hidden="true" style="display:none;">
+	<div class="modal-dialog ">
+		<div class="modal-content animated fadeIn">
+			<div class="diolag-header">
+				<button type="button" class="close" data-dismiss="modal" style="margin-bottom:10px;margin-right:-5px;margin-top: 0px;">
+					<span class="close-span-img"></span>
+				</button>
+				<h4 style="font-family:微软雅黑;">消息预览</h4>
+			</div>
+			<div class="diolag-content" style="background-color:#fff;font-family:微软雅黑;height:380px;overflow:hidden;">
+				<div class="form-group " style="color:#000;background-color:#fff;">
+					<h3 style="font-size:18px;" id="msg_title" ></h3>
+					<div style="font-size:14px;color:#bfbfbf;">
+						作者:<label id="msg_auth" >-</label> &nbsp; 时间:<label id="msg_date" ></label>
+					</div>
+					<div id="msg_content" style="min-height:200px;max-height:300px;overflow:auto;font-size:14px;color:#666;line-height:24px;">
+						
+					</div>
+				</div>
+
+
+			</div>
+			<div class="modal-footer diolag-footer my_modal-footer">
+				<button type="button" class="my_btn btn btn-info-round" data-dismiss="modal">取消</button>
+				<button type="button" id="button4PwdReset" data-dismiss="modal" class="my_btn btn  btn-info">确认</button>
+			</div>
+		</div>
+	</div>
+</div>

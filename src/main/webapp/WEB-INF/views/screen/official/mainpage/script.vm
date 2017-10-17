@@ -1,0 +1,128 @@
+<style type="text/css">
+.layout {
+	width: 99%;
+	margin: 0 auto;
+}
+
+.userinfo-wrap {
+	padding: 16px 0 0;
+}
+
+.formbox {
+	padding: 17px 24px;
+	margin-bottom: 9px;
+}
+
+.formbox-hd {
+	position: relative;
+	padding-bottom: 29px;
+}
+
+.form-row {
+	padding: 0 0 20px;
+	zoom: 1;
+	float:left;
+	width:175px;
+}
+
+.form-tit {
+	color: #909090;
+	padding: 10px 0 9px;
+	width:175px;
+	font-size: 16px;
+	text-align:center;	
+}
+
+.form-cont {
+	margin-left: 154px;
+	font-size: 0;
+}
+
+.form-col1 {
+	margin-right: 10px;
+}
+
+.form-col {
+	font-size: 16px;
+	display: inline-block;
+	line-height: 40px;
+}
+
+.formbox .text {
+	line-height: 28px;
+	padding: 7px 0 5px;
+	word-break: break-all;
+}
+
+.userinfo-wrap .user-pic {
+	display: inline-block;
+	vertical-align: top;
+	width: 198px;
+	height: 138px;
+	overflow: hidden;
+	border: 1px solid #EDEDED;
+}
+
+.userinfo-wrap .btn-wrap {
+	text-align: center;
+	padding: 18px 0 0;
+}
+.main_top{
+	font-family: 微软雅黑;
+    font-size: 10px;
+    height: 35px;
+    border-bottom: 1px #f7f7f7 solid;
+}
+.main-fit{
+	font-size: 16px;
+    color: #666;
+    margin-left: 35px;
+    font-weight: 100;
+    font-family:微软雅黑;
+}
+.formbox{
+	color:#666;
+	background: #fff;
+}
+label{
+	color:#666;
+	font-size:14px;
+	font-weight: 200;
+	font-family:微软雅黑;	
+}
+.form-num{
+	color:#666;
+	font-size:34px;
+	font-weight: 200;
+	font-family:微软雅黑;
+	text-align:center;	
+}
+
+.form-right-border{
+	border-right:1px #e7e7e7 solid;
+}
+.formfit-img{
+	width:20px;
+	height:20px;
+	margin-top:15px;
+	background: url('${appServer}/css/theme/default/img/M_remind.png');
+	background-size:cover;
+	-webkit-background-size:cover;
+	-moz-background-size:cover;
+}
+.formfit-span{
+    margin-top: 18px;
+    position: absolute;
+    margin-left: 6px;
+    font-size:14px;
+}
+</style>
+<script>
+	
+		$("#addUsersNum").html(100);
+		$("#delUsersNum").html(20);
+		$("#addDayUsersNum").html(10);
+		$("#allUsersNum").html(200);
+		$("#readUsersNum").html(2000);
+	
+</script>
